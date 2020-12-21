@@ -1,0 +1,11 @@
+[
+        {"text":"注册成功率","id":"registerSuccRate"},
+        {"text":"呼叫接通率","id":"hujiaoRate"},
+        {"text":"始呼接通率","id":"shihuRate"},
+        {"text":"Volte掉话率","id":"dropRate"},
+        {"text":"Esrvcc切换成功率","id":"esrvccSuccRate"},
+        {"text":"Esrvcc切换时延","id":"esrvccLatency"},
+        {"text":"平均Esrvcc媒体切换时长","id":"avgEsrvccLatency"},
+        {"text":"Mos3.0占比","id":"mos3Rate"},
+        {"text":"平均始呼建立时延","id":"vallLatency"}
+]

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.etone.project.base.dao.DemoDao">
+    <select id="findAll" parameterType="map" resultType="Privilege">
+        select
+            bigId as "id"
+            , bigParentId as "parentId"
+            , vcKind as "kind"
+            , vcName as "name"
+            , vcCode as "code"
+            , vcSymbol as "symbol"
+            , vcPath as "path"
+            , vcUrl as "url"
+            , isLeaf as "leaf"
+            , intLevel as "level"
+            , intOrder as "order"
+            , vcOuPath as "ouPath"
+            , vcCreateUser as "createUser"
+            , dtCreateTime as "createTime"
+            , vcModifyUser as "modifyUser"
+            , dtModifyTime as "modifyTime"
+            , vcRemark as "remark"
+        from tbPrivilege
+    </select>
+</mapper> 

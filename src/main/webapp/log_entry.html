@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>研究院日报</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <script src="modules/geogis/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("input").attr('data-role','none');
+			$("textarea").attr('data-role','none');
+            $("button").attr('data-role','none');
+        });
+    </script>
+    <link rel="stylesheet" href="modules/geogis/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+    <script src="modules/geogis/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="modules/geogis/bootstrap/js/bootstrap.js"></script>
+    <link href="modules/geogis/bootstrap-table-develop/docs/assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="modules/geogis/Bootstrap-3-Typeahead-master/bootstrap3-typeahead.js"></script>
+
+    <link href="modules/geogis/content/Content/mobiscroll-2.13.2.full.min.css" rel="stylesheet" />
+
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.core.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.frame.android-holo.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.frame.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.listbase.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.scroller.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/mobiscroll.treelist.js"></script>
+    <script src="modules/geogis/mobiscroll-2.17.1/js/i18n/mobiscroll.i18n.zh.js"></script>
+
+    <script src="modules/geogis/touchslide/TouchSlide.1.1.source.js"></script>
+
+    <link rel="stylesheet" href="modules/geogis/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+	<script src="/modules/geogis/layer/layer.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="/tcrz/log_entry.js"></script>
+    <link rel="stylesheet" href="/tcrz/log_entry.css">
+	<script type="text/javascript" src="/tcrz/write.js"></script>
+	<script type="text/javascript" src="/tcrz/history.js"></script>
+	<script type="text/javascript" src="/tcrz/staff.js"></script>
+	<script type="text/javascript" src="/tcrz/project_line.js"></script>
+    <script type="text/javascript" src="/tcrz/appraise.js"></script>
+	<script type="text/javascript" src="modules/geogis/js/highcharts.js"></script>
+	<script type="text/javascript" src="static/jqTime/js/dateRange.js"></script>
+    <link rel="stylesheet" href="static/jqTime/css/dateRange.css">
+</head>
+<body>
+<div id="leftTabBox" class="tabBox">
+    <div class="hd" style="border-bottom:10px solid #F9F9F9;">
+        <ul style="width:100%;">
+            <li style="margin-top:10px;width:25%;text-align:center;">
+                <a style="text-decoration: none;">
+                    <table style="width:100%;" border="0">
+                        <tr>
+                            <td>
+                                <span id="write"><img src="modules/geogis/img/1.png" /></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="writeColor" style="vertical-align: top;font-size:12px;font-weight:normal;">填写日志</span>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+            <li style="margin-top:10px;width:25%;text-align:center;">
+                <a style="text-decoration: none;">
+                    <table style="width:100%;" border="0">
+                        <tr>
+                            <td>
+                                <span id="person"><img src="modules/geogis/img/2.png" /></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="personColor" style="vertical-align: top;font-size:12px;font-weight:normal;">历史日志</span>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+            <li style="margin-top:10px;width:25%;text-align:center;">
+                <a style="text-decoration: none;">
+                    <table style="width:100%;" border="0">
+                        <tr>
+                            <td>
+                                <span id="staff"><img src="modules/geogis/img/3.png" /></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="staffColor" style="vertical-align: top;font-size:12px;font-weight:normal;">员工日志</span>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+            <li style="margin-top:10px;width:25%;text-align:center;">
+                <a style="text-decoration: none;">
+                    <table style="width:100%;" border="0">
+                        <tr>
+                            <td>
+                                <span id="appraise"><img src="modules/geogis/img/4.png" /></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="appraiseColor" style="vertical-align: top;font-size:12px;font-weight:normal;">每月考核</span>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="bd">
+        <ul style="width:100%;">
+            <div id="writeHDiv" style="background-color:white;">
+                <div id="popdiv" data-role="popup" data-position-to="window"></div>
+                <span id="addProject"></span>
+                <input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" name="employeeCode" id="employeeCode" placeholder="请输入员工工号" autocomplete="off" readOnly="readOnly" /><br />
+                <ul id="treelist">
+                </ul>
+                <br />
+                <ul id="naturelist">
+                </ul>
+                <br />
+                <input type="hidden" id="employee" name="employee" />
+                <input type="hidden" id="logTime" name="logTime" />
+                <input type="hidden" id="workNature" name="workNature" />
+                <input type="hidden" id="projectCodes" name="projectCodes" />
+                <input type="hidden" id="message" name="message" />
+		        <input type="hidden" id="projectCode" name="projectCode" />
+                <textarea type="text" style="width:100%;height:150px;padding-left:10px;padding-top:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;resize:none;" id="context" name="context" scrollbar="auto" placeholder="请输入工作日志" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入工作日志'"></textarea>
+
+                <div class="buttonDiv">
+                    <table style="width:100%;" border="0">
+                        <tr>
+                            <td colspan="2" style="height:15px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:middle;text-align:right;width:50%">
+                                <button id="resetBtn" style="width:100px;height:35px;border-radius:6px;color:#3A3A3A;background-color:#F7F7F7;font-weight:normal;margin-right:10px;border:1px solid #CCCCCC;" type="button">重置</button>
+                            </td>
+                            <td style="vertical-align:middle;">
+                                <button id="saveBtn" style="width:100px;height:35px;border-radius:6px;color:white;background-color:#2EA5E6;font-weight:normal;margin-left:10px;border:1px solid #2EA5E6;" type="button">提交</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height:15px;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </ul>
+        <ul style="width:100%;display:none;">
+            <div id="historyHDiv" style="background-color:white;">
+                <div style="height:30px;padding-top:5px;border-bottom:1px solid #EEEEEE;text-align:center;color:#757575;font-weight:bold;">
+                    <span class="employeeSpan"></span>的工作日志
+                </div>
+                <div id="historyDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+                    <table style="width:100%" border="0">
+                        <tr>
+                            <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                <input class="form-control" style="height:32px;" type="text" id="startDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+                            </td>
+                            <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                <input class="form-control" style="height:32px;" type="text" id="endDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <span id="historylog">
+                </span>
+                <div id="historySurplus">
+                </div>
+            </div>
+        </ul>
+        <ul style="width:100%;display:none;">
+            <div id="staffHDiv" style="background-color:white;">
+                <li id="backLi" style="background-color:rgb(170,170,170);height:auto;border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
+                    <table width="100%" border="0">
+                        <tr>
+                            <td style="width:85%;">
+                                <font color="#FFFFFF" style="font-weight:normal;">< 返回</font>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+
+		        <div id="projectLineDiv">
+					<li id="searchLi" style="border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
+						<table width="100%" border="0">
+							<tr>
+								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;width:70%;">
+									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #ccc;border-top-left-radius:5px;border-bottom-left-radius:5px;width:85%;padding-left:10px;" type="text" id="searchData" placeholder="请输入编码或名称" />
+									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;border-top-right-radius:5px;border-bottom-right-radius:5px;width:15%;text-align:center;" readOnly="readOnly" id="clearBtn" />
+								</td>
+								<td style="padding-top:8px;width:30%;">
+									<button type="button" id="btnSearch" style="width:80px;height:31px;border-radius:6px;color:white;background-color:#2EA5E6;font-weight:normal;border:1px solid #2EA5E6;">搜索</button>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<div id="lineDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+						<table style="width:100%" border="0">
+							<tr>
+								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+									<input class="form-control" style="height:32px;" type="text" id="lineStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+								</td>
+								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+									<input class="form-control" style="height:32px;" type="text" id="lineEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					<span id="projectLineField">
+					    <ul id="projectLine">
+					    </ul>
+					</span>
+					<span id="projectField">
+					    <ul id="project">
+					    </ul>
+					</span>
+					<span id="projectDetailField">
+					    <div style="height:auto;padding-top:5px;border-bottom:1px solid #EEEEEE;text-align:center;color:#757575;font-weight:bold;">
+					        <span class="projectNameSpan"></span>
+					    </div>
+					</span>
+				</div>
+
+            	<div id="staffDiv">
+					<div id="staffDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+						<table style="width:100%" border="0">
+							<tr>
+								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+									<input class="form-control" style="height:32px;" type="text" id="staffStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+								</td>
+								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+									<input class="form-control" style="height:32px;" type="text" id="staffEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+								</td>
+							</tr>
+						</table>
+					</div>
+					<span id="staffField">
+						<ul id="stafflog">
+						</ul>
+					</span>
+					<span id="staffDetail">
+						<div style="height:auto;padding-top:5px;border-bottom:1px solid #EEEEEE;text-align:center;color:#757575;font-weight:bold;">
+					        <span class="projectNameSpan"></span>
+					    </div>
+					</span>
+				</div>
+
+				<div id="staffSurplus">
+				</div>
+            </div>
+        </ul>
+        <ul style="width:100%;display:none;">
+            <div id="appraiseHDiv" style="background-color:white;">
+		        <span id="appraiseSpan">
+                    <div id="appraiseDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+                        <table style="width:100%" border="0">
+                            <tr>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="date1" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="date2" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" id="appraiseStartDate" name="appraiseStartDate" value="">
+                        <input type="hidden" id="appraiseEndDate" name="appraiseEndDate" value="">
+                    </div>
+                    <div id="container" class="chart" valign="top" style="width:100%;height:260px;"></div>
+                    <li id="searchLog" style="height:auto;border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;width:70%;">
+									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #ccc;border-top-left-radius:5px;border-bottom-left-radius:5px;width:85%;padding-left:10px;" type="text" id="searchName" placeholder="请输入工号或名称" />
+									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;border-top-right-radius:5px;border-bottom-right-radius:5px;width:15%;text-align:center;" readOnly="readOnly" id="appraiseClearBtn" />
+                                </td>
+                                <td style="padding-top:8px;width:30%;">
+									<button type="button" id="clickSearch" style="width:80px;height:31px;border-radius:6px;color:white;background-color:#2EA5E6;font-weight:normal;border:1px solid #2EA5E6;">搜索</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                    <span id="normalId"></span>
+                </span>
+
+		        <span id="employeeLog">
+					<li id="appraiseBackLi" style="background-color:rgb(170,170,170);height:auto;border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
+						<table width="100%" border="0">
+							<tr>
+								<td style="width:85%;">
+									<font color="#FFFFFF" style="font-weight:normal;">< 返回</font>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<span id="employeeLogSpan"></span>
+				</span>
+                <div id="appraiseSurplus"></div>
+            </div>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.etone.project.modules.lte.dao.LteWeeklyMapper">
+
+    <select id="queryProLogTime" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+        select c.logTime2 from
+        (select RIGHT (b.logTime, 3) logTime2 from weekly_project_info a
+        left join weekly_info b on a.projectCode = b.projectCode
+        WHERE (a.manager like '%${condition.employee}%' or a.clerk like '%${condition.employee}%')
+        and b.logTime like '%${condition.time}%') c
+        ORDER BY
+        (
+        CASE
+                WHEN c.logTime2 = '第五周' THEN
+                        5
+                WHEN c.logTime2 = '第四周' THEN
+                        4
+                WHEN c.logTime2 = '第三周' THEN
+                        3
+                WHEN c.logTime2 = '第二周' THEN
+                        2
+                WHEN c.logTime2 = '第一周' THEN
+                        1
+                ELSE
+                        0
+                END
+        ) DESC
+    </select>
+
+    <select id="queryContractReview" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+        select * from weekly_project_info where 1=1
+        <if test="condition.managerCode != null and condition.managerCode != '' and condition.managerCode != 'null' and condition.managerCode != 'undefined'" >
+            <![CDATA[ and (managerCode like '%${condition.managerCode}%' or clerkCode like '%${condition.managerCode}%') ]]>
+        </if>
+        <if test="condition.sort != null">
+            ${condition.sort}
+        </if>
+        <if test="condition.rowStart != null and condition.pageSize != null" >
+            <![CDATA[   LIMIT ${condition.rowStart}, ${condition.pageSize} ]]>
+        </if>
+    </select>
+
+    <select id="validProjectCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from weekly_project_info where projectCode=#{projectCode}
+    </select>
+
+    <select id="validProjectName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from weekly_project_info where projectName=#{projectName}
+    </select>
+
+    <insert id="saveWeeklyInfo" parameterType="com.etone.project.core.model.QueryCriteria">
+        insert into weekly_info(id, projectCode, projectName, manager, managerCode, province, dispatch, archive, target, logTime, createTime, employee, employeeCode)
+        values (null,'${condition.projectCode}','${condition.projectName}','${condition.manager}','${condition.managerCode}','${condition.province}','${condition.dispatch}','${condition.archive}','${condition.target}','${condition.logTime}',NOW(),'${condition.employee}','${condition.employeeCode}')
+    </insert>
+
+    <select id="queryWeeklyInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        SELECT
+            *
+        FROM
+            (
+                SELECT
+                    projectCode,
+                    projectName,
+                    manager,
+                    dispatch,
+                    archive,
+                    target,
+                    logTime,
+                    LEFT (logTime, 4) YEAR,
+                    substr(logTime, 6, 2) month,
+                    RIGHT (logTime, 3) WEEK
+                FROM
+                    weekly_info
+                WHERE
+                    employeeCode = '${condition.employeeCode}'
+                <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
+                    <![CDATA[ and replace(left(logTime, 7),'年', '-') >= '${condition.startDate}' ]]>
+                </if>
+                <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
+                    <![CDATA[ and replace(left(logTime, 7),'年', '-') <= '${condition.endDate}' ]]>
+                </if>
+            ) a
+        ORDER BY
+            a. YEAR DESC,
+            a.month desc,
+            (
+                CASE
+                WHEN a. WEEK = '第五周' THEN
+                    5
+                WHEN a. WEEK = '第四周' THEN
+                    4
+                WHEN a. WEEK = '第三周' THEN
+                    3
+                WHEN a. WEEK = '第二周' THEN
+                    2
+                WHEN a. WEEK = '第一周' THEN
+                    1
+                ELSE
+                    0
+                END
+            ) DESC
+    </select>
+
+    <select id="queryLogTime" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.String">
+        SELECT
+            a.logTime2
+        FROM
+            (
+                SELECT
+                    RIGHT (logTime, 3) logTime2
+                FROM
+                    weekly_info
+                WHERE
+                    logTime LIKE '%${condition.logTime}%'
+                AND
+                    projectCode = '${condition.projectCode}'
+            ) a
+        ORDER BY
+            (
+                CASE
+                WHEN a.logTime2 = '第五周' THEN
+                    5
+                WHEN a.logTime2 = '第四周' THEN
+                    4
+                WHEN a.logTime2 = '第三周' THEN
+                    3
+                WHEN a.logTime2 = '第二周' THEN
+                    2
+                WHEN a.logTime2 = '第一周' THEN
+                    1
+                ELSE
+                    0
+                END
+            ) DESC
+        LIMIT 1
+    </select>
+
+    <select id="countSameWeekly" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.Integer">
+        select count(1) from weekly_info
+        where projectCode = '${condition.projectCode}'
+            and logTime = '${condition.logTime}'
+    </select>
+
+    <select id="queryProject" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        select * from weekly_project_info r where 1=1
+        <if test="condition.searchContext != null and condition.searchContext != '' and condition.searchContext != 'null' and condition.searchContext != 'undefined'" >
+            and (projectCode like '%${condition.searchContext}%' or projectName like '%${condition.searchContext}%')
+        </if>
+        <if test="condition.position=='manager'">
+            and r.managerCode =  '${condition.employeeCode}'
+        </if>
+        <if test="condition.position=='clerk'">
+            and r.clerkCode like  '%${condition.employeeCode}%'
+        </if>
+        <if test="condition.position=='other'">
+            and r.province in (${condition.provinces})
+        </if>
+        and exists (select 1 from weekly_info w where w.projectCode = r.projectCode)
+        order by projectCode
+    </select>
+
+    <select id="queryAllWeekly" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        SELECT
+            sum(w.target) target,
+            sum(w.dispatch) dispatch,
+            sum(w.archive) archive,
+            format(
+                sum(w.archive) / sum(w.dispatch) * 100,
+                2
+            ) archiveRate,
+            format(
+                sum(w.archive) / sum(w.target) * 100,
+                2
+            ) targetRate
+        FROM
+            (
+                SELECT
+                    projectCode,
+                    max(dispatch) dispatch,
+                    max(archive) archive,
+                    max(target) target
+                FROM
+                    weekly_info i
+                where (select p.province from weekly_project_info p where p.projectCode=i.projectCode) = '${condition.province}'
+                AND i.logTime LIKE '${condition.logTime}%'
+                <if test="condition.position=='manager'">
+                    and i.managerCode =  '${condition.employeeCode}'
+                </if>
+                <if test="condition.position=='clerk'">
+                    and (select distinct o.manager from weekly_project_info o where o.clerkCode like '%${condition.employeeCode}%')=i.manager
+                </if>
+                GROUP BY
+                    projectCode
+            ) w
+    </select>
+
+    <select id="queryAllWeeklyProject" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        SELECT
+            *
+        FROM
+            (
+                SELECT
+                    w.target,
+                    w.dispatch,
+                    w.archive,
+                    RIGHT (w.logTime, 3) logTime,
+                    format(w.archive / w.dispatch * 100, 2) archiveRate,
+                    format(w.archive / w.target * 100, 2) targetRate
+                FROM
+                    weekly_info w
+                WHERE
+                    w.projectCode = '${condition.projectCode}'
+                AND w.logTime LIKE '${condition.logTime}%'
+                and w.province = '${condition.province}'
+            ) a
+        ORDER BY
+            (
+                CASE
+                WHEN a.logTime = '第五周' THEN
+                    5
+                WHEN a.logTime = '第四周' THEN
+                    4
+                WHEN a.logTime = '第三周' THEN
+                    3
+                WHEN a.logTime = '第二周' THEN
+                    2
+                WHEN a.logTime = '第一周' THEN
+                    1
+                ELSE
+                    0
+                END
+            ) DESC
+        <if test="condition.isSingle == 'true'">
+        LIMIT 1
+        </if>
+    </select>
+
+    <select id="queryWeeklyByWeek" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        SELECT
+            (
+                SELECT
+                    sum(target)
+                FROM
+                    (
+                        SELECT DISTINCT
+                            projectCode,
+                            target
+                        FROM
+                            weekly_info i
+                        WHERE
+                            (select p.province from weekly_project_info p where p.projectCode=i.projectCode) = '${condition.province}'
+                            AND i.logTime='${condition.firstLogTime}'
+                            <if test="condition.position=='manager'">
+                                and i.managerCode =  '${condition.employeeCode}'
+                            </if>
+                            <if test="condition.position=='clerk'">
+                                and (select distinct o.manager from weekly_project_info o where o.clerkCode like '%${condition.employeeCode}%')=i.manager
+                            </if>
+                    ) c
+            ) target,
+            sum(w.dispatch) dispatch,
+            sum(w.archive) archive
+        FROM
+            weekly_info w
+        WHERE
+            (select p.province from weekly_project_info p where p.projectCode=w.projectCode) = '${condition.province}'
+            AND w.logTime LIKE '${condition.logTime}%'
+            <if test="condition.position=='manager'">
+                and w.managerCode =  '${condition.employeeCode}'
+            </if>
+            <if test="condition.position=='clerk'">
+                and (select distinct o.manager from weekly_project_info o where o.clerkCode like '%${condition.employeeCode}%')=w.manager
+            </if>
+    </select>
+
+    <select id="queryWeeklyProjectByWeek" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        SELECT
+            w.target,
+            w.dispatch,
+            w.archive,
+            format(w.archive / w.target * 100, 2) targetRate
+        FROM
+            weekly_info w
+        WHERE w.projectCode = '${condition.projectCode}'
+            and w.logTime = '${condition.logTime}'
+            and w.province = '${condition.province}'
+    </select>
+
+    <select id="queryPreDispatchArchive" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        select sum(dispatch) dispatch, sum(archive) archive from weekly_info w
+        where w.province = '${condition.province}'
+        AND w.logTime = '${condition.preLogTime}'
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'" >
+            and w.projectCode = '${condition.projectCode}'
+        </if>
+        <if test="condition.position=='manager'">
+            and w.managerCode =  '${condition.employeeCode}'
+        </if>
+        <if test="condition.position=='clerk'">
+            and (select distinct i.manager from weekly_project_info i where i.clerkCode like '%${condition.employeeCode}%')=w.manager
+        </if>
+    </select>
+
+    <select id="queryPreDispatchArchiveProject" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+        select
+          w.dispatch,
+          w.archive
+        from weekly_info w
+          where w.projectCode = '${condition.projectCode}'
+            and w.logTime = '${condition.preLogTime}'
+            and w.province = '${condition.province}'
+    </select>
+
+    <select id="countPreWeekly" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.Integer">
+        select count(1) from weekly_info w
+        where
+          w.logTime = '${condition.preLogTime}'
+        AND projectCode = '${condition.projectCode}'
+    </select>
+
+    <select id="queryCodeAndReporter" parameterType="java.lang.String" resultType="java.util.Map">
+        select projectCode,projectName, manager,managerCode,province from weekly_project_info where projectName=#{projectName}
+    </select>
+
+    <select id="queryNameAndReporter" parameterType="java.lang.String" resultType="java.util.Map">
+        select projectCode, projectName, manager,managerCode,province from weekly_project_info where projectCode=#{projectCode}
+    </select>
+
+    <select id="getTarget" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.String">
+        select target from weekly_info
+        where projectCode = '${condition.projectCode}'
+             and logTime like '${condition.logTime}%' limit 1
+    </select>
+
+    <select id="queryEmployeeProvinces" parameterType="java.lang.String" resultType="java.lang.String">
+        select provinces from weekly_employee_info where employeeCode = #{employeeCode}
+    </select>
+
+    <select id="queryEmployeeByCode" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT
+            e.employee,
+            e.provinces,
+            CASE
+        WHEN e.isManager = 1 THEN
+            'manager'
+        WHEN e.isClerk = 1 THEN
+            'clerk'
+        ELSE
+            'other'
+        END position
+        FROM
+            weekly_employee_info e
+        WHERE
+            e.employeeCode = #{employeeCode}
+    </select>
+
+    <select id="queryLineWeekly" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+        SELECT
+            *
+        FROM
+            (
+                SELECT
+                    RIGHT (w.logTime, 3) logTime,
+                    sum(w.dispatch) dispatch,
+                    sum(w.archive) archive
+                FROM
+                    weekly_info w
+                where (select p.province from weekly_project_info p where p.projectCode=w.projectCode) = '${condition.province}'
+                AND w.logTime LIKE '${condition.logTime}%'
+                <if test="condition.position=='manager'">
+                    and w.managerCode =  '${condition.employeeCode}'
+                </if>
+                <if test="condition.position=='clerk'">
+                    and (select distinct i.manager from weekly_project_info i where i.clerkCode like '%${condition.employeeCode}%') = w.manager
+                </if>
+                GROUP BY
+                    w.logTime
+            ) a
+        ORDER BY
+            (
+                CASE
+                WHEN a.logTime = '第五周' THEN
+                    5
+                WHEN a.logTime = '第四周' THEN
+                    4
+                WHEN a.logTime = '第三周' THEN
+                    3
+                WHEN a.logTime = '第二周' THEN
+                    2
+                WHEN a.logTime = '第一周' THEN
+                    1
+                ELSE
+                    0
+                END
+            ) DESC
+    </select>
+</mapper>

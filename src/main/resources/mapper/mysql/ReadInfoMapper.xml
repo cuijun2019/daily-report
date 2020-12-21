@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.etone.project.modules.lte.dao.ReadInfoMapper">
+    <!--<resultMap id="getQuestFinish" type="java.util.HashMap">-->
+        <!--<result property="isFinish" column="isFinish" typeHandler="com.etone.project.core.model.EmptyStringIfNull"/>-->
+    <!--</resultMap>-->
+    <!--  查询单条记录  -->
+    <select id="selectById" resultType="com.etone.project.core.model.ReadInfo">
+       select * from read_info where studentNo = '${studentNo}'and createTime like '%${createTime}%';
+    </select>
+
+    <select id="selectRloudById" resultType="com.etone.project.core.model.ReadInfo">
+       select * from read_aloud_info where studentNo = '${studentNo}'and createTime like '%${createTime}%';
+    </select>
+
+    <select id="selectCommentById" resultType="com.etone.project.core.model.ReadInfo">
+       select * from comment_info where commentPersonCode = '${studentNo}'and commentTime like '%${createTime}%';
+    </select>
+
+    <!--  查询未完成阅读的人数  -->
+    <select id="selectReadNum" resultType="java.util.HashMap">
+        select DATE_FORMAT(a.createTime,'%Y-%m-%d') as datetime,(b.count-a.count) as count
+        from (select createTime,COUNT(studentNo) as count from read_info
+        where date_format(createTime, '%Y-%m-%d') >= '${beginDate}'
+        and date_format(createTime, '%Y-%m-%d') &lt;= '${endDate}'
+        group by year(createTime),
+        month(createTime),
+        day(createTime))a,
+        (select COUNT(vcAccount) as count from tbUser)b;
+    </select>
+    <!--<select id="selectReadNum" resultType="java.util.HashMap">-->
+        <!--SELECT ( (SELECT count(1) FROM tbUser u) - count(1) ) count, date_format(i.createTime, '%Y-%m-%d') createTime-->
+        <!--FROM read_info i where 1=1 and date_format(i.createTime, '%Y-%m-%d') >= '${beginDate}'-->
+        <!--and date_format(i.createTime, '%Y-%m-%d') &lt;= '${endDate}' GROUP BY date_format(i.createTime, '%Y-%m-%d')-->
+        <!--order by i.createTime desc-->
+
+    <!--</select>-->
+    <!--  查询未完成朗读的人数  -->
+    <select id="selectTalkNum" resultType="java.util.HashMap">
+        select DATE_FORMAT(a.createTime,'%Y-%m-%d') as datetime,(b.count-a.count) as count
+        from (select createTime,COUNT(studentNo) as count from read_aloud_info
+        where date_format(createTime, '%Y-%m-%d') >= '${beginDate}'
+        and date_format(createTime, '%Y-%m-%d') &lt;= '${endDate}'
+        group by year(createTime),
+        month(createTime),
+        day(createTime))a,
+        (select COUNT(vcAccount) as count from tbUser)b;
+    </select>
+    <!--<select id="selectTalkNum" resultType="java.util.HashMap">-->
+        <!--SELECT ( (SELECT count(1) FROM tbUser u) - count(1) ) count, date_format(i.createTime, '%Y-%m-%d') createTime-->
+        <!--FROM read_aloud_info i where 1=1 and date_format(i.createTime, '%Y-%m-%d') >= '${beginDate}'-->
+        <!--and date_format(i.createTime, '%Y-%m-%d') &lt;= '${endDate}' GROUP BY date_format(i.createTime, '%Y-%m-%d')-->
+        <!--order by i.createTime desc-->
+    <!--</select>-->
+
+    <!--  查询未完成点评的人数  -->
+    <select id="selectDpNum" resultType="java.util.HashMap">
+        select DATE_FORMAT(a.commentTime,'%Y-%m-%d') as datetime,(b.count-a.count) as count
+        from (select commentTime,COUNT(commentPersonCode) as count from comment_info
+        where date_format(commentTime, '%Y-%m-%d') >= '${beginDate}'
+        and date_format(commentTime, '%Y-%m-%d') &lt;= '${endDate}'
+        group by year(commentTime),
+        month(commentTime),
+        day(commentTime))a,
+        (select COUNT(vcAccount) as count from tbUser)b;
+    </select>
+    <!--<select id="selectDpNum" resultType="java.util.HashMap">-->
+        <!--SELECT ( (SELECT count(1) FROM tbUser u) - count(1) ) count, date_format(i.commentTime, '%Y-%m-%d') createTime-->
+        <!--FROM comment_info i where 1=1 and date_format(i.commentTime, '%Y-%m-%d') >= '${beginDate}'-->
+        <!--and date_format(i.commentTime, '%Y-%m-%d') &lt;= '${endDate}'-->
+        <!--GROUP BY date_format(i.commentTime, '%Y-%m-%d')-->
+        <!--order by i.commentTime desc-->
+    <!--</select>-->
+
+    <!--  查询未完成朗读任务的人  -->
+    <select id="findUnFinishTalk" resultType="java.util.HashMap">
+        select group_concat( cast(a.vcFullName AS CHAR) ORDER BY a.vcAccount ) as vcAccountList
+        FROM
+        tbUser a
+        LEFT OUTER join
+        (SELECT studentNo as vcAccount FROM read_aloud_info WHERE createTime like '%${createTime}%')b
+        ON a.vcAccount=b.vcAccount
+        WHERE b.vcAccount IS null
+    </select>
+
+
+    <!--  查询未完成阅读任务的人  -->
+    <select id="findUnFinishRead" resultType="java.util.HashMap">
+        select group_concat( cast(a.vcFullName AS CHAR) ORDER BY a.vcAccount ) as vcAccountList
+        FROM
+        tbUser a
+        LEFT OUTER join
+        (SELECT studentNo as vcAccount FROM read_info WHERE createTime like '%${createTime}%')b
+        ON a.vcAccount=b.vcAccount
+        WHERE b.vcAccount IS null
+    </select>
+
+    <!--  查询未完成点评任务的人  -->
+    <select id="findUnFinishDp" resultType="java.util.HashMap">
+        select group_concat( cast(a.vcFullName AS CHAR) ORDER BY a.vcAccount ) as vcAccountList
+        FROM
+        tbUser a
+        LEFT OUTER join
+        (SELECT commentPersonCode as vcAccount FROM comment_info WHERE commentTime like '%${createTime}%')b
+        ON a.vcAccount=b.vcAccount
+        WHERE b.vcAccount IS null
+    </select>
+
+    <!--  查询是否完成当天的任务  -->
+    <select id="getQuestFinish" resultType="java.util.HashMap">
+        select day(createTime) as isFinish from read_info where studentNo =  '${studentNo}'and createTime like '%${createTime}%' GROUP BY studentNo
+        union ALL
+        select day(createTime) as isFinish from read_aloud_info where studentNo = '${studentNo}'and createTime like '%${createTime}%' GROUP BY studentNo
+        union ALL
+        select day(commentTime) as isFinish from comment_info where commentPersonCode = '${studentNo}'and commentTime like '%${createTime}%' GROUP BY commentPersonCode
+    </select>
+
+    <insert id="save" parameterType="com.etone.project.core.model.ReadInfo" useGeneratedKeys="true">
+      INSERT INTO read_info (studentNo,studentName,article,thought,createTime,isSave)
+      VALUES ('${studentNo}','${studentName}','${article}','${thought}','${createTime}','${isSave}')
+   </insert>
+    <insert id="update" parameterType="com.etone.project.core.model.ReadInfo" useGeneratedKeys="true">
+        update  read_info set article='${article}',thought='${thought}',createTime='${createTime}',isSave='${isSave}'
+        where id='${articleid}'
+   </insert>
+
+    <select id="queryFinishRead" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.String">
+        select group_concat(cast(date_format(createTime,'%d') as char)) from read_info
+        where studentNo = '${condition.studentNo}'
+        and date_format(createTime,'%Y-%m-%d')>='${condition.startDate}'
+        <![CDATA[and date_format(createTime,'%Y-%m-%d')<='${condition.endDate}']]>
+        order by createTime
+    </select>
+
+    <select id="queryFinishReadAloud" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.String">
+        select group_concat(cast(date_format(createTime,'%d') as char)) from read_aloud_info
+        where studentNo = '${condition.studentNo}'
+        and date_format(createTime,'%Y-%m-%d')>='${condition.startDate}'
+        <![CDATA[and date_format(createTime,'%Y-%m-%d')<='${condition.endDate}']]>
+        order by createTime
+    </select>
+
+    <select id="queryFinishComment" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.String">
+        select group_concat(distinct cast(date_format(commentTime,'%d') as char)) from comment_info
+        where commentPersonCode = '${condition.studentNo}'
+        and date_format(commentTime,'%Y-%m-%d')>='${condition.startDate}'
+        <![CDATA[and date_format(commentTime,'%Y-%m-%d')<='${condition.endDate}']]>
+        order by commentTime
+    </select>
+</mapper>

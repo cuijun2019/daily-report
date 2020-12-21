@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.etone.project.modules.lte.dao.LteDataImportMapper" >
+	
+	<!-- 查询地市 -->
+	<sql id="sql_getCity">
+		select distinct 
+		<if test="condition.importType==116">
+			vccity as vccity
+		</if>
+		<if test="condition.importType==117">
+			"vcRoadName" as vccity
+		</if>
+		<if test="condition.importType==118">
+			"vcRoadName" as vccity
+		</if>
+		from "${condition.tablename}"
+	</sql>
+
+    <sql id="code_modify">
+           alter table "public"."${condition.tablename}" character set gbk2312;
+    </sql>
+	<select id="getCity" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
+		<include refid="sql_getCity" />
+	</select>
+	
+	<!-- 删除数据 -->
+	<select id="deleteData" parameterType="com.etone.project.core.model.QueryCriteria" resultType="Object">
+		delete from "${condition.tablename}" 
+		<if test="condition.importType==116">
+			where vccity = '${condition.city}'
+		</if>
+		<if test="condition.importType==117">
+			where "vcRoadName" = '${condition.city}'
+		</if>
+		<if test="condition.importType==118">
+			where "vcRoadName" = '${condition.city}'
+		</if>
+	</select>
+	
+	<!-- 插入数据 -->
+	<insert id="saveData" parameterType="com.etone.project.core.model.QueryCriteria">
+
+
+
+
+		<if test="condition.importType==116">
+            insert into "public"."${condition.tablename}"
+			("vccity","intmcc","intmnc","inttac","vcopenstate","intenbid","vcenbname","vcarea",
+			"farealonb","farealatb","intgrid","fgridlonb","fgridlatb","flonb","flatb","intsectorid",
+			"vccellid","vccellid2","vccellname","vcpowerinfo","intpcarrierfr","vccovertype","intpci",
+			"intmod3","vcazimuth","intmtilt","intetilt","inttopangle","fanthighpoint") values
+			<foreach collection="condition.dataList" item="item" index="index" separator=",">
+				(#{item.vccity},#{item.intmcc},#{item.intmnc},#{item.inttac},#{item.vcopenstate},#{item.intenbid},
+				#{item.vcenbname},#{item.vcarea},#{item.farealonb},#{item.farealatb},#{item.intgrid},#{item.fgridlonb},
+				#{item.fgridlatb},#{item.flonb},#{item.flatb},#{item.intsectorid},#{item.vccellid},#{item.vccellid2},
+				#{item.vccellname},#{item.vcpowerinfo},#{item.intpcarrierfr},#{item.vccovertype},#{item.intpci},
+				#{item.intmod3},#{item.vcazimuth},#{item.intmtilt},#{item.intetilt},#{item.inttopangle},#{item.fanthighpoint})
+			</foreach>
+		</if>
+		<if test="condition.importType==117">
+            insert into "public"."${condition.tablename}"
+			("intID","vcRoadName","intENbID","intCellID","vcCI","vcCellName","intPCI",
+			"vcCoverType","intAngle","fLong","fLat","direction") values
+			<foreach collection="condition.dataList" item="item" index="index" separator=",">
+				(#{item.intID},#{item.vcRoadName},#{item.intENbID},#{item.intCellID},#{item.vcCI},#{item.vcCellName},
+				#{item.intPCI},#{item.vcCoverType},#{item.intAngle},#{item.fLong},#{item.fLat},#{item.direction})
+			</foreach>
+		</if>
+		<if test="condition.importType==118">
+            insert into "public"."${condition.tablename}"
+			("intID","vcRoadName","intENbID","intCellID","vcCI","vcCellName",
+			"intPCI","vcCoverType","intAngle","fLong","fLat") values
+			<foreach collection="condition.dataList" item="item" index="index" separator=",">
+				(#{item.intID},#{item.vcRoadName},#{item.intENbID},#{item.intCellID},#{item.vcCI},#{item.vcCellName},
+				#{item.intPCI},#{item.vcCoverType},#{item.intAngle},#{item.fLong},#{item.fLat})
+			</foreach>
+		</if>
+        <if test="condition.importType==119">
+            insert into ${condition.tablename}
+            (vcRoadName,intCityId,vcCity,intEnbID,intCellID,vcCI,
+            vcEnbName,vcCellName,intPci,vcDirection,intAngle,fLong,fLat) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                (#{item.vcRoadName},#{item.intCityId},#{item.vcCity},#{item.intEnbID},#{item.intCellID},#{item.vcCI},#{item.vcEnbName},
+                #{item.vcCellName},#{item.intPci},#{item.vcDirection},#{item.intAngle},#{item.fLong},#{item.fLat})
+            </foreach>
+        </if>
+        <if test="condition.importType==120">
+            insert into ${condition.tablename}
+            (id,vcRoadname,intcityid,vcCity,vcArea,intGrid,vcgridname,intEnbId,
+            intCellId,vcCI,vcEnbName,vcCellName,intPci,fLonb,fLatb,vcPowerinfo,intPcarrierfr,vcCovertype,vcAzimuth) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                ('11234','${item.vcRoadName}','${item.intCityId}','${item.vcCity}','${item.vcArea}','${item.intGrid}','${item.vcGridName}',${item.intEnbId},${item.intCellId},
+               ' ${item.vcCI}','${item.vcEnbName}','${item.vcCellName}',${item.intPci},${item.fLonb},${item.fLatb},'${item.vcPowerinfo}',
+                ${item.intPcarrierfr},'${item.vcCovertype}',${item.vcAzimuth})
+            </foreach>
+        </if>
+
+        <if test="condition.importType==121">
+            insert into ${condition.tablename}
+            (intcityid,vccity,intmcc,intmnc,inttac,
+            vcopenstate,intenbid,vcenbname,vcarea,farealonb,
+            farealatb,intgridid,vcgridname,fgridlonb,fgridlatb,
+            flonb,flatb,intsectorid,vccellid,vccellid2,
+            vccellname,intpcarrierfr,vccovertype,intpci,
+            intmod3, vcazimuth,intmtilt,intetilt,inttopangle,
+           fanthighpoint,fanthigh,vcantennagain,intnenbid,fndistance) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                ('${item.intcityid}','${item.vccity}','${item.intmcc}','${item.intmnc}','${item.inttac}',
+                '${item.vcopenstate}','${item.intenbid}','${item.vcenbname}', ' ${item.vcarea}','${item.farealonb}',
+                '${item.farealatb}','${item.intgridid}','${item.vcgridname}','${item.fgridlonb}','${item.fgridlatb}',
+                '${item.flonb}','${item.flatb}','${item.intsectorid}','${item.vccellid}','${item.vccellid2}',
+                '${item.vccellname}','${item.intpcarrierfr}','${item.vccovertype}','${item.intpci}',
+                '${item.intmod3}','${item.vcazimuth}','${item.intmtilt}','${item.intetilt}','${item.inttopangle}',
+                '${item.fanthighpoint}','${item.fanthigh}','${item.vcantennagain}','${item.intnenbid}','${item.fndistance}'
+                )
+            </foreach>
+        </if>
+	</insert>
+
+
+    <select id="deleterow" parameterType="com.etone.project.core.model.QueryCriteria">
+
+                  delete from ${condition.tablename}  where  vccity =  '${condition.city}'
+    </select>
+
+</mapper>

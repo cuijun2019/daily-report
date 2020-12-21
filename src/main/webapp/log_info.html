@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>用户日志信息</title>
+        <!--1、Jquery组件引用-->
+        <script src="modules/geogis/js/jquery-1.12.4.min.js"></script>
+        <!--2、bootstrap组件引用-->
+        <script src="modules/geogis/bootstrap/js/bootstrap.js"></script>
+        <link href="modules/geogis/bootstrap-table-develop/docs/assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script type="text/javascript" src="modules/geogis/Bootstrap-3-Typeahead-master/bootstrap3-typeahead.js"></script>
+        <!--3、bootstrap table组件以及中文包的引用-->
+        <script src="modules/geogis/bootstrap-table-develop/src/bootstrap-table.js"></script>
+        <link href="modules/geogis/bootstrap-table-develop/src/bootstrap-table.css" rel="stylesheet" />
+        <script src="modules/geogis/bootstrap-table-develop/src/locale/bootstrap-table-zh-CN.js"></script>
+        <!---4、页面Js文件的引用
+        <script src="~/Scripts/Home/Index.js"></script>     -->
+        <script src="modules/geogis/bootstrap-table-develop/src/extensions/export/bootstrap-table-export.js"></script>
+        <script src="modules/geogis/tableExport.jquery.plugin-master/tableExport.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="modules/geogis/bootstrap-fileinput-master/css/fileinput.css" />
+        <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/fileinput.js"></script>
+        <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+        <link rel="stylesheet" href="modules/geogis/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" />
+        <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+        <script type="text/javascript" src="modules/geogis/layer/layer.js"></script>
+<script type="text/javascript">
+$(function () {
+    //1.初始化Table
+    var oTable = new TableInit();
+    oTable.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
+
+    //0.初始化fileinput
+    var oFileInput = new FileInput();
+    oFileInput.Init("fileUpload", "/modules/lteproject/importLogInfo");
+
+    $('#tb_logInfo').bootstrapTable('hideColumn', 'id');
+
+    $('#addLogTime').datetimepicker({
+        language:  'zh-CN',
+        minView : "month",
+        format : 'yyyy-mm-dd',
+        autoclose : 1
+    });
+
+    $('#start_date').datetimepicker({
+        language:  'zh-CN',
+        minView : "month",
+        format : 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose : 1
+    });
+    $('#end_date').datetimepicker({
+        language:  'zh-CN',
+        minView : "month",
+        format : 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose : 1
+    });
+
+    $("#saveLogInfo").click(function() {
+        var id = $('#id').val();
+        var projectCode = $('#addProjectCode').val();
+        var projectName = $('#addProjectName').val();
+        var reporter = $('#addReporter').val();
+        var proportion = $('#addProportion').val();
+        var logTime = $('#addLogTime').val();
+        var employeeCode = $('#addEmployeeCode').val();
+        var employee = $('#addEmployee').val();
+        var workNature = $('#addWorkNature').val();
+        var context = $('#addContext').val();
+
+        var message = validMessage(projectCode, projectName, reporter, proportion, logTime, employeeCode, employee, workNature, context, id);
+        if (message != "") {
+            layer.msg(message);
+            return;
+        }
+        $.ajax({
+            url : "/modules/lteproject/saveOrUpdateLog?random=" + Math.random(),
+            type : "post",
+            data : {
+                id : id,
+                projectCode : projectCode,
+                projectName : projectName,
+                reporter : reporter,
+                proportion : proportion,
+                logTime : logTime,
+                employeeCode : employeeCode,
+                employee : employee,
+                workNature : workNature,
+                context : context
+            },
+            async : true,
+            cache : false,
+            dataType : 'json',
+            success : function(data) {
+                layer.msg(data.msg);
+                $('#addProjectCode').val("");
+                $('#addProjectName').val("");
+                $('#addReporter').val("");
+                $('#addProportion').val("");
+                $('#addLogTime').val("");
+                $('#addEmployeeCode').val("");
+                $('#addEmployee').val("");
+                $('#addWorkNature').val("");
+                $('#addContext').val("");
+                $('#addModal').modal('hide');
+                $('#tb_logInfo').bootstrapTable('refresh');
+            }
+        });
+    });
+
+    $('#projectName').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.projectName);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#employee').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.employee);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#addProjectCode').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.projectCode);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#addProjectName').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.projectName);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#addProportion').typeahead({
+        source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#addEmployee').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.employee);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#addEmployeeCode').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post(localhostPath + "/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.employeeCode);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $("#addProjectCode").change(function(){
+        var projectCode = $("#addProjectCode").val();
+        if (projectCode != "") {
+            $.ajax({
+                url : "/modules/lteproject/validProjectCode?projectCode=" + projectCode,
+                type : "post",
+                async : false,
+                cache : false,
+                dataType : 'json',
+                success:function(result){
+                    if (result.valid) {
+                        $("#addProjectName").val(result.projectName);
+                        $("#addReporter").val(result.reporter);
+                    }
+                }
+            });
+        }
+    });
+
+    $("#addProjectName").change(function(){
+        var projectName = $("#addProjectName").val();
+        if (projectName != "") {
+            $.ajax({
+                url : "/modules/lteproject/validProjectName?projectName=" + projectName,
+                type : "post",
+                async : false,
+                cache : false,
+                dataType : 'json',
+                success:function(result){
+                    if (result.valid) {
+                        $("#addProjectCode").val(result.projectCode);
+                        $("#addReporter").val(result.reporter);
+                    }
+                }
+            });
+        }
+    });
+
+    $("#addProportion").change(function(){
+        var proportion = $("#addProportion").val();
+        if (proportion.indexOf("%") == -1) {
+            $("#addProportion").val(proportion + "%");
+        }
+    });
+
+    $("#addEmployeeCode").change(function(){
+        var employeeCode = $("#addEmployeeCode").val();
+        if (employeeCode != "") {
+            $.ajax({
+                url : "/modules/lteproject/validEmployeeCode?employeeCode=" + employeeCode,
+                type : "post",
+                async : false,
+                cache : false,
+                dataType : 'json',
+                success:function(result){
+                    if (result.valid) {
+                        $("#addEmployee").val(result.employee);
+                    }
+                }
+            });
+        }
+    });
+
+    $("#addEmployee").change(function(){
+        var employee = $("#addEmployee").val();
+        if (employee != "") {
+            $.ajax({
+                url : "/modules/lteproject/validEmployee?employee=" + employee,
+                type : "post",
+                async : false,
+                cache : false,
+                dataType : 'json',
+                success:function(result){
+                    if (result.valid) {
+                        $("#addEmployee").val(result.employeeCode);
+                    }
+                }
+            });
+        }
+    });
+});
+
+//数组去重
+function unique(arr){
+    var new_arr=[];
+    for(var i=0;i<arr.length;i++) {
+        var items=arr[i];
+        if($.inArray(items,new_arr)==-1) {
+            new_arr.push(items);
+        }
+    }
+    return new_arr;
+}
+
+//初始化fileinput
+var FileInput = function () {
+    var oFile = new Object();
+    //初始化fileinput控件（第一次初始化）
+    oFile.Init = function(ctrlName, uploadUrl) {
+        var control = $('#' + ctrlName);
+        //初始化上传控件的样式
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: uploadUrl, //上传的地址
+            allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！"
+        });
+        //导入文件上传完成之后的事件
+        $("#fileUpload").on("fileuploaded", function (event, data, previewId, index) {
+            if (data.response.msg.indexOf("导入失败") != -1) {
+                layer.msg(data.response.msg);
+                return;
+            }
+            $("#myModal").modal("hide");
+            //1.初始化表格
+            var oTable = new TableInit();
+            oTable.Init(data);
+            $("#tb_logInfo").show();
+            $('#tb_logInfo').bootstrapTable('refresh');
+        });
+
+    }
+    return oFile;
+};
+
+var TableInit = function () {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function () {
+        $('#tb_logInfo').bootstrapTable({
+            url: "/modules/lteproject/queryLogInfo",
+            method: 'post', //请求方式（*）
+            contentType : "application/x-www-form-urlencoded",
+            toolbar: '#toolbar', //工具按钮用哪个容器
+            striped: true, //是否显示行间隔色
+            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true, //是否显示分页（*）
+            sortable: false, //是否启用排序
+            sortOrder: "asc", //排序方式
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1, //初始化加载第一页，默认第一页
+            pageSize: 10, //每页的记录行数（*）
+            pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
+//                    search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            strictSearch: true,
+            showColumns: true, //是否显示所有的列
+            showRefresh: true, //是否显示刷新按钮
+            minimumCountColumns: 2, //最少允许的列数
+            clickToSelect: true, //是否启用点击选中行
+            showExport: true, //是否显示导出
+            exportDataType: "basic", //basic', 'all', 'selected'.
+//            height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "ID", //每一行的唯一标识，一般为主键列
+            showToggle:true, //是否显示详细视图和列表视图的切换按钮
+            cardView: false, //是否显示详细视图
+            detailView: false, //是否显示父子表
+            paginationLoop: false,//第一页不能点击上一页，最后一页不能点击下一页
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'id',
+                title: '主键'
+            }, {
+                field: 'projectCode',
+                title: '<span style="width:115px;display:inline-block;">项目编码</span>'
+            }, {
+                field: 'projectName',
+                title: '<span style="width:450px;display:inline-block;">项目名称</span>'
+            }, {
+                field: 'reporter',
+                title: '<span style="width:80px;display:inline-block;">项目经理</span>'
+            }, {
+                field: 'proportion',
+                title: '<span style="width:80px;display:inline-block;">项目占比</span>'
+            }, {
+                field: 'logTime',
+                title: '<span style="width:100px;display:inline-block;">日志时间</span>'
+            }, {
+                field: 'employeeCode',
+                title: '<span style="width:80px;display:inline-block;">员工工号</span>'
+            }, {
+                field: 'employee',
+                title: '<span style="width:80px;display:inline-block;">员工姓名</span>'
+            }, {
+                field: 'workNature',
+                title: '<span style="width:80px;display:inline-block;">工作性质</span>'
+            }, {
+                field: 'context',
+                title: '<span style="width:200px;display:inline-block;">日志内容</span>',
+                formatter: function(value,row,index){
+                    var context = row.context;
+                    if (context.length > 10) {
+                        return context.substring(0, 10) + "...<a style='color:#428BCA;cursor:pointer; text-decoration:none;float:right;padding-right:5px;' data-toggle='modal' data-target='#tipModal' onclick='detail(\""+context.replaceAll("\n","<br>")+"\")'>详情</a>";
+                    } else {
+                        return context;
+                    }
+                }
+            }]
+        });
+    };
+
+    //得到查询的参数
+    oTableInit.queryParams = function (params) {
+        var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            limit: params.limit, //页面大小
+            offset: params.offset, //页码
+            projectName: $("#projectName").val(),
+            employee: $("#employee").val(),
+            startDate: $("#start_date").val(),
+            endDate: $("#end_date").val()
+        };
+        return temp;
+    };
+    return oTableInit;
+};
+
+var ButtonInit = function () {
+    var oInit = new Object();
+    var postdata = {};
+
+    oInit.Init = function () {
+        //初始化页面上面的按钮事件
+        $("#btn_query").click(function() {
+            $('#tb_logInfo').bootstrapTable('refresh',{query:{offset:0}});
+        });
+        $("#btn_reset").click(function() {
+            $("#projectName").val("");
+            $("#employee").val("");
+            $("#start_date").val("");
+            $("#end_date").val("");
+        });
+        $("#btn_export").click(function() {
+            var projectName = $("#projectName").val();
+            var employee = $("#employee").val();
+            var timeStart = $("#start_date").val();
+            var timeEnd = $("#end_date").val();
+            var rows = $("#tb_logInfo").bootstrapTable('getSelections');
+            var ids = "";
+            if (rows.length > 0) {
+                for(var i=0;i<rows.length;i++){
+                    ids += "," + rows[i].id;
+                }
+                ids = ids.substring(1);
+            }
+            $('#down_temp_iframe').attr('src','/modules/lteproject/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
+        });
+        $("#btn_remove").click(function() {
+            var rows = $("#tb_logInfo").bootstrapTable('getSelections');
+            if (rows != null && rows != "") {
+                layer.confirm('您确实要删除选定的记录吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    var ids = "";
+                    if (rows.length > 0) {
+                        for(var i=0;i<rows.length;i++){
+                            ids += "," + rows[i].id;
+                        }
+                        ids = ids.substring(1);
+                    }
+                    $.ajax({
+                        url : "/modules/lteproject/deleteLogInfo?random=" + Math.random(),
+                        type : "post",
+                        data : {
+                            ids : ids
+                        },
+                        async : true,
+                        cache : false,
+                        dataType : 'json',
+                        success : function(data) {
+                            layer.msg(data.msg);
+                            if (data.code==1) {
+                                $('#tb_logInfo').bootstrapTable('refresh');
+                            }
+                        }
+                    });
+                }, function(){
+
+                });
+            } else {
+                layer.msg("请选取要删除的数据！");
+                return;
+            }
+        });
+        $("#btn_add").click(function() {
+            $('#id').val("");
+            $('#addProjectCode').val("");
+            $('#addProjectName').val("");
+            $('#addReporter').val("");
+            $('#addProportion').val("");
+            $('#addLogTime').val("");
+            $('#addEmployeeCode').val("");
+            $('#addEmployee').val("");
+            $('#addWorkNature').val("");
+            $('#addContext').val("");
+        });
+        $("#btn_edit").click(function() {
+            var rows = $("#tb_logInfo").bootstrapTable('getSelections');
+            if (rows != null && rows != "") {
+                if (rows.length == 1) {
+                    var row = rows[0];
+                    $('#id').val(row.id);
+                    $('#addProjectCode').val(row.projectCode);
+                    $('#addProjectName').val(row.projectName);
+                    $('#addReporter').val(row.reporter);
+                    $('#addProportion').val(row.proportion);
+                    $('#addLogTime').val(row.logTime);
+                    $('#addEmployeeCode').val(row.employeeCode);
+                    $('#addEmployee').val(row.employee);
+                    $('#addWorkNature').val(row.workNature);
+                    $('#addContext').val(row.context);
+                    $('#addModal').modal('show');
+                } else {
+                    layer.msg("只能修改一条数据！");
+                    return;
+                }
+            } else {
+                layer.msg("请选取要修改的数据！");
+                return;
+            }
+        });
+    };
+    return oInit;
+};
+
+function detail(context) {
+    $("#context").html(context);
+}
+
+String.prototype.replaceAll = function(s1,s2){
+    return this.replace(new RegExp(s1,"gm"),s2);
+}
+
+function validMessage(projectCode, projectName, reporter, proportion, logTime, employeeCode, employee, workNature, context, id) {
+    var message = "";
+    if(employeeCode.indexOf(" ") != -1) {
+	    employeeCode = employeeCode.substring(0, employeeCode.indexOf(" "));
+    }
+    $.ajax({
+        url : "/modules/lteproject/validLogInfo?random=" + Math.random(),
+        type : "post",
+        data : {
+            projectCode : projectCode,
+            projectName : projectName,
+            reporter : reporter,
+            proportion : proportion,
+            logTime : logTime,
+            employeeCode : employeeCode,
+            employee : employee,
+            workNature : workNature,
+            context : context,
+	        id : id
+        },
+        async : false,
+        cache : false,
+        dataType : 'json',
+        success:function(result){
+            message = result.message;
+        }
+    });
+    return message;
+}
+</script>
+</head>
+<body>
+<iframe id="down_temp_iframe" style="display: none;"></iframe>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form id="formSearch" class="form-horizontal">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="projectName" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="employee" data-provide="typeahead" data-source="" placeholder="请输入员工姓名" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入员工姓名'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="start_date" placeholder="请输入开始时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入开始时间'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="end_date" placeholder="请输入结束时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入结束时间'" />
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" id="btn_query" class="btn btn-primary btn-sm">查询</button>
+                    <button type="button" class="btn btn-sm" id="btn_reset">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">日志信息</div>
+        <div id="toolbar" class="btn-group">
+            <button id="btn_export" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>导出
+            </button>
+            <button id="btn_import" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>导入
+            </button>
+            <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#addModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+            </button>
+            <button id="btn_edit" type="button" class="btn btn-default" data-toggle="modal" data-target="#editModal">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑
+            </button>
+            <button id="btn_remove" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除
+            </button>
+        </div>
+        <table id="tb_logInfo"></table>
+    </div>
+</div>
+
+<form>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">请选择Excel文件</h4>
+                </div>
+                <div class="modal-body">
+                    <a href="log_template.xls" class="form-control" style="border:none;">下载导入模板</a>
+                    <input type="file" name="fileUpload" id="fileUpload" class="file-loading" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body">
+                <div style="height:400px;overflow:auto">
+                    <form>
+                        <input type="hidden" id="id"/>
+                        <input type="text" class="form-control" id="addProjectCode" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目编码'" />
+                        <br />
+                        <input type="text" class="form-control" id="addProjectName" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
+                        <br />
+                        <input type="text" class="form-control" id="addReporter" placeholder="请输入项目经理" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目经理'" readOnly="readOnly" />
+                        <br />
+                        <input type="text" class="form-control" id="addProportion" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目占比'" />
+                        <br />
+                        <input type="text" class="form-control" id="addLogTime" placeholder="请输入日志时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入日志时间'" />
+                        <br />
+                        <input type="text" class="form-control" id="addEmployeeCode" data-provide="typeahead" data-source="" placeholder="请输入员工工号" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入员工工号'" />
+                        <br />
+                        <input type="text" class="form-control" id="addEmployee" data-provide="typeahead" data-source="" placeholder="请输入员工姓名" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入员工姓名'" />
+                        <br />
+                        <input type="text" class="form-control" id="addWorkNature" placeholder="请输入工作性质" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入工作性质'" />
+                        <br />
+                        <textarea style="height:100px;" type="text" class="form-control" id="addContext" name="addContext" scrollbar="auto" placeholder="请输入工作日志内容" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入工作日志内容'"></textarea>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="glyphicon glyphicon-remove btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="button" id="saveLogInfo" class="glyphicon glyphicon-floppy-disk btn btn-primary btn-sm">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="tipModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width:500px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="tipModalLabel">
+                    日志内容
+                </h4>
+            </div>
+            <div class="modal-body">
+                <span id="context"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

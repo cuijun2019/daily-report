@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>工时统计信息</title>
+        <!--1、Jquery组件引用-->
+        <script src="modules/geogis/js/jquery-1.12.4.min.js"></script>
+        <!--2、bootstrap组件引用-->
+        <script src="modules/geogis/bootstrap/js/bootstrap.js"></script>
+        <link href="modules/geogis/bootstrap-table-develop/docs/assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script type="text/javascript" src="modules/geogis/Bootstrap-3-Typeahead-master/bootstrap3-typeahead.js"></script>
+        <!--3、bootstrap table组件以及中文包的引用-->
+        <script src="modules/geogis/bootstrap-table-develop/src/bootstrap-table.js"></script>
+        <link href="modules/geogis/bootstrap-table-develop/src/bootstrap-table.css" rel="stylesheet" />
+        <script src="modules/geogis/bootstrap-table-develop/src/locale/bootstrap-table-zh-CN.js"></script>
+        <!---4、页面Js文件的引用
+        <script src="~/Scripts/Home/Index.js"></script>     -->
+        <script src="modules/geogis/bootstrap-table-develop/src/extensions/export/bootstrap-table-export.js"></script>
+        <script src="modules/geogis/tableExport.jquery.plugin-master/tableExport.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="modules/geogis/bootstrap-fileinput-master/css/fileinput.css" />
+        <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/fileinput.js"></script>
+        <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+        <link rel="stylesheet" href="modules/geogis/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" />
+        <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+$(function () {
+    //1.初始化Table
+    var oTable = new TableInit();
+    oTable.Init();
+
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
+
+    $('#tb_statisticsInfo').bootstrapTable('hideColumn', 'id');
+    $('#tb_statisticsInfo').bootstrapTable('hideColumn', 'manHour');
+
+    $('#projectName').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.projectName);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#employee').typeahead({
+        source: function (query, process) {
+            //query是输入的值
+            $.post("/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+                var array = [];
+                for (var i = 0; i < datas.length; i++) {
+                    var data = datas[i];
+                    array.push(data.employee);
+                }
+                array = unique(array);
+                process(array);
+            });
+        },
+        items : "all",
+        updater : function(item) {
+            return item;
+        },
+        afterSelect: function (item) {
+        },
+        delay: 500
+    });
+
+    $('#startDate').datetimepicker({
+        language:  'zh-CN',
+        minView : "month",
+        format : 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose : 1
+    });
+    $('#endDate').datetimepicker({
+        language:  'zh-CN',
+        minView : "month",
+        format : 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose : 1
+    });
+});
+
+//数组去重
+function unique(arr){
+    var new_arr=[];
+    for(var i=0;i<arr.length;i++) {
+        var items=arr[i];
+        if($.inArray(items,new_arr)==-1) {
+            new_arr.push(items);
+        }
+    }
+    return new_arr;
+}
+
+var TableInit = function () {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function () {
+        $('#tb_statisticsInfo').bootstrapTable({
+            url: "/modules/lteproject/queryFinalStatisticsInfo",
+            method: 'post', //请求方式（*）
+            contentType : "application/x-www-form-urlencoded",
+            toolbar: '#toolbar', //工具按钮用哪个容器
+            striped: true, //是否显示行间隔色
+            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true, //是否显示分页（*）
+            sortable: false, //是否启用排序
+            sortOrder: "asc", //排序方式
+            queryParams: oTableInit.queryParams,//传递参数（*）
+            sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1, //初始化加载第一页，默认第一页
+            pageSize: 10, //每页的记录行数（*）
+            pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
+//                    search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            strictSearch: true,
+            showColumns: true, //是否显示所有的列
+            showRefresh: true, //是否显示刷新按钮
+            minimumCountColumns: 2, //最少允许的列数
+            clickToSelect: true, //是否启用点击选中行
+            showExport: true, //是否显示导出
+            exportDataType: "basic", //basic', 'all', 'selected'.
+//                    height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "ID", //每一行的唯一标识，一般为主键列
+            showToggle:true, //是否显示详细视图和列表视图的切换按钮
+            cardView: false, //是否显示详细视图
+            detailView: false, //是否显示父子表
+            paginationLoop: false,//第一页不能点击上一页，最后一页不能点击下一页
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'id',
+                title: '主键'
+            }, {
+                field: 'employeeCode',
+                title: '员工工号'
+            }, {
+                field: 'employee',
+                title: '员工姓名'
+            }, {
+                field: 'reporter',
+                title: '项目经理'
+            }, {
+                field: 'score',
+                title: '评分'
+            }, {
+                field: 'projectCode',
+                title: '项目编码',
+                width: 135
+            }, {
+                field: 'projectName',
+                title: '项目名称'
+            }, {
+                field: 'manHour',
+                title: '真实工时（天）'
+            }, {
+                field: 'nowManHour',
+                title: '真实工时（天）'
+            }, {
+                field: 'actualHour',
+                title: '实际工时（天）'
+            }, {
+                field: 'fixedWork',
+                title: '固定工时（天）'
+            }, {
+                field: 'shareWork',
+                title: '分摊工时（天）'
+            }]
+        });
+    };
+
+    //得到查询的参数
+    oTableInit.queryParams = function (params) {
+        var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            limit: params.limit, //页面大小
+            offset: params.offset, //页码
+            projectName: $("#projectName").val(),
+            employee: $("#employee").val(),
+            startDate: $("#startDate").val(),
+            endDate: $("#endDate").val()
+        };
+        return temp;
+    };
+    return oTableInit;
+};
+
+var ButtonInit = function () {
+    var oInit = new Object();
+    var postdata = {};
+
+    oInit.Init = function () {
+        //初始化页面上面的按钮事件
+        $("#btn_query").click(function() {
+            $('#tb_statisticsInfo').bootstrapTable('refresh',{query:{offset:0}});
+        });
+        $("#btn_reset").click(function() {
+            $("#projectName").val("");
+            $("#employee").val("");
+            $("#startDate").val("");
+            $("#endDate").val("");
+        });
+        $("#btn_export").click(function() {
+            var projectName = $("#projectName").val();
+            var employee = $("#employee").val();
+            var timeStart = $("#startDate").val();
+            var timeEnd = $("#endDate").val();
+            var rows = $("#tb_statisticsInfo").bootstrapTable('getSelections');
+            var ids = "";
+            if (rows.length > 0) {
+                for(var i=0;i<rows.length;i++){
+                    ids += "," + rows[i].id;
+                }
+                ids = ids.substring(1);
+            }
+            $('#down_temp_iframe').attr('src','/modules/lteproject/exportFinalStatisticsData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
+        });
+    };
+    return oInit;
+};
+</script>
+</head>
+<body>
+<iframe id="down_temp_iframe" style="display: none;"></iframe>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form id="formSearch" class="form-horizontal">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="projectName" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="employee" data-provide="typeahead" data-source="" placeholder="请输入员工姓名" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入员工姓名'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="startDate" placeholder="请输入开始时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入开始时间'" />
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="endDate" placeholder="请输入结束时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入结束时间'" />
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" id="btn_query" class="btn btn-primary btn-sm">查询</button>
+                    <button type="button" class="btn btn-sm" id="btn_reset">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">工时统计信息</div>
+        <div id="toolbar" class="btn-group">
+            <button id="btn_export" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>导出
+            </button>
+        </div>
+        <table id="tb_statisticsInfo"></table>
+    </div>
+</div>
+</body>
+</html>

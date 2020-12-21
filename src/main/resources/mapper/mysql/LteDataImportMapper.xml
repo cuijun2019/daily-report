@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.etone.project.modules.lte.dao.LteDataImportMapper">
+    
+
+    <insert id="insertData" parameterType="java.util.List" >
+        insert into importinfo (souretype,souretime,sourename,importpeople)
+        values  
+       ('${condition.souretype}','${condition.souretime}','${condition.sourename}','${condition.importpeople}')
+    </insert>
+
+    <select id="queryLog" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+
+                   select * from importinfo
+    </select>
+
+    <select id="updateLog" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+
+                  update tbPublicLog set  islayer = '${condition.newislayer}' ,  createlayer =  '${condition.newcreatelayer}'
+                   where  layername =  '${condition.layername}'
+    </select>
+
+    <select id="dropdata" parameterType="com.etone.project.core.model.QueryCriteria">
+
+                  delete from tbPublicLog  where  layername =  '${condition.layername}'
+    </select>
+
+    <!-- 插入数据 -->
+    <insert id="saveData" parameterType="com.etone.project.core.model.QueryCriteria">
+
+
+
+
+        <if test="condition.souretype==1">
+            insert into ProjectInformation
+            (projectnum,projectname,projectmanager,company,department,costcenter,area,province,city,firstcategory,secondcategory,accepttype,projectstatus,
+            anticipatedincome,anticipatedcost,anticipatedprofit,anticipatedpercentprofit,
+            workload,cost,profit,percentprofit,
+            workload_5,cost_5,profit_5,percentprofit_5,
+            workload_4,cost_4,profit_4,percentprofit_4,
+            workload_3,cost_3,profit_3,percentprofit_3,
+            workload_2,cost_2,profit_2,percentprofit_2,
+            workload_1,cost_1,profit_1,percentprofit_1,
+            workload_0,cost_0,profit_0,percentprofit_0,
+            janworkload,jancost,janprofit,janpercentprofit,
+            febworkload,febcost,febprofit,febpercentprofit,
+            marworkload,marcost,marprofit,marpercentprofit,
+            aprworkload,aprcost,aprprofit,aprpercentprofit,
+            mayworkload,maycost,mayprofit,maypercentprofit,
+            junworkload,juncost,junprofit,junpercentprofit,
+            julworkload,julcost,julprofit,julpercentprofit,
+            augworkload,augcost,augprofit,augpercentprofit,
+            sepworkload,sepcost,sepprofit,seppercentprofit,
+            octworkload,octcost,octprofit,octpercentprofit,
+            novworkload,novcost,novprofit,novpercentprofit,
+            decworkload,deccost,decprofit,decpercentprofit,
+            projectstaff,cars,houses,currentyearcost,currentyearincome,currentyearreceipts
+            ) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                (#{item.1},#{item.2},#{item.3},#{item.4},#{item.5},#{item.6},
+                #{item.7},#{item.8},#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},
+                #{item.14},#{item.15},#{item.16},#{item.17},#{item.18},
+                #{item.19},#{item.20},#{item.21},#{item.22},#{item.23},
+                #{item.24},#{item.25},#{item.26},#{item.27},#{item.28},
+                #{item.29},#{item.30},#{item.31},#{item.32},#{item.33},
+                #{item.34},#{item.35},#{item.36},#{item.37},#{item.38},
+                #{item.39},#{item.40},#{item.41},#{item.42},#{item.43},
+                #{item.44},#{item.45},#{item.46},#{item.47},#{item.48},
+                #{item.49},#{item.50},#{item.51},#{item.52},#{item.53},
+                #{item.54},#{item.55},#{item.56},#{item.57},#{item.58},
+                #{item.59},#{item.60},#{item.61},#{item.62},#{item.63},
+                #{item.64},#{item.65},#{item.66},#{item.67},#{item.68},
+                #{item.69},#{item.70},#{item.71},#{item.72},#{item.73},
+                #{item.74},#{item.75},#{item.76},#{item.77},#{item.78},
+                #{item.79},#{item.80},#{item.81},#{item.82},#{item.83},
+                #{item.84},#{item.85},#{item.86},#{item.87},#{item.88},
+                #{item.89},#{item.90},#{item.91},#{item.92},#{item.93},
+                #{item.94},#{item.95},#{item.96},#{item.97},#{item.98},#{item.99}
+
+                )
+            </foreach>
+        </if>
+
+        <if test="condition.souretype==2">
+            insert into ProjectCost
+            (projectnum,projectname,projectmanager,company,department,costcenter,area,province,city,firstcategory,secondcategory,accepttype,projectstatus,
+            allcost,owncost,insourcingcost,outsourcingcost,attachedcost,
+            janallcost,janowncost,janinsourcingcost,janoutsourcingcost,janattachedcost,
+            feballcost,febowncost,febinsourcingcost,feboutsourcingcost,febattachedcost,
+            marallcost,marowncost,marinsourcingcost,maroutsourcingcost,marattachedcost,
+            aprallcost,aprowncost,aprinsourcingcost,aproutsourcingcost,aprattachedcost,
+            mayallcost,mayowncost,mayinsourcingcost,mayoutsourcingcost,mayattachedcost,
+            junallcost,junowncost,juninsourcingcost,junoutsourcingcost,junattachedcost,
+            julallcost,julowncost,julinsourcingcost,juloutsourcingcost,julattachedcost,
+            augallcost,augowncost,auginsourcingcost,augoutsourcingcost,augattachedcost,
+            sepallcost,sepowncost,sepinsourcingcost,sepoutsourcingcost,sepattachedcost,
+            octallcost,octowncost,octinsourcingcost,octoutsourcingcost,octattachedcost,
+            novallcost,novowncost,novinsourcingcost,novoutsourcingcost,novattachedcost,
+            decallcost,decowncost,decinsourcingcost,decoutsourcingcost,decattachedcost) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                (#{item.1},#{item.2},#{item.3},#{item.4},#{item.5},#{item.6},
+                #{item.7},#{item.8},#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},
+                #{item.14},#{item.15},#{item.16},#{item.17},#{item.18},
+                #{item.19},#{item.20},#{item.21},#{item.22},#{item.23},
+                #{item.24},#{item.25},#{item.26},#{item.27},#{item.28},
+                #{item.29},#{item.30},#{item.31},#{item.32},#{item.33},
+                #{item.34},#{item.35},#{item.36},#{item.37},#{item.38},
+                #{item.39},#{item.40},#{item.41},#{item.42},#{item.43},
+                #{item.44},#{item.45},#{item.46},#{item.47},#{item.48},
+                #{item.49},#{item.50},#{item.51},#{item.52},#{item.53},
+                #{item.54},#{item.55},#{item.56},#{item.57},#{item.58},
+                #{item.59},#{item.60},#{item.61},#{item.62},#{item.63},
+                #{item.64},#{item.65},#{item.66},#{item.67},#{item.68},
+                #{item.69},#{item.70},#{item.71},#{item.72},#{item.73},
+                #{item.74},#{item.75},#{item.76},#{item.77},#{item.78})
+            </foreach>
+        </if>
+
+        <if test="condition.souretype==3">
+            insert into ProjectWorkLoad
+            (projectnum,projectname,projectmanager,company,department,costcenter,area,province,city,firstcategory,secondcategory,accepttype,projectstatus,
+            allwork,ownwork,insourcingwork,outsourcingwork,attachedwork,
+            janallwork,janownwork,janinsourcingwork,janoutsourcingwork,janattachedwork,
+            feballwork,febownwork,febinsourcingwork,feboutsourcingwork,febattachedwork,
+            marallwork,marownwork,marinsourcingwork,maroutsourcingwork,marattachedwork,
+            aprallwork,aprownwork,aprinsourcingwork,aproutsourcingwork,aprattachedwork,
+            mayallwork,mayownwork,mayinsourcingwork,mayoutsourcingwork,mayattachedwork,
+            junallwork,junownwork,juninsourcingwork,junoutsourcingwork,junattachedwork,
+            julallwork,julownwork,julinsourcingwork,juloutsourcingwork,julattachedwork,
+            augallwork,augownwork,auginsourcingwork,augoutsourcingwork,augattachedwork,
+            sepallwork,sepownwork,sepinsourcingwork,sepoutsourcingwork,sepattachedwork,
+            octallwork,octownwork,octinsourcingwork,octoutsourcingwork,octattachedwork,
+            novallwork,novownwork,novinsourcingwork,novoutsourcingwork,novattachedwork,
+            decallwork,decownwork,decinsourcingwork,decoutsourcingwork,decattachedwork) values
+            <foreach collection="condition.dataList" item="item" index="index" separator=",">
+                (#{item.1},#{item.2},#{item.3},#{item.4},#{item.5},#{item.6},
+                #{item.7},#{item.8},#{item.9},#{item.10},#{item.11},#{item.12},#{item.13},
+                #{item.14},#{item.15},#{item.16},#{item.17},#{item.18},
+                #{item.19},#{item.20},#{item.21},#{item.22},#{item.23},
+                #{item.24},#{item.25},#{item.26},#{item.27},#{item.28},
+                #{item.29},#{item.30},#{item.31},#{item.32},#{item.33},
+                #{item.34},#{item.35},#{item.36},#{item.37},#{item.38},
+                #{item.39},#{item.40},#{item.41},#{item.42},#{item.43},
+                #{item.44},#{item.45},#{item.46},#{item.47},#{item.48},
+                #{item.49},#{item.50},#{item.51},#{item.52},#{item.53},
+                #{item.54},#{item.55},#{item.56},#{item.57},#{item.58},
+                #{item.59},#{item.60},#{item.61},#{item.62},#{item.63},
+                #{item.64},#{item.65},#{item.66},#{item.67},#{item.68},
+                #{item.69},#{item.70},#{item.71},#{item.72},#{item.73},
+                #{item.74},#{item.75},#{item.76},#{item.77},#{item.78})
+            </foreach>
+        </if>
+
+    </insert>
+
+</mapper> 

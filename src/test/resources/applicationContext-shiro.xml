@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+       default-lazy-init="true">
+
+    <description>Shiro安全配置</description>
+
+    <!-- Shiro's main business-tier object for web-enabled applications -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shiroDbRealm"/>
+        <property name="cacheManager" ref="shiroEhcacheManager"/>
+    </bean>
+
+    <!-- 項目自定义的Realm, 所有accountService依赖的dao都需要用depends-on声明 -->
+    <bean id="shiroDbRealm" class="com.etone.project.base.support.security.ShiroDbRealm" depends-on="organizationDao,userDao,privilegeDao,captchaService">
+        <property name="organizationManager" ref="organizationManager"/>
+       <!-- <property name="userManager" ref="userManager"/>-->
+        <property name="privilegeManager" ref="privilegeManager"/>
+        <property name="imageCaptchaService" ref="captchaService"/>
+        <!-- 是否使用验证码 -->
+        <property name="captchable" value="true"/>
+    </bean>
+
+    <!-- Shiro Filter -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/main"/>
+        <property name="filters">
+            <map>
+                <!-- 带验证码认证检验，如需SSO，需要增加相应辑处理 -->
+                <entry key="authc" value-ref="captchaFormAuthenticationFilter"/>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /Captcha.jpg = anon
+                /login = authc
+                /logout = logout
+                /static/** = anon
+                /** = user
+            </value>
+        </property>
+    </bean>
+
+    <bean id="captchaFormAuthenticationFilter" class="com.etone.project.base.support.security.filter.CaptchaFormAuthenticationFilter"/>
+
+    <!-- 用户授权信息Cache, 采用EhCache -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

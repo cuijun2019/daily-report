@@ -1,0 +1,71 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <title>统一登录中心@Alibaba</title>
+            <meta name="description" content="统一登录中心@Alibaba">
+                <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="header"></div>
+        <form name="loginForm" id="loginForm" action="" method="post">
+            <input name='_csrf_token' type='hidden' value='559lst740R36HRUJBnuJC1'>
+            <input type="hidden" id="action" name="action" value="SSOLoginAction"/>
+            <input type="hidden" name="return" value=""/>
+                        
+            <div class="legend">统一登录中心</div>
+            <hr />
+            <hr class="decoration" />
+            <div class="hint">
+                                    <span class="error">该账户不存在，请更换账户或联系管理员  </span>
+                            </div>
+            <fieldset>
+                <div class="input-prepend" style="padding-left:1px;">
+                    <span class="add-on">
+                        <i class="icon-user"></i>
+                    </span>
+                    <input  type="text" id="account" name="_fm.l._0.a" value="44" placeholder="域账号或工作账号" class="input"/>
+                </div>
+                <div class="input-prepend" style="padding-left:1px;">
+                    <span class="add-on">
+                        <i class="icon-key"></i>
+                    </span>
+                    <input  type="password" id="password" name="_fm.l._0.p" value="444" placeholder="密　码" class="input"/>
+                </div>
+				                <label class="checkbox">
+                    <input type="checkbox" id="loginMaintain" name="login_maintain"  />
+                    &nbsp;保持登录 
+                </label>
+                <button type="submit" class="btn-login" onFocus="blur()">登录</button>
+                <input type="hidden" name="event_submit_do_sso_login" value="true"/>
+                <input type="hidden" name="umidTokenId" value="Tb3f8b73301d3a835f5a71b307f14fd58"/>
+            </fieldset>
+                    </form>
+    </div>
+</body>
+<script src="https://login.alibaba-inc.com/home/js/jquery.js"></script>
+<script src="https://login.alibaba-inc.com/home/js/plugin/jquery.placeholder.js"></script>
+<script>
+    $(function(){$('input').placeholder();});
+</script>
+
+<div  id="_umfp" style="display:inline;width:1px;height:1px;overflow:hidden">
+<img src="https://ynuf.alipay.com/service/clear.png?xt=Tb3f8b73301d3a835f5a71b307f14fd58&xa=buc" />
+</div>
+
+<script type="text/javascript" charset="utf-8" src="https://s.tbcdn.cn/g/security/umscript/2.0.0/um.js"></script>
+<script type="text/javascript">
+var container = document.getElementById('_umfp');
+um.init({
+   timeout: 3000,
+   timestamp: '43309641555F5A40584F617C',
+   token:'Tb3f8b73301d3a835f5a71b307f14fd58',
+   serviceUrl:'https://ynuf.alipay.com/service/um.json',
+   appName: 'buc',
+   containers:{flash:container ,dcp:container}
+});
+</script> 
+
+</html>

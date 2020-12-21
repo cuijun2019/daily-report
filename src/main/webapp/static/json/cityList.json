@@ -1,0 +1,92 @@
+[
+
+    {
+        "value": "GZ",
+        "text": "广州"
+    },
+    {
+        "value": "SZ",
+        "text": "深圳"
+    },
+    {
+        "value": "DG",
+        "text": "东莞"
+    } ,
+    {
+        "value": "ZH",
+        "text": "珠海"
+    },
+
+    {
+        "value": "FS",
+        "text": "佛山"
+    },
+    {
+        "value": "ZS",
+        "text": "中山"
+    },
+    {
+        "value": "SG",
+        "text": "韶关"
+    },
+    {
+        "value": "QY",
+        "text": "清远"
+    },
+
+    {
+        "value": "ZQ",
+        "text": "肇庆"
+    },
+    {
+        "value": "YF",
+        "text": "云浮"
+    },
+
+    {
+        "value": "ST",
+        "text": "汕头"
+    },
+    {
+        "value": "SW",
+        "text": "汕尾"
+    },
+    {
+        "value": "HZ",
+        "text": "惠州"
+    },
+    {
+        "value": "ZJ",
+        "text": "湛江"
+    },
+    {
+        "value": "HY",
+        "text": "河源"
+    },
+    {
+        "value": "MZ",
+        "text": "梅州"
+    },
+    {
+        "value": "YJ",
+        "text": "阳江"
+    }   ,
+    {
+        "value": "MM",
+        "text": "茂名"
+    },
+    {
+        "value": "CZ",
+        "text": "潮州"
+    },
+    {
+        "value": "JY",
+        "text": "揭阳"
+    } ,
+
+    {
+        "value": "JM",
+        "text": "江门"
+    }
+
+]

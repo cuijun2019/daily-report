@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/ltenoa">
+    <!-- MYSQL数据库 -->
+    <Resource name="jdbc/base"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://192.168.8.69:3306/ltemr_wh?useUnicode=true&amp;autoReconnect=true&amp;characterEncoding=UTF-8"
+              username="root"
+              password="1qaz2wsx"
+              initialSize="1"
+              maxActive="20"
+              maxIdle="20"
+              maxWait="-1"
+              validationQuery="select 1"
+              testOnBorrow="true"
+              testOnReturn="true"
+              timeBetweenEvictionRunsMillis="600000"
+              minEvictableIdleTimeMillis="600000"
+              testWhileIdle="true"/>
+
+    <!-- GP数据库 -->
+    <Resource name="jdbc/ltemr_gp"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://192.168.8.60:5432/gp_ltemr_60"
+              username="ltemr_ssmp"
+              password="1qaz2wsx"
+              initialSize="1"
+              maxActive="1"
+              maxIdle="1"
+              maxWait="-1"/>
+</Context>

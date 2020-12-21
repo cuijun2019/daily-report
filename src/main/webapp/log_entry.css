@@ -1,0 +1,73 @@
+@charset "utf-8";
+input.logTimeClass{ background-color:white;width:96%;height:50px;border-top-style:none;border-left-style:none;border-right-style:none;border-bottom:1px solid #EEEEEE;color:black; }
+    input.workNatureClass{ background-color:white;width:96%;height:50px;border-top-style:none;border-left-style:none;border-right-style:none;border-bottom:1px solid #EEEEEE;color:black; }
+
+    input.logTimeClass::-webkit-input-placeholder {
+        color: #000;font-size:14px;
+    }
+    input.logTimeClass:-moz-placeholder {
+        color: #000;font-size:14px;
+    }
+    input.logTimeClass::-moz-placeholder {
+        color: #000;font-size:14px;
+    }
+    input.logTimeClass:-ms-input-placeholder {
+        color: #000;font-size:14px;
+    }
+
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        vertical-align: middle;
+        font-weight: normal}
+    a {
+        text-decoration: none;
+    //font-size:14px !important;
+        color: #666666
+    }
+    body {
+        background: white;}
+        /* 本例子css -------------------------------------- */
+    .tabBox .hd {
+        height: 70px;
+        /*line-height: 40px;
+        padding: 0 10px;*/
+        font-size: 20px;
+        background: white;
+        /*border-bottom: 1px solid #F5AB38;
+        position: relative;*/
+    }
+    .tabBox .hd ul {
+        /*position: absolute;*/
+        height: 71px;
+        top: 0;
+        overflow: hidden}
+    .tabBox .hd ul li {
+        float: left;
+        padding: 0 10px;
+        color: #666}
+    .tabBox .hd ul .on {
+        /*border: 2px solid #F5AB38;*/
+        /*border-bottom: 1px solid red;*/
+        /*background: #fff;*/
+        color: red;
+        font-weight: bold;
+    }
+    .tabBox .hd ul .on a {
+        display: block; /* 修复Android 4.0.x 默认浏览器当前样色无效果bug */
+    }
+    #clickSearch{
+        font-weight: normal;
+        margin-right: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 5px 15px 5px 15px;
+        border: 1px solid #E5E5E5;
+        border-radius: 6px;
+        color: #3A3A3A;
+        background-color: #F7F7F7;
+    }
+    #div_date1{
+        margin: 12px;
+    }

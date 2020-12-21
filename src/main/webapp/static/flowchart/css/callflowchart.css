@@ -1,0 +1,12 @@
+
+html,body{height:100%;width:100%;margin:0px 0px 0px 0px;font-size:12px;font-family:arial}
+.content{display:none}
+.x-tree-node-expanded .x-tree-node-icon{background-image:url(../images/open.gif)}
+.x-tree-node-collapsed .x-tree-node-icon{background-image:url(../images/close.gif)}
+.x-tree-node-leaf .x-tree-node-icon{background-image:url(../images/open.gif)}
+#summary_table{width:100%;border-collapse:collapse;font-size:12px}
+.summary_title{line-height:40px;font-size:14px;font-weight:bold}
+.summary_title td{padding-left:10px}
+.summary_tr{height:30px;line-height:30px}
+.summary_th{width:100px;background:#EEEEEE;padding:5px 10px;text-align:right;font-weight:bold}
+.summary_td{padding-left:10px}

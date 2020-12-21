@@ -1,0 +1,398 @@
+[
+  {
+
+    "value":"UEMR记录数",
+    "text":"UEMR记录数"
+
+  },
+  {
+
+    "value":"UEMR_IMSI回填率",
+    "text":"UEMR_IMSI回填率"
+
+  },
+  {
+
+    "value":"UEMR_IMEI回填率",
+    "text":"UEMR_IMEI回填率"
+
+  },
+  {
+
+    "value":"UEMR_MSISDN回填率",
+    "text":"UEMR_MSISDN回填率"
+
+  },
+  {
+
+    "value":"UEMR_主小区PCI回填率",
+    "text":"UEMR_主小区PCI回填率"
+
+  },
+  {
+
+    "value":"UEMR_主小区PCI是否回填正常",
+    "text":"UEMR_主小区PCI是否回填正常"
+
+  },
+  {
+
+    "value":"UEMR_主小区Earfcn回填率",
+    "text":"UEMR_主小区Earfcn回填率"
+
+  },
+  {
+
+    "value":"UEMR_主小区Earfcn是否回填正常",
+    "text":"UEMR_主小区Earfcn是否回填正常"
+
+  },
+  {
+
+    "value":"UEMR_邻小区PCI回填率",
+    "text":"UEMR_邻小区PCI回填率"
+
+  },
+  {
+
+    "value":"UEMR_邻小区Earfcn回填率",
+    "text":"UEMR_邻小区Earfcn回填率"
+
+  },
+  {
+
+    "value":"UEMR_邻小区Earfcn回填不一致比例",
+    "text":"UEMR_邻小区Earfcn回填不一致比例"
+
+  },
+  {
+
+    "value":"UEMR_MR类型回填率",
+    "text":"UEMR_MR类型回填率"
+
+  },
+  {
+
+    "value":"UEMR_周期MR比例",
+    "text":"UEMR_周期MR比例"
+
+  },
+  {
+
+    "value":"UEMR_NCellNum>=3的MR比例",
+    "text":"UEMR_NCellNum>=3的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_NCellNum=0的MR比例",
+    "text":"UEMR_NCellNum=0的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含PHR的MR比例",
+    "text":"UEMR_含PHR的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含SinrUL的MR比例",
+    "text":"UEMR_含SinrUL的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含CQI的MR比例",
+    "text":"UEMR_含CQI的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含TA的MR比例",
+    "text":"UEMR_含TA的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含AOA的MR比例",
+    "text":"UEMR_含AOA的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_含TA和AOA的MR比例",
+    "text":"UEMR_含TA和AOA的MR比例"
+
+  },
+  {
+
+    "value":"UEMR_PCI是否符合规范",
+    "text":"UEMR_PCI是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_RSRP是否符合规范",
+    "text":"UEMR_RSRP是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_RSRQ是否符合规范",
+    "text":"UEMR_RSRQ是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_PHR是否符合规范",
+    "text":"UEMR_PHR是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_SinrUL是否符合规范",
+    "text":"UEMR_SinrUL是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_CQI是否符合规范",
+    "text":"UEMR_CQI是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_TA是否符合规范",
+    "text":"UEMR_TA是否符合规范"
+
+  },
+  {
+
+    "value":"UEMR_AOA是否符合规范",
+    "text":"UEMR_AOA是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_记录数",
+    "text":"CELLMR_记录数"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf1是否符合规范",
+    "text":"CELLMR_RIP_sf1是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf2是否符合规范",
+    "text":"CELLMR_RIP_sf2是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf3是否符合规范",
+    "text":"CELLMR_RIP_sf3是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf4是否符合规范",
+    "text":"CELLMR_RIP_sf4是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf5是否符合规范",
+    "text":"CELLMR_RIP_sf5是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf6是否符合规范",
+    "text":"CELLMR_RIP_sf6是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf7是否符合规范",
+    "text":"CELLMR_RIP_sf7是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf8是否符合规范",
+    "text":"CELLMR_RIP_sf8是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf9是否符合规范",
+    "text":"CELLMR_RIP_sf9是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_RIP_sf10是否符合规范",
+    "text":"CELLMR_RIP_sf10是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci1是否符合规范",
+    "text":"CELLMR_PlrULQci1是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci2是否符合规范",
+    "text":"CELLMR_PlrULQci2是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci3是否符合规范",
+    "text":"CELLMR_PlrULQci3是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci4是否符合规范",
+    "text":"CELLMR_PlrULQci4是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci5是否符合规范",
+    "text":"CELLMR_PlrULQci5是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci6是否符合规范",
+    "text":"CELLMR_PlrULQci6是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci7是否符合规范",
+    "text":"CELLMR_PlrULQci7是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci8是否符合规范",
+    "text":"CELLMR_PlrULQci8是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrULQci9是否符合规范",
+    "text":"CELLMR_PlrULQci9是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci1是否符合规范",
+    "text":"CELLMR_PlrDLQci1是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci2是否符合规范",
+    "text":"CELLMR_PlrDLQci2是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci3是否符合规范",
+    "text":"CELLMR_PlrDLQci3是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci4是否符合规范",
+    "text":"CELLMR_PlrDLQci4是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci5是否符合规范",
+    "text":"CELLMR_PlrDLQci5是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci6是否符合规范",
+    "text":"CELLMR_PlrDLQci6是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci7是否符合规范",
+    "text":"CELLMR_PlrDLQci7是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci8是否符合规范",
+    "text":"CELLMR_PlrDLQci8是否符合规范"
+
+  },
+  {
+
+    "value":"CELLMR_PlrDLQci9是否符合规范",
+    "text":"CELLMR_PlrDLQci9是否符合规范"
+
+  },
+  {
+
+    "value":"UU_记录数",
+    "text":"UU_记录数"
+
+  },
+  {
+
+    "value":"UU_IMSI回填率",
+    "text":"UU_IMSI回填率"
+
+  },
+  {
+
+    "value":"UU_IMEI回填率",
+    "text":"UU_IMEI回填率"
+
+  },
+  {
+
+    "value":"UU_MSISDN回填率",
+    "text":"UU_MSISDN回填率"
+
+  },
+  {
+
+    "value":"UU_小区内切换中目标小区的回填率",
+    "text":"UU_小区内切换中目标小区的回填率"
+
+  },
+  {
+
+    "value":"UU_基站内切换中目标小区的回填率",
+    "text":"UU_基站内切换中目标小区的回填率"
+
+  },
+  {
+
+    "value":"UU_基站间切换中目标小区的回填率",
+    "text":"UU_基站间切换中目标小区的回填率"
+
+  },
+  {
+
+    "value":"X2_记录数",
+    "text":"X2_记录数"
+
+  }
+]

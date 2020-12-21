@@ -1,0 +1,23 @@
+[
+        {"text":"广州","intcitynameen":"GZ","id":"86020"},
+        {"text":"深圳","intcitynameen":"SZ","id":"860755"},
+        {"text":"韶关","intcitynameen":"SG","id":"860751"},
+        {"text":"惠州","intcitynameen":"HZ","id":"860752"},
+        {"text":"梅州","intcitynameen":"MZ","id":"860753"},
+        {"text":"汕头","intcitynameen":"ST","id":"860754"},
+        {"text":"珠海","intcitynameen":"ZH","id":"860756"},
+        {"text":"佛山","intcitynameen":"FS","id":"860757"},
+        {"text":"肇庆","intcitynameen":"ZQ","id":"860758"},
+        {"text":"湛江","intcitynameen":"ZJ","id":"860759"},
+        {"text":"中山","intcitynameen":"ZS","id":"860760"},
+        {"text":"河源","intcitynameen":"HY","id":"860762"},
+        {"text":"清远","intcitynameen":"QY","id":"860763"},
+        {"text":"云浮","intcitynameen":"YF","id":"860766"},
+        {"text":"潮州","intcitynameen":"CZ","id":"860768"},
+        {"text":"东莞","intcitynameen":"DG","id":"860769"},
+        {"text":"汕尾","intcitynameen":"SW","id":"860660"},
+        {"text":"揭阳","intcitynameen":"JY","id":"860663"},
+        {"text":"阳江","intcitynameen":"YJ","id":"860662"},
+        {"text":"江门","intcitynameen":"JM","id":"860750"},
+        {"text":"茂名","intcitynameen":"MM","id":"860668"}
+]

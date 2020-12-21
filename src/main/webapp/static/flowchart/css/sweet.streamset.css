@@ -1,0 +1,392 @@
+﻿/**
+ * @description 码流图设置样式
+ * @date 2013/06/17
+ * @version 1.0
+ * @author 
+ */
+
+html,body{
+    width:100%;
+    height:100%;
+    font-family:Arial, Tahoma, sans-serif;
+    font-size:12px;
+}
+
+button {
+    padding: 0;
+}
+
+/** 禁用Chrome/Firefox下input/textarea的默认焦点样式 */
+input,textarea {
+    outline: none;
+}
+ 
+/**************************业务组件-码流图设置 begin*/
+/**禁止选中*/
+.sweet-select-none {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+/**遮罩*/
+.sweet-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -moz-opacity: 0.5;
+    opacity: .50;
+    filter: alpha(opacity=50);
+    background-color: #CCC;
+    width: 100%;
+    height: 100%;
+    zoom: 1;
+}
+
+.sweet-cmp-streamset{
+	border:1px #6d7e9a solid;
+	border-radius:5px;
+	position:absolute;
+	background-color:#f6f7f9;
+}
+
+.sweet-cmp-streamset-header {
+    width:auto;
+	height:24px;
+	line-height:24px;
+	padding-left:10px;
+	background-image:url(win_top_bg.png);
+	background-repeat:repeat-x;
+	background-image: -webkit-linear-gradient(top, #394865, #6f809c);  
+	background-image: -moz-linear-gradient(top, #394865, #6f809c);
+    cursor: move;
+}
+
+.sweet-cmp-streamset-header .close{
+	background:url(win_icon.png) no-repeat left top;
+}
+
+.sweet-cmp-streamset-header .close:hover{
+	background:url(win_icon.png) no-repeat left -19px;
+}
+
+.sweet-cmp-streamset-header .help{
+    background:url(win_icon.png) no-repeat right -17px;
+	margin-right: 6px;
+}
+.sweet-cmp-streamset-header .help:hover{
+    background:url(win_icon.png) no-repeat right -39px;
+}
+
+.sweet-cmp-streamset-header em {
+    color:#FFF;
+	font-size:12px;
+	font-weight:bold;
+}
+
+.sweet-cmp-streamset-header span {
+    position:relative;
+	right:10px;
+	width:14px;
+	height:14px;
+	float:right;
+	top:5px;
+    cursor: pointer;
+}
+
+.sweet-cmp-streamset-content {
+    width:auto;
+	min-height:20px;
+}
+
+.sweet-cmp-streamset-tree {
+    margin: 10px;
+    overflow:auto;
+}
+
+.sweet-cmp-streamset-tree li {
+    padding-top: 5px;
+}
+
+.sweet-cmp-streamset-tree .active {
+    background-color: #ccf7cc;
+}
+
+.sweet-cmp-streamset-tree .invalid {
+    background-color: #dfdfdf;
+}
+
+.sweet-cmp-streamset-tree .same {
+    /**background-color: #c3dcf3;*/
+    background-image:url(form_btn_bg.png);
+	background-image: -webkit-linear-gradient(top, #fefefe, #dbdbdb);  
+	background-image: -moz-linear-gradient(top, #fefefe, #dbdbdb);
+}
+
+.sweet-cmp-streamset-tree .normal {
+    background-image:url(form_btn_bg.png);
+	background-image: -webkit-linear-gradient(top, #fefefe, #dbdbdb);  
+	background-image: -moz-linear-gradient(top, #fefefe, #dbdbdb);
+}
+
+.sweet-cmp-streamset-highlight {
+    width: auto;
+    border: 1px dashed #bbbfc5;
+    height: 22px;
+    background-color:#ededed;
+}
+
+.sweet-cmp-streamset-list {
+    height:22px;
+	line-height:22px;
+	border-radius:5px;
+	border:1px #76849f solid;
+	background-repeat:repeat-x;
+	box-shadow:inset 0px 0px 1px rgba(255, 255, 255, 1);
+	cursor:move;
+}
+
+.sweet-cmp-streamset-list .text {
+    margin-left: 4px;
+}
+
+.sweet-cmp-streamset-list .choosed {
+    background: url(module_icon.png) 0 -35px no-repeat;
+	width:14px;
+	height:22px;
+	margin-right:5px;
+	float:right;
+	display:block;
+    cursor:pointer;
+}
+
+.sweet-cmp-streamset-list .unchoosed {
+    background: url(module_icon.png) 0px -14px no-repeat;
+	margin-top:0px;
+	width:14px;
+	height:22px;
+	margin-right:5px;
+	float:right;
+	display:block;
+    cursor:pointer;
+}
+
+.sweet-cmp-streamset-tree .tree-icon {
+    width:17px;
+	height:22px;
+	margin-left:4px;
+	float:left;
+	display:block;
+    cursor:pointer;
+}
+
+.sweet-cmp-streamset-tree .plus {
+    background:url(module_icon.png) no-repeat  0 -132px;
+}
+
+.sweet-cmp-streamset-tree .minus {
+    background:url(module_icon.png) no-repeat  0 -105px;
+}
+
+.sweet-cmp-streamset-bottom {
+    width:auto;
+	height:28px;
+	position:relative;
+	padding:0px 10px 10px 0px;
+	float:right;
+}
+
+.sweet-cmp-streamset-bottom button {
+    min-width:60px;
+	border-radius:5px;
+	height:25px;
+	text-align:center;
+	border:1px #76849f solid;
+	background-image:url(form_btn_bg.png);
+	background-repeat:repeat-x;
+	background-image: -webkit-linear-gradient(top, #fefefe, #dbdbdb);  
+	background-image: -moz-linear-gradient(top, #fefefe, #dbdbdb);
+	box-shadow:inset 0px 0px 1px rgba(238, 238, 240, 1);
+	text-shadow:#FFF 1px 1px 0px; 
+	color:#3d3d3d;
+	font-size:12px;
+    cursor: pointer;
+}
+
+.sweet-cmp-streamset-bottom .button-margin {
+    margin-left: 5px;
+}
+.sweet-cmp-streamset-content-paramsetting-panel{
+	border:none;
+	padding-top: 20px;
+}
+.sweet-cmp-streamset-content-paramsetting-time{
+	height: 85px;
+}
+
+.sweet-cmp-streamset-content-paramsetting-decimal{
+	height: 85px;
+	margin-top: 10px;
+}
+.sweet-cmp-streamset-content-paramsetting-label{
+	margin-left: 20px;
+	width : 105px;
+}
+.sweet-cmp-streamset-content-paramsetting-time-radio{
+	margin-left: 10px;
+}
+.sweet-cmp-streamset-content-paramsetting-decimal-radio{
+	margin-left: 10px;
+}
+.sweet-cmp-streamset-content-paramsetting-time-radio div,.sweet-cmp-streamset-content-paramsetting-decimal-radio div{
+	margin-bottom: 10px;
+}
+
+.sweet-cmp-streamset-content-paramsetting-display-checkbox{
+	margin-left: 10px;
+}
+
+.sweet-cmp-streamset-content-paramsetting-decimal-radio div{
+	margin-bottom: 10px;
+}
+
+.sweet-cmp-streamset-tab .x-tab-panel-body {
+    border: none;
+}
+
+.sweet-cmp-streamset-colorsettingcontent {
+	margin: 10px;
+    overflow : hidden;
+}
+
+.sweet-cmp-streamset-colorsettingcontent table{
+    border-collapse : collapse;
+}
+
+.sweet-cmp-streamset-colorsettingcontent th{
+	font-weight:bold;
+	height : 30px;
+	padding : 0px 5px;
+	background-image: -moz-linear-gradient(50% 0%, rgb(254, 254, 254), rgb(219, 219, 219));
+    background-image: url(th_bg.png);
+	
+}
+
+.sweet-cmp-streamset-colorsettingcontent td{
+	height : 30px;
+	padding : 0px 20px 0px 10px;
+}
+
+.sweet-cmp-streamset-colorlabel {
+    padding : 2px 20px;
+    line-height:20px;
+    border : 1px double #AAAAAA;
+    cursor : default;
+}
+
+.sweet-cmp-streamset-btn {
+    background-image: -moz-linear-gradient(50% 0%, rgb(254, 254, 254), rgb(219, 219, 219));
+    background-image: url(form_btn_bg.png);
+    border : 1px double #AAAAAA;
+    text-align:center;
+    cursor : pointer;
+    border-radius: 5px 5px 5px 5px;
+}
+/*
+.sweet-cmp-streamset-btn:hover {
+    background-image: -moz-linear-gradient(50% 0%, rgb(240, 240, 240), rgb(180, 180, 180));
+}
+*/
+.sweet-cmp-streamset-colorsettingcontent table .sweet-cmp-streamset-btn{
+    padding : 2px 5px;
+}
+
+.sweet-cmp-radius-left {
+    border-radius: 5px 0px 0px 5px;
+}
+
+.sweet-cmp-radius-right {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.sweet-cmp-radius {
+    border-radius: 5px 5px 5px 5px;
+}
+	
+.sweet-cmp-streamset-btn-resetall {
+    display : block;
+    min-width : 60px;
+    padding : 0px 5px;
+    margin-top:5px;
+    height : 25px;
+}
+
+.sweet-cmp-streamset-optionbtngroup {
+    float : right;
+    line-height:20px;
+}
+
+.sweet-cmp-streamset-btn-toall {
+    background : url(to_all.png) no-repeat center;
+    padding : 3px 10px!important;
+    border:0px solid black;
+    
+}
+
+.sweet-cmp-streamset-btn-reset {
+    background : url(reset.png) no-repeat center;
+    padding : 3px 10px!important;
+    margin-right : 2px;
+    border:0px solid black;
+}
+
+.sweet-cmp-streamset-colorselpanel {
+	max-height:130px;
+    border : 1px solid #AAAAAA;
+    border-radius: 5px 5px 5px 5px;
+    position : absolute;
+    background : #FFFFFF;
+    padding : 5px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0px 0px 1px rgb(255, 255, 255) inset;
+}
+
+.sweet-cmp-streamset-colorbox {
+    float : left;
+    width : 30px;
+    height : 20px;
+    margin : 1px;
+    padding : 1px;
+    border : 1px solid #AAAAAA;
+}
+
+.sweet-cmp-streamset-colorbox:hover {
+    border : 1px solid orange;
+    background : orange;
+}
+
+.sweet-msgbox-icon{
+    height : 100px;
+    width : 32px;
+    margin : 20px 14px;
+    position : absolute;
+    background : url(win_icon.png) no-repeat scroll left -164px transparent;
+}
+
+.sweet-msgbox-text{
+    height : 100px;
+    width : 260px;
+    padding-top : 10px;
+    position : absolute;
+    left : 60px;
+}
+
+.colheader{
+	height:29px;
+	line-height:29px;
+    float:left;
+    font-weight:bold;
+    background-image: -moz-linear-gradient(50% 0%, rgb(254, 254, 254), rgb(219, 219, 219));
+    background-image: url(th_bg.png);
+    border-top:1px solid #AAAAAA;
+    border-right:1px solid #AAAAAA;
+}
+/**************************业务组件-码流图设置 end*/
