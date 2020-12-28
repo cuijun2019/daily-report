@@ -77,6 +77,7 @@
         constructor: Typeahead,
 
         select: function () {
+            console.log("select");
             var val = this.$menu.find('.active').data('value');
             this.$element.data('active', val);
             if (this.autoSelect || val) {
@@ -157,6 +158,7 @@
         hide: function () {
             this.$menu.hide();
             this.shown = false;
+            this.isShow = false;
             return this;
         },
 
@@ -167,7 +169,8 @@
             } else {
                 this.query = this.$element.val() || this.$element.text() || '';
             }
-
+            console.log("this.query:" + this.query);
+            console.log("this.options.showHintOnFocus:" + this.options.showHintOnFocus);
             if (this.query.length < this.options.minLength && this.options.showHintOnFocus) {
                 return this.shown ? this.hide() : this;
             }
@@ -178,6 +181,7 @@
                 if ($.isFunction(this.source) && this.source.length === 3) {
                     this.source(this.query, $.proxy(this.process, this), $.proxy(this.process, this));
                 } else if ($.isFunction(this.source)) {
+                    console.log("2");
                     this.source(this.query, $.proxy(this.process, this));
                 } else if (this.source) {
                     this.process(this.source);
@@ -498,6 +502,7 @@
         },
 
         focus: function (e) {
+            console.log("this.isShow:" + this.isShow);
             // This is a fixed for IE10/11 that fires the input event when a placehoder is changed
             // (https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus)
             var currentValue = this.$element.val() || this.$element.text();

@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -107,6 +108,7 @@ public final class LteProjectController extends GenericController {
     @RequestMapping(value = "/queryContractReview", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryContractReview(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QueryCriteria criteria = new QueryCriteria();
+        criteria.put("employee", URLDecoder.decode(request.getParameter("employee"), "UTF-8"));
         List<Map> list = lteProjectManager.queryContractReview(criteria);
         ResponseUtils.printArrayList(response, list);
     }

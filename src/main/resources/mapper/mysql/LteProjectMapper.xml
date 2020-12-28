@@ -5,7 +5,8 @@
 <mapper namespace="com.etone.project.modules.lte.dao.LteProjectMapper">
 
     <select id="queryContractReview" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
-        select * from contract_review where 1=1
+        select * from contract_review cr where
+        (exists (select 1 from reporter_employee_rel rer where rer.reporter = cr.reporter and rer.employee='${condition.employee}') or cr.reporter='${condition.employee}')
         <if test="condition.sort != null">
             ${condition.sort}
         </if>

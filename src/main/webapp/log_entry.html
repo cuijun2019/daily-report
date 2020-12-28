@@ -8,7 +8,7 @@
     <script type="text/javascript">
         $(function () {
             $("input").attr('data-role','none');
-			$("textarea").attr('data-role','none');
+            $("textarea").attr('data-role','none');
             $("button").attr('data-role','none');
         });
     </script>
@@ -34,17 +34,17 @@
     <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript" src="modules/geogis/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 
-	<script src="/modules/geogis/layer/layer.js" type="text/javascript"></script>
+    <script src="/modules/geogis/layer/layer.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="/tcrz/log_entry.js"></script>
     <link rel="stylesheet" href="/tcrz/log_entry.css">
-	<script type="text/javascript" src="/tcrz/write.js"></script>
-	<script type="text/javascript" src="/tcrz/history.js"></script>
-	<script type="text/javascript" src="/tcrz/staff.js"></script>
-	<script type="text/javascript" src="/tcrz/project_line.js"></script>
+    <script type="text/javascript" src="/tcrz/write.js"></script>
+    <script type="text/javascript" src="/tcrz/history.js"></script>
+    <script type="text/javascript" src="/tcrz/staff.js"></script>
+    <script type="text/javascript" src="/tcrz/project_line.js"></script>
     <script type="text/javascript" src="/tcrz/appraise.js"></script>
-	<script type="text/javascript" src="modules/geogis/js/highcharts.js"></script>
-	<script type="text/javascript" src="static/jqTime/js/dateRange.js"></script>
+    <script type="text/javascript" src="modules/geogis/js/highcharts.js"></script>
+    <script type="text/javascript" src="static/jqTime/js/dateRange.js"></script>
     <link rel="stylesheet" href="static/jqTime/css/dateRange.css">
 </head>
 <body>
@@ -123,18 +123,16 @@
                 <div id="popdiv" data-role="popup" data-position-to="window"></div>
                 <span id="addProject"></span>
                 <input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" name="employeeCode" id="employeeCode" placeholder="请输入员工工号" autocomplete="off" readOnly="readOnly" /><br />
-                <ul id="treelist">
-                </ul>
-                <br />
+                <input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" name="logTime" id="logTime" placeholder="请选择填写时间" autocomplete="off" readOnly="readOnly" /><br />
                 <ul id="naturelist">
                 </ul>
                 <br />
                 <input type="hidden" id="employee" name="employee" />
-                <input type="hidden" id="logTime" name="logTime" />
+                <!--                <input type="hidden" id="logTime" name="logTime" />-->
                 <input type="hidden" id="workNature" name="workNature" />
                 <input type="hidden" id="projectCodes" name="projectCodes" />
                 <input type="hidden" id="message" name="message" />
-		        <input type="hidden" id="projectCode" name="projectCode" />
+                <input type="hidden" id="projectCode" name="projectCode" />
                 <textarea type="text" style="width:100%;height:150px;padding-left:10px;padding-top:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;resize:none;" id="context" name="context" scrollbar="auto" placeholder="请输入工作日志" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入工作日志'"></textarea>
 
                 <div class="buttonDiv">
@@ -192,74 +190,74 @@
                     </table>
                 </li>
 
-		        <div id="projectLineDiv">
-					<li id="searchLi" style="border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
-						<table width="100%" border="0">
-							<tr>
-								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;width:70%;">
-									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #ccc;border-top-left-radius:5px;border-bottom-left-radius:5px;width:85%;padding-left:10px;" type="text" id="searchData" placeholder="请输入编码或名称" />
-									<input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;border-top-right-radius:5px;border-bottom-right-radius:5px;width:15%;text-align:center;" readOnly="readOnly" id="clearBtn" />
-								</td>
-								<td style="padding-top:8px;width:30%;">
-									<button type="button" id="btnSearch" style="width:80px;height:31px;border-radius:6px;color:white;background-color:#2EA5E6;font-weight:normal;border:1px solid #2EA5E6;">搜索</button>
-								</td>
-							</tr>
-						</table>
-					</li>
-					<div id="lineDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
-						<table style="width:100%" border="0">
-							<tr>
-								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
-									<input class="form-control" style="height:32px;" type="text" id="lineStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
-								</td>
-								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
-									<input class="form-control" style="height:32px;" type="text" id="lineEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
-								</td>
-							</tr>
-						</table>
-					</div>
+                <div id="projectLineDiv">
+                    <li id="searchLi" style="border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
+                        <table width="100%" border="0">
+                            <tr>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;width:70%;">
+                                    <input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-left:1px solid #ccc;border-bottom:1px solid #ccc;border-top-left-radius:5px;border-bottom-left-radius:5px;width:85%;padding-left:10px;" type="text" id="searchData" placeholder="请输入编码或名称" />
+                                    <input style="height:32px;float:left;border:none;border-top:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;border-top-right-radius:5px;border-bottom-right-radius:5px;width:15%;text-align:center;" readOnly="readOnly" id="clearBtn" />
+                                </td>
+                                <td style="padding-top:8px;width:30%;">
+                                    <button type="button" id="btnSearch" style="width:80px;height:31px;border-radius:6px;color:white;background-color:#2EA5E6;font-weight:normal;border:1px solid #2EA5E6;">搜索</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                    <div id="lineDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+                        <table style="width:100%" border="0">
+                            <tr>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="lineStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="lineEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-					<span id="projectLineField">
+                    <span id="projectLineField">
 					    <ul id="projectLine">
 					    </ul>
 					</span>
-					<span id="projectField">
+                    <span id="projectField">
 					    <ul id="project">
 					    </ul>
 					</span>
-					<span id="projectDetailField">
+                    <span id="projectDetailField">
 					    <div style="height:auto;padding-top:5px;border-bottom:1px solid #EEEEEE;text-align:center;color:#757575;font-weight:bold;">
 					        <span class="projectNameSpan"></span>
 					    </div>
 					</span>
-				</div>
+                </div>
 
-            	<div id="staffDiv">
-					<div id="staffDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
-						<table style="width:100%" border="0">
-							<tr>
-								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
-									<input class="form-control" style="height:32px;" type="text" id="staffStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
-								</td>
-								<td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
-									<input class="form-control" style="height:32px;" type="text" id="staffEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
-								</td>
-							</tr>
-						</table>
-					</div>
-					<span id="staffField">
+                <div id="staffDiv">
+                    <div id="staffDate" style="height:50px;border-bottom:1px solid #EEEEEE;">
+                        <table style="width:100%" border="0">
+                            <tr>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="staffStartDate" placeholder="请输入开始时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                                <td style="text-align:center;padding-left:10px;padding-right:10px;padding-top:8px;">
+                                    <input class="form-control" style="height:32px;" type="text" id="staffEndDate" placeholder="请输入结束时间" autocomplete="off" readOnly="readOnly" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <span id="staffField">
 						<ul id="stafflog">
 						</ul>
 					</span>
-					<span id="staffDetail">
+                    <span id="staffDetail">
 						<div style="height:auto;padding-top:5px;border-bottom:1px solid #EEEEEE;text-align:center;color:#757575;font-weight:bold;">
 					        <span class="projectNameSpan"></span>
 					    </div>
 					</span>
-				</div>
+                </div>
 
-				<div id="staffSurplus">
-				</div>
+                <div id="staffSurplus">
+                </div>
             </div>
         </ul>
         <ul style="width:100%;display:none;">
@@ -296,7 +294,7 @@
                     <span id="normalId"></span>
                 </span>
 
-		        <span id="employeeLog">
+                <span id="employeeLog">
 					<li id="appraiseBackLi" style="background-color:rgb(170,170,170);height:auto;border-bottom:1px solid #EEEEEE;padding-left:10px;padding-top:5px;padding-bottom:5px;">
 						<table width="100%" border="0">
 							<tr>
