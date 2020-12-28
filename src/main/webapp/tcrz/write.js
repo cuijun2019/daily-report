@@ -53,7 +53,7 @@ var writeInfo = {
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
 			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
 			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
-			+ '<input style="width:5%;border-style:none;" readOnly="readOnly" />'
+			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
 			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectNameClearBtn{0}" />'
 			+ '</div>'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
@@ -199,6 +199,7 @@ var writeInfo = {
 				$(".proportion").css("background-color", "white");
 				$("#employeeCode").css("background-color", "white");
 				$("#context").css("background-color", "white");
+				$(".blank").css("background-color", "white");
 			}
 		});
 	},
@@ -259,7 +260,7 @@ var writeInfo = {
 				$(this).typeahead({
 					source: function (query, process) {
 						//query是输入的值
-						$.post(that.action.queryContractReview, encodeURI(encodeURI(that.employee)), {name: query}, function (datas) {
+						$.post(String.format(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
 							var array = [];
 							for (var i = 0; i < datas.length; i++) {
 								var data = datas[i];
