@@ -259,7 +259,7 @@ var writeInfo = {
 				$(this).typeahead({
 					source: function (query, process) {
 						//query是输入的值
-						$.post(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
+						$.post(that.action.queryContractReview, encodeURI(encodeURI(that.employee)), {name: query}, function (datas) {
 							var array = [];
 							for (var i = 0; i < datas.length; i++) {
 								var data = datas[i];
