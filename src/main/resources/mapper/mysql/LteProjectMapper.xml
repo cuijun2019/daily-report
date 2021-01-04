@@ -43,6 +43,11 @@
         </if>
     </select>
 
+    <select id="queryLatestLogInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from log_info where employeeCode=#{employeeCode}
+        and logTime=(select logTime from log_info where employeeCode=#{employeeCode} order by logTime desc limit 1)
+    </select>
+
     <select id="queryEmployeeInfo" resultType="java.util.HashMap">
         select * from employee_info
     </select>

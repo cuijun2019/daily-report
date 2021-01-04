@@ -121,6 +121,13 @@ public final class LteProjectController extends GenericController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/queryLatestLogInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    public void queryLatestLogInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Map> list = lteProjectManager.queryLatestLogInfo(request.getParameter("employeeCode"));
+        ResponseUtils.printArrayList(response, list);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/queryEmployeeProject", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryEmployeeProject(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QueryCriteria criteria = new QueryCriteria();

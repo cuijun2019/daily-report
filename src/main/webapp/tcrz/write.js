@@ -5,7 +5,8 @@ var writeInfo = {
 		validProjectCode: '/modules/lteproject/validProjectCode',
 		validProjectName: '/modules/lteproject/validProjectName',
 		saveLogInfo2: '/modules/lteproject/saveLogInfo2',
-		validLogInfo: '/modules/lteproject/validLogInfo'
+		validLogInfo: '/modules/lteproject/validLogInfo',
+		queryLatestLogInfo: '/modules/lteproject/queryLatestLogInfo'
 	},
 
 	init: function () {
@@ -49,15 +50,15 @@ var writeInfo = {
 	},
 
 	config: {
-		projectTemplate: '<span id="projectInfo{0}" class="projectInfo" x-project-code="" x-project-name="" x-reporter="" x-proportion="">'
-			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
+		projectTemplate: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
+			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
 			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
-			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
+			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" value="{3}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
 			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
 			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectNameClearBtn{0}" />'
 			+ '</div>'
-			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
-			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
+			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
+			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
 			+ '<a id="png{0}" style="text-decoration:none;" onclick="addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
 			+ '</span>',
 		successTemplate: '<div style="background-color:white;width:150px;height:100px;border-radius:6px;">'
@@ -117,9 +118,11 @@ var writeInfo = {
 		$("#png" + (i - 1) + " img").attr("src", "/modules/geogis/img/remove.png");
 		$("#png" + (i - 1)).attr("onclick", "writeInfo.events.removeProject(" + (i - 1) + ")");
 
-		var row = String.format(this.config.projectTemplate, i, i + 1);
-		var element = $(row);
-		$("#addProject").append(element);
+		this.events.fillLogInfo(this.employeeCode, i);
+
+		// var row = String.format(this.config.projectTemplate, i, i + 1);
+		// var element = $(row);
+		// $("#addProject").append(element);
 		$("#png" + i).attr("onclick", "writeInfo.addProject(" + (i + 1) + ")");
 		$("#projectName" + i).attr("onKeyUp", "writeInfo.events.showBtn(" + i + ")");
 		$("#projectNameClearBtn" + i).attr("onclick", "writeInfo.events.clearData(" + i + ")");
@@ -258,179 +261,152 @@ var writeInfo = {
 		});
 
 		$("input[id^='projectName']").each(function (index, element) {
-				$(this).typeahead({
-					source: function (query, process) {
-						//query是输入的值
-						$.post(String.format(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
-							var array = [];
-							for (var i = 0; i < datas.length; i++) {
-								var data = datas[i];
-								array.push(data.projectName);
-							}
-							array = unique(array);
-							process(array);
-						});
-				},
-			items: "all",
-			updater: function (item) {
-			return item;
-		},
-		afterSelect: function (item) {
-		},
-		delay: 500
-	});
-});
-
-$("input[id^='proportion']").each(function (index, element) {
-	$(this).typeahead({
-		source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
-		items: "all",
-		updater: function (item) {
-			return item;
-		},
-		afterSelect: function (item) {
-		},
-		delay: 500
-	});
-});
-},
-
-events: {
-	changeProjectCode: function (i) {
-		$("#projectCode" + i).change(function () {
-			var projectCode = $("#projectCode" + i).val();
-			if (projectCode != "" && projectCode.length > 4) {
-				$.ajax({
-					url: writeInfo.action.validProjectCode,
-					type: "post",
-					data: {
-						projectCode: projectCode
-					},
-					async: false,
-					cache: false,
-					dataType: 'json',
-					success: function (result) {
-						if (result.valid) {
-							$("#projectName" + i).val(result.projectName);
-							$("#reporter" + i).val(result.reporter);
-							// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-							$("#projectCode" + i).parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
-							$("#projectNameClearBtn" + i).show();
-						} else {
-							$("#projectCode" + i).parent().attr("x-project-code", projectCode);
+			$(this).typeahead({
+				source: function (query, process) {
+					//query是输入的值
+					$.post(String.format(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
+						var array = [];
+						for (var i = 0; i < datas.length; i++) {
+							var data = datas[i];
+							array.push(data.projectName);
 						}
-					}
-				});
-			} else {
-				$("#projectCode" + i).parent().attr("x-project-code", "");
-			}
+						array = unique(array);
+						process(array);
+					});
+				},
+				items: "all",
+				updater: function (item) {
+					return item;
+				},
+				afterSelect: function (item) {
+				},
+				delay: 500
+			});
+		});
+
+		$("input[id^='proportion']").each(function (index, element) {
+			$(this).typeahead({
+				source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
+				items: "all",
+				updater: function (item) {
+					return item;
+				},
+				afterSelect: function (item) {
+				},
+				delay: 500
+			});
 		});
 	},
 
-	changeProjectName: function (i) {
-		$("#projectName" + i).change(function () {
-			var projectName = $("#projectName" + i).val();
-			if (projectName != "") {
-				$.ajax({
-					url: writeInfo.action.validProjectName,
-					type: "post",
-					data: {
-						projectName: projectName
-					},
-					async: false,
-					cache: false,
-					dataType: 'json',
-					success: function (result) {
-						if (result.valid) {
-							$("#projectCode" + i).val(result.projectCode);
-							$("#reporter" + i).val(result.reporter);
-							// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-							$("#projectName" + i).parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
-						} else {
-							$("#projectName" + i).parent().attr("x-project-name", projectName);
+	events: {
+		changeProjectCode: function (i) {
+			$("#projectCode" + i).change(function () {
+				var projectCode = $("#projectCode" + i).val();
+				if (projectCode != "" && projectCode.length > 4) {
+					$.ajax({
+						url: writeInfo.action.validProjectCode,
+						type: "post",
+						data: {
+							projectCode: projectCode
+						},
+						async: false,
+						cache: false,
+						dataType: 'json',
+						success: function (result) {
+							if (result.valid) {
+								$("#projectName" + i).val(result.projectName);
+								$("#reporter" + i).val(result.reporter);
+								// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
+								$("#projectCode" + i).parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+								$("#projectNameClearBtn" + i).show();
+							} else {
+								$("#projectCode" + i).parent().attr("x-project-code", projectCode);
+							}
 						}
-						$("#projectNameClearBtn" + i).show();
-					}
-				});
+					});
+				} else {
+					$("#projectCode" + i).parent().attr("x-project-code", "");
+				}
+			});
+		},
+
+		changeProjectName: function (i) {
+			$("#projectName" + i).change(function () {
+				var projectName = $("#projectName" + i).val();
+				if (projectName != "") {
+					$.ajax({
+						url: writeInfo.action.validProjectName,
+						type: "post",
+						data: {
+							projectName: projectName
+						},
+						async: false,
+						cache: false,
+						dataType: 'json',
+						success: function (result) {
+							if (result.valid) {
+								$("#projectCode" + i).val(result.projectCode);
+								$("#reporter" + i).val(result.reporter);
+								// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
+								$("#projectName" + i).parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
+							} else {
+								$("#projectName" + i).parent().attr("x-project-name", projectName);
+							}
+							$("#projectNameClearBtn" + i).show();
+						}
+					});
+				} else {
+					$("#projectName" + i).parent().attr("x-project-name", "");
+					$("#projectNameClearBtn" + i).hide();
+				}
+			});
+		},
+
+		changeProportion: function (i) {
+			$("#proportion" + i).change(function () {
+				var proportion = $("#proportion" + i).val();
+				if (proportion.indexOf("%") == -1) {
+					$("#proportion" + i).val(proportion + "%");
+				}
+				$("#proportion" + i).parent().attr("x-proportion", $("#proportion" + i).val());
+			});
+		},
+
+		removeProject: function (i) {
+			$("#projectInfo" + i).remove();
+			$("#leftTabBox").css({
+				"overflow": "hidden",
+				"position": "relative",
+				"height": ($("#writeHDiv").height() + 70) + "px"
+			});
+		},
+
+		showBtn: function (i) {
+			if ($("#projectName" + i).val().length > 0) {
+				$("#projectNameClearBtn" + i).show();
 			} else {
-				$("#projectName" + i).parent().attr("x-project-name", "");
 				$("#projectNameClearBtn" + i).hide();
 			}
-		});
-	},
+		},
 
-	changeProportion: function (i) {
-		$("#proportion" + i).change(function () {
-			var proportion = $("#proportion" + i).val();
-			if (proportion.indexOf("%") == -1) {
-				$("#proportion" + i).val(proportion + "%");
-			}
-			$("#proportion" + i).parent().attr("x-proportion", $("#proportion" + i).val());
-		});
-	},
-
-	removeProject: function (i) {
-		$("#projectInfo" + i).remove();
-		$("#leftTabBox").css({
-			"overflow": "hidden",
-			"position": "relative",
-			"height": ($("#writeHDiv").height() + 70) + "px"
-		});
-	},
-
-	showBtn: function (i) {
-		if ($("#projectName" + i).val().length > 0) {
-			$("#projectNameClearBtn" + i).show();
-		} else {
+		clearData: function (i) {
+			$("#projectName" + i).val("");
 			$("#projectNameClearBtn" + i).hide();
-		}
-	},
+		},
 
-	clearData: function (i) {
-		$("#projectName" + i).val("");
-		$("#projectNameClearBtn" + i).hide();
-	},
-
-	save: function () {
-		var employeeCode = $("#employeeCode").val();
-		var logTime = $("#logTime").attr("placeholder");
-		logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
-		var workNature = $("#workNature").val();
-		var context = $("#context").val();
-		var logInfoList = writeInfo.collectData(".projectInfo");
-		var message = writeInfo.validMessage(employeeCode, logTime, workNature, context, logInfoList);
-		if (message != "") {
-			//layer.alert(message);
-			$("#popdiv").empty();
-			var row = String.format(writeInfo.config.failureTemplate, message);
-			var element = $(row);
-			$("#popdiv").append(element);
-			$("#popdiv").popup("open");
-			$("#popdiv").css({"left": "0px", "top": "0px", "display": "block"});
-
-			setTimeout(function () {
-				$("#popdiv").popup("close");
+		save: function () {
+			var employeeCode = $("#employeeCode").val();
+			var logTime = $("#logTime").attr("placeholder");
+			logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
+			var workNature = $("#workNature").val();
+			var context = $("#context").val();
+			var logInfoList = writeInfo.collectData(".projectInfo");
+			var message = writeInfo.validMessage(employeeCode, logTime, workNature, context, logInfoList);
+			if (message != "") {
+				//layer.alert(message);
 				$("#popdiv").empty();
-			}, 2000);//两秒后关闭
-			return;
-		}
-		if (writeInfo.isCommitted) {
-			return;
-		}
-		writeInfo.isCommitted = true;
-		$.ajax({
-			url: writeInfo.action.saveLogInfo2,
-			type: "post",
-			data: {
-				logInfoList: encode(logInfoList)
-			},
-			async: true,
-			cache: false,
-			dataType: 'json',
-			success: function (data) {
-				//layer.alert(data.msg);
-				$("#popdiv").empty();
-				var element = $(writeInfo.config.successTemplate);
+				var row = String.format(writeInfo.config.failureTemplate, message);
+				var element = $(row);
 				$("#popdiv").append(element);
 				$("#popdiv").popup("open");
 				$("#popdiv").css({"left": "0px", "top": "0px", "display": "block"});
@@ -439,108 +415,171 @@ events: {
 					$("#popdiv").popup("close");
 					$("#popdiv").empty();
 				}, 2000);//两秒后关闭
-
-				// writeInfo.events.reset();
-				writeInfo.isCommitted = false;
+				return;
 			}
-		});
-	},
+			if (writeInfo.isCommitted) {
+				return;
+			}
+			writeInfo.isCommitted = true;
+			$.ajax({
+				url: writeInfo.action.saveLogInfo2,
+				type: "post",
+				data: {
+					logInfoList: encode(logInfoList)
+				},
+				async: true,
+				cache: false,
+				dataType: 'json',
+				success: function (data) {
+					//layer.alert(data.msg);
+					$("#popdiv").empty();
+					var element = $(writeInfo.config.successTemplate);
+					$("#popdiv").append(element);
+					$("#popdiv").popup("open");
+					$("#popdiv").css({"left": "0px", "top": "0px", "display": "block"});
 
-	reset: function () {
-		var count = writeInfo.collectDataCount(".projectInfo");
-		for (var i = 1; i <= count; i++) {
-			writeInfo.events.removeProject(i);
-			$("#projectCode" + i).val("");
-			$("#projectName" + i).val("");
-			$("#reporter" + i).val("");
-			$("#proportion" + i).val("");
-		}
-		var count2 = writeInfo.collectDataCount(".projectInfo");
-		if (count2 != 0) {
-			for (var i = 1; i <= count2; i++) {
+					setTimeout(function () {
+						$("#popdiv").popup("close");
+						$("#popdiv").empty();
+					}, 2000);//两秒后关闭
+
+					// writeInfo.events.reset();
+					writeInfo.isCommitted = false;
+				}
+			});
+		},
+
+		reset: function () {
+			var count = writeInfo.collectDataCount(".projectInfo");
+			for (var i = 1; i <= count; i++) {
 				writeInfo.events.removeProject(i);
 				$("#projectCode" + i).val("");
 				$("#projectName" + i).val("");
 				$("#reporter" + i).val("");
 				$("#proportion" + i).val("");
 			}
-		}
-		writeInfo.addProject(1);
-		var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
-		$("#logTime").attr("placeholder", writeInfo.currentDate.replace("-", "年").replace("-", "月") + "日" + " " + weekArray[new Date(writeInfo.currentDate).getDay()]);
-		$("#workNature").val("");
-		$("#context").val("");
-		// writeInfo.initTreelist();
-		writeInfo.initNaturelist();
-	}
-},
-
-// 验证输入信息是否正确
-validMessage: function (employeeCode, logTime, workNature, context, logInfoList) {
-	var message = "";
-	$.ajax({
-		url: this.action.validLogInfo,
-		type: "post",
-		data: {
-			employeeCode: employeeCode.substring(0, employeeCode.indexOf(" ")),
-			logTime: logTime,
-			workNature: workNature,
-			context: context,
-			logInfoList: encode(logInfoList)
-		},
-		async: false,
-		cache: false,
-		dataType: 'json',
-		success: function (result) {
-			message = result.message;
-		}
-	});
-	return message;
-},
-
-// 获取多个项目信息
-collectData: function (expression) {
-	var logTime = $("#logTime").attr("placeholder");
-	logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
-	var workNature = $("#workNature").val();
-	var context = $("#context").val();
-	var datalist = [];
-
-	$(expression).each(function () {
-		var row = $(this);
-		var data = row.attributeObject();
-		var obj = {};
-		for (var prop in data) {
-			if (prop.startWith("x-")) {
-				var name = prop.replace("x-", "");
-				var ns = name.split("-");
-				name = ns[0];
-				for (var i = 1; i < ns.length; i++) {
-					name += capitalize(ns[i]);
+			var count2 = writeInfo.collectDataCount(".projectInfo");
+			if (count2 != 0) {
+				for (var i = 1; i <= count2; i++) {
+					writeInfo.events.removeProject(i);
+					$("#projectCode" + i).val("");
+					$("#projectName" + i).val("");
+					$("#reporter" + i).val("");
+					$("#proportion" + i).val("");
 				}
-				obj[name] = data[prop];
+			}
+			writeInfo.addProject(1);
+			var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+			$("#logTime").attr("placeholder", writeInfo.currentDate.replace("-", "年").replace("-", "月") + "日" + " " + weekArray[new Date(writeInfo.currentDate).getDay()]);
+			$("#workNature").val("");
+			$("#context").val("");
+			// writeInfo.initTreelist();
+			writeInfo.initNaturelist();
+		},
+
+		fillLogInfo: function(employeeCode, i) {
+			if (i == 1) {
+				$.ajax({
+					url: writeInfo.action.queryLatestLogInfo,
+					type: "post",
+					data: {
+						employeeCode: employeeCode
+					},
+					async: false,
+					cache: false,
+					dataType: 'json',
+					success: function (datas) {
+						if (datas.length == 0) {
+							var row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
+							var element = $(row);
+							$("#addProject").append(element);
+						} else {
+							for (var j = 0; j < datas.length; j++) {
+								var data = datas[j];
+								var row = String.format(writeInfo.config.projectTemplate, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
+								var element = $(row);
+								$("#addProject").append(element);
+								$("#naturelist_dummy").val(data.workNature);
+								$("#workNature").val(data.workNature);
+								$("#context").val(data.context);
+							}
+						}
+					}
+				});
+			} else {
+				var row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
+				var element = $(row);
+				$("#addProject").append(element);
 			}
 		}
-		obj.employeeCode = writeInfo.employeeCode;
-		obj.employee = writeInfo.employee;
-		obj.logTime = logTime;
-		obj.workNature = workNature;
-		obj.context = context.replace("'", "''");
-		obj.createTime = new Date().Format("yyyy-MM-dd");
+	},
 
-		datalist.push(obj);
-	});
-	return datalist;
-},
+// 验证输入信息是否正确
+	validMessage: function (employeeCode, logTime, workNature, context, logInfoList) {
+		var message = "";
+		$.ajax({
+			url: this.action.validLogInfo,
+			type: "post",
+			data: {
+				employeeCode: employeeCode.substring(0, employeeCode.indexOf(" ")),
+				logTime: logTime,
+				workNature: workNature,
+				context: context,
+				logInfoList: encode(logInfoList)
+			},
+			async: false,
+			cache: false,
+			dataType: 'json',
+			success: function (result) {
+				message = result.message;
+			}
+		});
+		return message;
+	},
+
+// 获取多个项目信息
+	collectData: function (expression) {
+		var logTime = $("#logTime").attr("placeholder");
+		logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
+		var workNature = $("#workNature").val();
+		var context = $("#context").val();
+		var datalist = [];
+
+		$(expression).each(function () {
+			var row = $(this);
+			var data = row.attributeObject();
+			var obj = {};
+			for (var prop in data) {
+				if (prop.startWith("x-")) {
+					var name = prop.replace("x-", "");
+					var ns = name.split("-");
+					name = ns[0];
+					for (var i = 1; i < ns.length; i++) {
+						name += capitalize(ns[i]);
+					}
+					obj[name] = data[prop];
+				}
+			}
+			obj.employeeCode = writeInfo.employeeCode;
+			obj.employee = writeInfo.employee;
+			obj.logTime = logTime;
+			obj.workNature = workNature;
+			obj.context = context.replace("'", "''");
+			obj.createTime = new Date().Format("yyyy-MM-dd");
+
+			datalist.push(obj);
+		});
+		return datalist;
+	},
 
 // 获取项目信息的个数
-collectDataCount: function (expression) {
-	var i = 0;
-	$(expression).each(function () {
-		i++;
-	});
-	return i;
-}
+	collectDataCount: function (expression) {
+		var i = 0;
+		$(expression).each(function () {
+			i++;
+		});
+		return i;
+	}
 };
 
 String.format = function (format) {

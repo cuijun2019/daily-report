@@ -20,6 +20,8 @@ public interface LteProjectMapper {
 
     public List<Map> queryEmployeeInfo();
 
+    public List<Map> queryLatestLogInfo(String employeeCode);
+
     public List<Map> queryLogInfo(QueryCriteria criteria);
 
     public int countLogInfo(QueryCriteria criteria);

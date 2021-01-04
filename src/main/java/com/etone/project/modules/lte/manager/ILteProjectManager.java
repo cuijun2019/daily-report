@@ -29,6 +29,8 @@ public interface ILteProjectManager {
 
     public List<Map> queryEmployeeInfo();
 
+    public List<Map> queryLatestLogInfo(String employeeCode);
+
     public boolean validProjectCode(String projectCode);
 
     public boolean validProjectName(String projectName);

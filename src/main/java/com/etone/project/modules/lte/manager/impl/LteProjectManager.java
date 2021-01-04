@@ -63,6 +63,11 @@ public final class LteProjectManager implements ILteProjectManager {
     }
 
     @Override
+    public List<Map> queryLatestLogInfo(String employeeCode) {
+        return lteProjectMapper.queryLatestLogInfo(employeeCode);
+    }
+
+    @Override
     public boolean validProjectCode(String projectCode) {
         return lteProjectMapper.validProjectCode(projectCode) > 0 ? true : false;
     }
