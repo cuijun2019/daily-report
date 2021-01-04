@@ -107,7 +107,8 @@ var writeInfo = {
 	},
 
 	addProject: function (i) {
-		if (($("#projectCode1").val() != undefined && $("#projectCode1").val() != "") || ($("#proportion1").val() != undefined && $("#proportion1").val() != "")) {
+		// if (($("#projectCode1").val() != undefined && $("#projectCode1").val() != "") || ($("#proportion1").val() != undefined && $("#proportion1").val() != "")) {
+		if ($("#proportion1").val() == "100%") {
 			return;
 		}
 		if (i == 1) {
