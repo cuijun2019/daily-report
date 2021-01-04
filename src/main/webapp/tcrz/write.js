@@ -440,7 +440,7 @@ events: {
 					$("#popdiv").empty();
 				}, 2000);//两秒后关闭
 
-				writeInfo.events.reset();
+				// writeInfo.events.reset();
 				writeInfo.isCommitted = false;
 			}
 		});
