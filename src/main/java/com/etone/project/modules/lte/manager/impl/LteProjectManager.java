@@ -257,6 +257,14 @@ public final class LteProjectManager implements ILteProjectManager {
         return page;
     }
 
+    /**
+     * 分摊工时：比如一个月某人在一个项目的工时除以一个月某人的总工时再乘以22
+     * 真实工时：一个月某人在一个项目的工时之和
+     * 固定工时：默认为22
+     * 实际工时：为一个月内需要工作的天数（工作日）
+     * @param criteria
+     * @return
+     */
     @Override
     public PageResult queryFinalStatisticsInfo(QueryCriteria criteria) {
         setStartEndDate(criteria);
