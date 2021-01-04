@@ -59,7 +59,7 @@ var writeInfo = {
 			+ '</div>'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
 			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
-			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.events.addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
+			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
 			+ '</span>',
 		projectTemplate2: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
@@ -266,6 +266,33 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
+					var i = $(element).attr("id").replace("projectCode", "");
+					var projectCode = $("#projectCode" + i).val();
+					if (projectCode != "" && projectCode.length > 4) {
+						$.ajax({
+							url: writeInfo.action.validProjectCode,
+							type: "post",
+							data: {
+								projectCode: projectCode
+							},
+							async: false,
+							cache: false,
+							dataType: 'json',
+							success: function (result) {
+								if (result.valid) {
+									$("#projectName" + i).val(result.projectName);
+									$("#reporter" + i).val(result.reporter);
+									// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
+									$("#projectCode" + i).parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+									$("#projectNameClearBtn" + i).show();
+								} else {
+									$("#projectCode" + i).parent().attr("x-project-code", projectCode);
+								}
+							}
+						});
+					} else {
+						$("#projectCode" + i).parent().attr("x-project-code", "");
+					}
 				},
 				delay: 500
 			});
@@ -290,6 +317,34 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
+					var i = $(element).attr("id").replace("projectName", "");
+					var projectName = $("#projectName" + i).val();
+					if (projectName != "") {
+						$.ajax({
+							url: writeInfo.action.validProjectName,
+							type: "post",
+							data: {
+								projectName: projectName
+							},
+							async: false,
+							cache: false,
+							dataType: 'json',
+							success: function (result) {
+								if (result.valid) {
+									$("#projectCode" + i).val(result.projectCode);
+									$("#reporter" + i).val(result.reporter);
+									// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
+									$("#projectName" + i).parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
+								} else {
+									$("#projectName" + i).parent().attr("x-project-name", projectName);
+								}
+								$("#projectNameClearBtn" + i).show();
+							}
+						});
+					} else {
+						$("#projectName" + i).parent().attr("x-project-name", "");
+						$("#projectNameClearBtn" + i).hide();
+					}
 				},
 				delay: 500
 			});
@@ -303,6 +358,12 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
+					var i = $(element).attr("id").replace("proportion", "");
+					var proportion = $("#proportion" + i).val();
+					if (proportion.indexOf("%") == -1) {
+						$("#proportion" + i).val(proportion + "%");
+					}
+					$("#proportion" + i).parent().attr("x-proportion", $("#proportion" + i).val());
 				},
 				delay: 500
 			});
@@ -513,7 +574,6 @@ var writeInfo = {
 								} else {
 									row = String.format(writeInfo.config.projectTemplate, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
 								}
-								console.log(row);
 								var element = $(row);
 								$("#addProject").append(element);
 								$("#naturelist_dummy").val(data.workNature);
