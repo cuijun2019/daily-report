@@ -59,7 +59,18 @@ var writeInfo = {
 			+ '</div>'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
 			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
-			+ '<a id="png{0}" style="text-decoration:none;" onclick="addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
+			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.events.addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
+			+ '</span>',
+		projectTemplate2: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
+			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
+			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
+			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" value="{3}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
+			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
+			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectNameClearBtn{0}" />'
+			+ '</div>'
+			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
+			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
+			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.events.removeProject({0})"><img src="/modules/geogis/img/remove.png" /></a>'
 			+ '</span>',
 		successTemplate: '<div style="background-color:white;width:150px;height:100px;border-radius:6px;">'
 			+ '			<div style="height:60px;text-align:center;padding-top:20px;">'
@@ -123,7 +134,7 @@ var writeInfo = {
 		// var row = String.format(this.config.projectTemplate, i, i + 1);
 		// var element = $(row);
 		// $("#addProject").append(element);
-		$("#png" + i).attr("onclick", "writeInfo.addProject(" + (i + 1) + ")");
+		// $("#png" + i).attr("onclick", "writeInfo.addProject(" + (i + 1) + ")");
 		$("#projectName" + i).attr("onKeyUp", "writeInfo.events.showBtn(" + i + ")");
 		$("#projectNameClearBtn" + i).attr("onclick", "writeInfo.events.clearData(" + i + ")");
 		$("#leftTabBox").css({
@@ -496,7 +507,13 @@ var writeInfo = {
 						} else {
 							for (var j = 0; j < datas.length; j++) {
 								var data = datas[j];
-								var row = String.format(writeInfo.config.projectTemplate, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
+								var row;
+								if (j < datas.length - 1) {
+									row = String.format(writeInfo.config.projectTemplate2, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
+								} else {
+									row = String.format(writeInfo.config.projectTemplate, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
+								}
+								console.log(row);
 								var element = $(row);
 								$("#addProject").append(element);
 								$("#naturelist_dummy").val(data.workNature);
