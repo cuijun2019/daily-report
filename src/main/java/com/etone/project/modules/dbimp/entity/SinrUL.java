@@ -1,179 +1,136 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "SinrUL_", isUseUserId = true)
 public class SinrUL {
     
     @Meta(name = "id")
-    @ImportEntity
     private String id;
     
     @Meta(name = "cellId")
-    @ImportEntity
     private String cellId;
     
     @Meta(name = "startTime")
-    @ImportEntity
     private Timestamp startTime;
     
     @Meta(name = "endTime")
-    @ImportEntity
     private Timestamp endTime;
     
     @Meta(name = "SinrUL_00")
-    @ImportEntity
     private Integer SinrUL_00;
     
     @Meta(name = "SinrUL_01")
-    @ImportEntity
     private Integer SinrUL_01;
     
     @Meta(name = "SinrUL_02")
-    @ImportEntity
     private Integer SinrUL_02;
     
     @Meta(name = "SinrUL_03")
-    @ImportEntity
     private Integer SinrUL_03;
     
     @Meta(name = "SinrUL_04")
-    @ImportEntity
     private Integer SinrUL_04;
     
     @Meta(name = "SinrUL_05")
-    @ImportEntity
     private Integer SinrUL_05;
     
     @Meta(name = "SinrUL_06")
-    @ImportEntity
     private Integer SinrUL_06;
     
     @Meta(name = "SinrUL_07")
-    @ImportEntity
     private Integer SinrUL_07;
     
     @Meta(name = "SinrUL_08")
-    @ImportEntity
     private Integer SinrUL_08;
     
     @Meta(name = "SinrUL_09")
-    @ImportEntity
     private Integer SinrUL_09;
     
     @Meta(name = "SinrUL_10")
-    @ImportEntity
     private Integer SinrUL_10;
     
     @Meta(name = "SinrUL_11")
-    @ImportEntity
     private Integer SinrUL_11;
     
     @Meta(name = "SinrUL_12")
-    @ImportEntity
     private Integer SinrUL_12;
     
     @Meta(name = "SinrUL_13")
-    @ImportEntity
     private Integer SinrUL_13;
     
     @Meta(name = "SinrUL_14")
-    @ImportEntity
     private Integer SinrUL_14;
     
     @Meta(name = "SinrUL_15")
-    @ImportEntity
     private Integer SinrUL_15;
     
     @Meta(name = "SinrUL_16")
-    @ImportEntity
     private Integer SinrUL_16;
     
     @Meta(name = "SinrUL_17")
-    @ImportEntity
     private Integer SinrUL_17;
     
     @Meta(name = "SinrUL_18")
-    @ImportEntity
     private Integer SinrUL_18;
     
     @Meta(name = "SinrUL_19")
-    @ImportEntity
     private Integer SinrUL_19;
     
     @Meta(name = "SinrUL_20")
-    @ImportEntity
     private Integer SinrUL_20;
     
     @Meta(name = "SinrUL_21")
-    @ImportEntity
     private Integer SinrUL_21;
     
     @Meta(name = "SinrUL_22")
-    @ImportEntity
     private Integer SinrUL_22;
     
     @Meta(name = "SinrUL_23")
-    @ImportEntity
     private Integer SinrUL_23;
     
     @Meta(name = "SinrUL_24")
-    @ImportEntity
     private Integer SinrUL_24;
     
     @Meta(name = "SinrUL_25")
-    @ImportEntity
     private Integer SinrUL_25;
     
     @Meta(name = "SinrUL_26")
-    @ImportEntity
     private Integer SinrUL_26;
     
     @Meta(name = "SinrUL_27")
-    @ImportEntity
     private Integer SinrUL_27;
     
     @Meta(name = "SinrUL_28")
-    @ImportEntity
     private Integer SinrUL_28;
     
     @Meta(name = "SinrUL_29")
-    @ImportEntity
     private Integer SinrUL_29;
     
     @Meta(name = "SinrUL_30")
-    @ImportEntity
     private Integer SinrUL_30;
     
     @Meta(name = "SinrUL_31")
-    @ImportEntity
     private Integer SinrUL_31;
     
     @Meta(name = "SinrUL_32")
-    @ImportEntity
     private Integer SinrUL_32;
     
     @Meta(name = "SinrUL_33")
-    @ImportEntity
     private Integer SinrUL_33;
     
     @Meta(name = "SinrUL_34")
-    @ImportEntity
     private Integer SinrUL_34;
     
     @Meta(name = "SinrUL_35")
-    @ImportEntity
     private Integer SinrUL_35;
     
     @Meta(name = "SinrUL_36")
-    @ImportEntity
     private Integer SinrUL_36;
 
     public String getId() {

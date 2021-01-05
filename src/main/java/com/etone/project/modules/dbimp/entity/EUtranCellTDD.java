@@ -1,107 +1,81 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "EUtranCellTDD_", isUseUserId = true)
 public class EUtranCellTDD {
     
 //    @Meta(name = "SubNetwork")
-    @ImportEntity
     private Long SubNetwork;
     
 //    @Meta(name = "MEID")
-    @ImportEntity
     private Long MEID;
     
 //    @Meta(name = "userLabel")
-    @ImportEntity(exportFieldWidth = 128)
     private String userLabel;
     
     @Meta(name = "ENODEBID")
-    @ImportEntity(importName = "ENODEBID")
     private Long enodeBId;
     
     @Meta(name = "cellLocalId")
-    @ImportEntity
     private Integer cellLocalId;
     
     @Meta(name = "CELLID1")
-    @ImportEntity(importName = "CELLID1")
     private String cellId1;
     
     @Meta(name = "CELLID2")
-    @ImportEntity(importName = "CELLID2")
     private String cellId2;
     
     @Meta(name = "refPlmn")
-    @ImportEntity
     private String refPlmn;
     
     @Meta(name = "refECellEquipmentFunctionTDD")
-    @ImportEntity
     private String refECellEquipmentFunctionTDD;
     
     @Meta(name = "pci")
-    @ImportEntity
     private Long pci;
     
     @Meta(name = "eai")
-    @ImportEntity
     private Long eai;
     
     @Meta(name = "tac")
-    @ImportEntity
     private Long tac;
     
     @Meta(name = "cellSize")
-    @ImportEntity
     private Long cellSize;
     
     @Meta(name = "bandIndicator")
-    @ImportEntity
     private Long bandIndicator;
     
     @Meta(name = "earfcn")
-    @ImportEntity
     private Double earfcn;
     
     @Meta(name = "LteEarfcn")
-    @ImportEntity(importName = "LteEarfcn")
     private Long lteEarfcn;
     
     @Meta(name = "pciList")
-    @ImportEntity(exportFieldWidth= 200)
     private String pciList;
     
     @Meta(name = "cellRSPortNum")
-    @ImportEntity
     private Long cellRSPortNum;
     
     @Meta(name = "cellRadius")
-    @ImportEntity
     private Long cellRadius;
     
     @Meta(name = "cellReferenceSignalPower")
-    @ImportEntity
     private Double cellReferenceSignalPower;
     
     @Meta(name = "pb")
-    @ImportEntity
     private Long pb;
     
     @Meta(name = "paForDTCH")
-    @ImportEntity
     private Long paForDTCH;
     
     @Meta(name = "bandWidth")
-    @ImportEntity
-    private Long bandWidth; 
+    private Long bandWidth;
     
 //    @ImportEntity
 //    private Double latitude;
@@ -110,43 +84,33 @@ public class EUtranCellTDD {
 //    private Double longitude;
     
     @Meta(name = "maxUeRbNumDl")
-    @ImportEntity
     private Long maxUeRbNumDl;
     
     @Meta(name = "maxUeRbNumUl")
-    @ImportEntity
     private Long maxUeRbNumUl;
     
     @Meta(name = "ueTransModeTDD")
-    @ImportEntity
     private Long ueTransModeTDD;
     
     @Meta(name = "flagSwiMode")
-    @ImportEntity
     private Long flagSwiMode;
     
     @Meta(name = "sfAssignment")
-    @ImportEntity
     private String sfAssignment;
     
     @Meta(name = "specialSfPatterns")
-    @ImportEntity
     private String specialSfPatterns;
     
     @Meta(name = "rbByteMapDl")
-    @ImportEntity(exportFieldWidth= 100)
     private String rbByteMapDl;
     
     @Meta(name = "rbSharMode")
-    @ImportEntity
     private Integer rbSharMode;
     
     @Meta(name = "ratioOperatorn")
-    @ImportEntity
     private String ratioOperatorn;
     
     @Meta(name = "ratioShared")
-    @ImportEntity
     private Long ratioShared;
 
     public Long getSubNetwork() {

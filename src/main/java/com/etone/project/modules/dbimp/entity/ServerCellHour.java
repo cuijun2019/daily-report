@@ -1,323 +1,244 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "ftbServerCellHour_ltekpi_", isUseUserId = true)
 public class ServerCellHour {
     
 //    @Meta(name = "序号")
-    @ImportEntity(importName = "序号", primarykey = true)
     private Integer id;
     
     @Meta(name = "开始时间")
-    @ImportEntity(importName = "开始时间")
     private Timestamp startTime;
     
     @Meta(name = "结束时间")
-    @ImportEntity(importName = "结束时间")
     private Timestamp endTime;
     
 //    @Meta(name = "查询粒度")
-    @ImportEntity(importName = "查询粒度")
     private String granularity;
     
     @Meta(name = "小区名称")
-    @ImportEntity(importName = "小区名称", exportFieldWidth= 100)
     private String cellName;
     
     @Meta(name = "ENODEBID")
-    @ImportEntity(importName = "ENODEBID")
     private Long enodeBID;
     
     @Meta(name = "ENODEB名称")
-    @ImportEntity(importName = "ENODEB名称")
     private String enodeBName;
     
 //    @Meta(name = "SectorID")
-    @ImportEntity(importName = "SectorID")
     private Integer sectorID;
     
     @Meta(name = "CELLID")
-    @ImportEntity(importName = "CELLID")
     private String cellId1;
     
     @Meta(name = "小区ID")
-    @ImportEntity(importName = "小区ID")
     private String cellId;
     
     @Meta(name = "[TDD]RB0到RB9最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB0到RB9最大噪声干扰(分贝毫瓦)")
     private Double rb0ToRb9MaximumNoise;
     
     @Meta(name = "[TDD]RB0到RB9平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB0到RB9平均噪声干扰(分贝毫瓦)")
     private Double rb0ToRb9avgNoise;
     
     @Meta(name = "[TDD]RB10到RB19最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB10到RB19最大噪声干扰(分贝毫瓦)")
     private Double rb10ToRb19MaximumNoise;
     
     @Meta(name = "[TDD]RB10到RB19平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB10到RB19平均噪声干扰(分贝毫瓦)")
     private Double rb10ToRb19avgNoise;
     
     @Meta(name = "[TDD]RB20到RB29最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB20到RB29最大噪声干扰(分贝毫瓦)")
     private Double rb20ToRb29MaximumNoise;
     
     @Meta(name = "[TDD]RB20到RB29平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB20到RB29平均噪声干扰(分贝毫瓦)")
     private Double rb20ToRb29avgNoise;
     
     @Meta(name = "[TDD]RB30到RB39最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB30到RB39最大噪声干扰(分贝毫瓦)")
     private Double rb30ToRb39MaximumNoise;
     
     @Meta(name = "[TDD]RB30到RB39平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB30到RB39平均噪声干扰(分贝毫瓦)")
     private Double rb30ToRb39avgNoise;
     
     @Meta(name = "[TDD]RB40到RB49最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB40到RB49最大噪声干扰(分贝毫瓦)")
     private Double rboT40Rb49MaximumNoise;
     
     @Meta(name = "[TDD]RB40到RB49平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB40到RB49平均噪声干扰(分贝毫瓦)")
     private Double rb40ToRb49avgNoise;
     
     @Meta(name = "[TDD]RB50到RB59最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB50到RB59最大噪声干扰(分贝毫瓦)")
     private Double rb50ToRb59MaximumNoise;
     
     @Meta(name = "[TDD]RB50到RB59平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB50到RB59平均噪声干扰(分贝毫瓦)")
     private Double rb50ToRb59avgNoise;
     
     @Meta(name = "[TDD]RB60到RB69最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB60到RB69最大噪声干扰(分贝毫瓦)")
     private Double rb60ToRb69MaximumNoise;
     
     @Meta(name = "[TDD]RB60到RB69平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB60到RB69平均噪声干扰(分贝毫瓦)")
     private Double rb60ToRb69avgNoise;
     
     @Meta(name = "[TDD]RB70到RB79最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB70到RB79最大噪声干扰(分贝毫瓦)")
     private Double rb70ToRb79MaximumNoise;
     
     @Meta(name = "[TDD]RB70到RB79平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB70到RB79平均噪声干扰(分贝毫瓦)")
     private Double rb70ToRb79avgNoise;
     
     @Meta(name = "[TDD]RB80到RB89最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB80到RB89最大噪声干扰(分贝毫瓦)")
     private Double rb80ToRb89MaximumNoise;
     
     @Meta(name = "[TDD]RB80到RB89平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB80到RB89平均噪声干扰(分贝毫瓦)")
     private Double rb80ToRb89avgNoise;
     
     @Meta(name = "[TDD]RB90到RB99最大噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB90到RB99最大噪声干扰(分贝毫瓦)")
     private Double rb90ToRb99MaximumNoise;
     
     @Meta(name = "TDD]RB90到RB99平均噪声干扰(分贝毫瓦)")
-    @ImportEntity(importName = "[TDD]RB90到RB99平均噪声干扰(分贝毫瓦)")
     private Double rb90ToRb99avgNoise;
     
     @Meta(name = "修正-RRC连接建立请求次数")
-    @ImportEntity(importName = "修正-RRC连接建立请求次数")
     private Long rrcConnReqCount;
     
     @Meta(name = "修正-RRC连接建立成功次数")
-    @ImportEntity(importName = "修正-RRC连接建立成功次数")
     private Long rrcConnSuccessCount;
     
     @Meta(name = "修正-RRC连接建立成功率")
-    @ImportEntity(importName = "修正-RRC连接建立成功率", convertRugular = "%:")
     private Double rrcConnSuccessPercent;
     
     @Meta(name = "修正-其它类型的RRC连接重建立请求次数")
-    @ImportEntity(importName = "修正-其它类型的RRC连接重建立请求次数")
     private Long otherRrcReConnReqCount;
     
     @Meta(name = "修正-切换类型的RRC连接重建立请求次数")
-    @ImportEntity(importName = "修正-切换类型的RRC连接重建立请求次数")
     private Long allTypeRrcReConnReqCount;
     
     @Meta(name = "修正-重配置类型的RRC连接重建立请求次数")
-    @ImportEntity(importName = "修正-重配置类型的RRC连接重建立请求次数")
     private Long reConfigRrcReConnReqCount;
     
     @Meta(name = "修正-切换失败触发的RRC重建比率")
-    @ImportEntity(importName = "修正-切换失败触发的RRC重建比率", convertRugular = "%:")
     private Double changeFailTriggerRrcRebuildPercent;
     
     @Meta(name = "修正-定时器超时导致的RRC连接建立失败次数")
-    @ImportEntity(importName = "修正-定时器超时导致的RRC连接建立失败次数")
     private Long timerTimeoutResultInConnFailCount;
     
     @Meta(name = "修正-其他原因导致的RRC连接建立失败次数")
-    @ImportEntity(importName = "修正-其他原因导致的RRC连接建立失败次数")
     private Long otherReasonResultInConnFileCount;
     
     @Meta(name = "修正-eNB接纳失败导致的RRC连接建立失败次数")
-    @ImportEntity(importName = "修正-eNB接纳失败导致的RRC连接建立失败次数")
     private Long enbAcceptFailResultInConnFailCount;
     
     @Meta(name = "修正-定时器超时导致的RRC连接建立失败比率")
-    @ImportEntity(importName = "修正-定时器超时导致的RRC连接建立失败比率", convertRugular = "%:")
     private Double timerTimeoutResultInConnFailPercent;
     
     @Meta(name = "修正-其他原因导致的RRC连接建立失败比率")
-    @ImportEntity(importName = "修正-其他原因导致的RRC连接建立失败比率", convertRugular = "%:")
     private Double otherReasonResultInConnFilePsercent;
     
     @Meta(name = "修正-ENB接纳失败导致的RRC连接建立失败比率")
-    @ImportEntity(importName = "修正-ENB接纳失败导致的RRC连接建立失败比率", convertRugular = "%:")
     private Double enbAcceptFailResultInConnFailPercent;
     
     @Meta(name = "修正-E-RAB拥塞率")
-    @ImportEntity(importName = "修正-E-RAB拥塞率", convertRugular = "%:")
     private Double erabJamPercent;
     
     @Meta(name = "修正-E-RAB建立成功总数")
-    @ImportEntity(importName = "修正-E-RAB建立成功总数")
     private Long erabBuildSuccessCount;
     
     @Meta(name = "修正-E-RAB掉线率")
-    @ImportEntity(importName = "修正-E-RAB掉线率", convertRugular = "%:")
     private Double erabOfflinePercent;
     
     @Meta(name = "修正-切换失败导致的E-RAB异常释放次数")
-    @ImportEntity(importName = "修正-切换失败导致的E-RAB异常释放次数")
     private Long changeFailResultInERabExceptionCount;
     
     @Meta(name = "修正-网络拥塞导致的E-RAB异常释放次数")
-    @ImportEntity(importName = "修正-网络拥塞导致的E-RAB异常释放次数")
     private Long netJamResultInERabExceptionCount;
     
     @Meta(name = "修正-无线问题导致的E-RAB异常释放次数")
-    @ImportEntity(importName = "修正-无线问题导致的E-RAB异常释放次数")
     private Long wirelessResultInERabExceptionCount;
     
     @Meta(name = "修正-核心网异常原因导致的E-RAB异常释放次数")
-    @ImportEntity(importName = "修正-核心网异常原因导致的E-RAB异常释放次数")
     private Long coreNetExceptiionResultInERabExceptionCount;
     
     @Meta(name = "修正-切换失败导致的E-RAB异常释放比率")
-    @ImportEntity(importName = "修正-切换失败导致的E-RAB异常释放比率", convertRugular = "%:")
     private Double changeFailResultInERabExceptionPercent;
     
     @Meta(name = "修正-网络拥塞导致的E-RAB异常释放比率")
-    @ImportEntity(importName = "修正-网络拥塞导致的E-RAB异常释放比率", convertRugular = "%:")
     private Double netJamResultInERabExceptionPercent;
     
     @Meta(name = "修正-核心网异常原因导致的E-RAB异常释放比率")
-    @ImportEntity(importName = "修正-核心网异常原因导致的E-RAB异常释放比率", convertRugular = "%:")
     private Double coreNetExceptiionResultInERabExceptionPercent;
     
     @Meta(name = "修正-无线链路失败导致的E-RAB异常释放比率")
-    @ImportEntity(importName = "修正-无线链路失败导致的E-RAB异常释放比率", convertRugular = "%:")
     private Double wirelessResultInERabExceptionPercent;
     
     @Meta(name = "修正-MAC层上行误块率*")
-    @ImportEntity(importName = "修正-MAC层上行误块率*", convertRugular = "%:")
     private Double macUpWrongPercent;
     
     @Meta(name = "修正-MAC层下行误块率*")
-    @ImportEntity(importName = "修正-MAC层下行误块率*", convertRugular = "%:")
     private Double macDownWrongPercent;
     
     @Meta(name = "MR-小区空口上行业务字节数（KB）")
-    @ImportEntity(importName = "MR-小区空口上行业务字节数（KB）")
     private Double cellUpThruput;
     
     @Meta(name = "MR-小区空口下行业务字节数（KB）")
-    @ImportEntity(importName = "MR-小区空口下行业务字节数（KB）")
     private Double cellDownThruput;
     
     @Meta(name = "修正-上行业务信道PRB利用率")
-    @ImportEntity(importName = "修正-上行业务信道PRB利用率", convertRugular = "%:")
     private Double upBusinessChannelPRBUsage;
     
     @Meta(name = "修正-下行业务信道PRB利用率")
-    @ImportEntity(importName = "修正-下行业务信道PRB利用率", convertRugular = "%:")
     private Double downBusinessChannelPRBUsage;
     
     @Meta(name = "修正-上行初始HARQ重传比率")
-    @ImportEntity(importName = "修正-上行初始HARQ重传比率", convertRugular = "%:")
     private Double upInitHARQReSentPercent;
     
     @Meta(name = "修正-下行初始HARQ重传比率")
-    @ImportEntity(importName = "修正-下行初始HARQ重传比率", convertRugular = "%:")
     private Double downInitHARQReSentPercent;
     
     @Meta(name = "修正-下行双流占比")
-    @ImportEntity(importName = "修正-下行双流占比", convertRugular = "%:")
     private Double downDoubleTrafficPercent;
     
     @Meta(name = "修正-上行MSC QPSK编码占比")
-    @ImportEntity(importName = "修正-上行MSC QPSK编码占比", convertRugular = "%:")
     private Double upMscQpskEncodePercent;
     
     @Meta(name = "修正-下行MSC QPSK编码占比")
-    @ImportEntity(importName = "修正-下行MSC QPSK编码占比", convertRugular = "%:")
     private Double downMscQpskEncodePercent;
     
     @Meta(name = "MR-RRC连接建立最大用户数")
-    @ImportEntity(importName = "MR-RRC连接建立最大用户数")
     private Long onlineUserCount;
     
     @Meta(name = "修正-同频切换出成功率")
-    @ImportEntity(importName = "修正-同频切换出成功率", convertRugular = "%:")
     private Double sameChannelChangeSuccessPercent;
     
     @Meta(name = "修正-异频切换出成功率")
-    @ImportEntity(importName = "修正-异频切换出成功率", convertRugular = "%:")
     private Double diffChannelChangeSuccessPercent;
     
     @Meta(name = "修正-异频切换出执行请求次数")
-    @ImportEntity(importName = "修正-异频切换出执行请求次数")
     private Long diffChannelExecReqCount;
     
     @Meta(name = "修正-异频切换出执行成功次数")
-    @ImportEntity(importName = "修正-异频切换出执行成功次数")
     private Long diffchannelExecSuccessCount;
     
     @Meta(name = "修正-小区完好率")
-    @ImportEntity(importName = "修正-小区完好率", convertRugular = "%:")
     private Double cellCompletionRate;
     
     @Meta(name = "修正-上行每PRB承载效率（bit/PRB）")
-    @ImportEntity(importName = "修正-上行每PRB承载效率（bit/PRB）")
     private Double upPrbEfficiency;
     
     @Meta(name = "修正-下行每PRB承载效率（bit/PRB）")
-    @ImportEntity(importName = "修正-下行每PRB承载效率（bit/PRB）")
     private Double downPrbEfficiency;
     
     @Meta(name = "同频切换出执行请求次数")
-    @ImportEntity(importName = "同频切换出执行请求次数")
     private Long sameChannelChangeExecReqCount;
     
     @Meta(name = "同频切换出执行成功次数")
-    @ImportEntity(importName = "同频切换出执行成功次数")
     private Long sameChannelChangeExecSuccessCount;
     
     @Meta(name = "修正-上行丢包率")
-    @ImportEntity(importName = "修正-上行丢包率", convertRugular = "%:")
     private Double upLossRate;
     
     @Meta(name = "修正-下行丢包率")
-    @ImportEntity(importName = "修正-下行丢包率", convertRugular = "%:")
     private Double downLossRate;
 
     public Integer getId() {

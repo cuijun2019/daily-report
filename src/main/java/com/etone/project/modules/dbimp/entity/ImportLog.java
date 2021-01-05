@@ -1,14 +1,13 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "tbImportLog")
 public class ImportLog {
     @Meta
     public Integer id;

@@ -21,20 +21,8 @@ import com.etone.project.base.support.security.ShiroDbRealm.HashPassword;
 import com.etone.project.core.model.ExceptionReturn;
 import com.etone.project.core.model.QueryCriteria;
 import com.etone.project.core.model.Result;
-import com.etone.project.core.utils.encode.Encrypt;
-import com.etone.project.modules.lte.manager.ILteFazhiManager;
 import com.etone.project.utils.AppConstants;
 import com.google.common.collect.Lists;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.transaction.SystemException;
-
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
@@ -44,15 +32,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.SystemException;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * 用户控制器
@@ -67,18 +57,16 @@ import org.springframework.web.util.WebUtils;
 public class UserController extends BaseController {
     // members
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private static final String VIEW_PREFIX = "base/security/user/";
-    private static final String VIEW_INDEX = VIEW_PREFIX + BaseConstants.VIEW_INDEX;
-    private static final String VIEW_EDIT = VIEW_PREFIX + BaseConstants.VIEW_EDIT;
+    private static final Logger       logger      = LoggerFactory.getLogger(UserController.class);
+    private static final String       VIEW_PREFIX = "base/security/user/";
+    private static final String       VIEW_INDEX  = VIEW_PREFIX + BaseConstants.VIEW_INDEX;
+    private static final String       VIEW_EDIT   = VIEW_PREFIX + BaseConstants.VIEW_EDIT;
     @Autowired
-    private UserManager userManager;
+    private              UserManager  userManager;
     @Autowired
-    private RoleManager roleManager;
+    private              RoleManager  roleManager;
     @Autowired
-    private ShiroDbRealm shiroDbRealm;
-    @Autowired
-    private ILteFazhiManager lteFazhiManager;
+    private              ShiroDbRealm shiroDbRealm;
 
     /**
      * 列表分页查询
@@ -108,7 +96,7 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping(value = {"redirect/{toPage}"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String redirect(@PathVariable String toPage, HttpServletRequest request, Model model){
+    public String redirect(@PathVariable String toPage, HttpServletRequest request, Model model) {
         return VIEW_PREFIX + toPage;
     }
 
@@ -125,7 +113,7 @@ public class UserController extends BaseController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         if (request instanceof ShiroHttpServletRequest) {
-            return ;
+            return;
         }
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         // 获得文件：
@@ -135,7 +123,7 @@ public class UserController extends BaseController {
             CommonsMultipartFile file = (CommonsMultipartFile) fileMap.get(fileName);
             if (file == null) {
                 logger.info("file not found!");
-                return ;
+                return;
             }
             byte[] bytes = new byte[0];
             //获取文件流
@@ -143,9 +131,9 @@ public class UserController extends BaseController {
             String res = new String(bytes);
             String[] tempList = res.split("\r\n");
             ArrayList<User> dataList = new ArrayList<User>();
-            for (int i=1;i<tempList.length;i++){
-                User user=new User();
-                String[] strArr=tempList[i].split(",");
+            for (int i = 1; i < tempList.length; i++) {
+                User user = new User();
+                String[] strArr = tempList[i].split(",");
                 user.setAccount(strArr[4]);
                 user.setCityName(strArr[0]);
                 user.setFullName(strArr[3]);
@@ -155,22 +143,22 @@ public class UserController extends BaseController {
                 user.setEmail(strArr[7]);
                 user.setCreateTime(new Date());
                 user.setModifyTime(new Date());
-                user.setTips("ltemr_"+strArr[0]);
+                user.setTips("ltemr_" + strArr[0]);
                 user.setFactory(strArr[1]);
                 user.setRoom(strArr[2]);
                 user.setIntCityId(strArr[8]);
                 user.setTipAnswer("110");
                 user.setOuPath("113.3215558534,23.1338044796");
                 dataList.add(user);
-                if(dataList.size()!=0){
-                if(dataList.size()%1000==0||i==tempList.length-1){
-                    userManager.uploadData(dataList);
-                    dataList = new ArrayList();
-                }
+                if (dataList.size() != 0) {
+                    if (dataList.size() % 1000 == 0 || i == tempList.length - 1) {
+                        userManager.uploadData(dataList);
+                        dataList = new ArrayList();
+                    }
                 }
             }
-    }
-       this.query(request);
+        }
+        this.query(request);
         return;
     }
 
@@ -234,19 +222,16 @@ public class UserController extends BaseController {
                     throw new SystemException("超级用户信息仅允许自己修改!");
                 }
             }
-            
+
             User newUser = userManager.saveAndFlush(model);
             criteria.put("newID", newUser.id);
-//            if(weatherCreateLteTable){
-//            	lteFazhiManager.addNewUserFazhi(criteria);
-//            }
-            
+
             if (weatherCreateLteTable) {// 新增
                 //创建用户的时候顺手调用存储过程创建LTE表
                 logger.debug("创建用户的时候顺手调用存储过程创建LTE表,用户ID：" + newUser.id);
                 //this.userManager.createLteTableByUserId(newUser.id);
             }
-                
+
             result = Result.successResult();
             logger.debug(result.toString());
         } catch (Exception e) {
@@ -294,38 +279,38 @@ public class UserController extends BaseController {
             params.put("EQ_id", model.getId());
             User user = userManager.findOne(model.getId());
             Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
-            String upateOperate = (String)query.get("upateOperate");
-            String newPassword2 = (String)query.get("newPassword2");//再次确认的密码
+            String upateOperate = (String) query.get("upateOperate");
+            String newPassword2 = (String) query.get("newPassword2");//再次确认的密码
             if (user != null) {
-                  if( newPassword.equals(newPassword2)){
-                            boolean isCheck = true;
-                            //需要输入原始密码
-                            if (AppConstants.USER_UPDATE_PASSWORD_YES.equals(upateOperate)) {
-                                //获取盐，都需要进行一个Encodes.decodeHex。
-                                byte[] salt = Encodes.decodeHex(user.salt);
-                                SimpleHash  sh = new SimpleHash("SHA-1", model.getPassword(), ByteSource.Util.bytes(salt), 1024);
+                if (newPassword.equals(newPassword2)) {
+                    boolean isCheck = true;
+                    //需要输入原始密码
+                    if (AppConstants.USER_UPDATE_PASSWORD_YES.equals(upateOperate)) {
+                        //获取盐，都需要进行一个Encodes.decodeHex。
+                        byte[] salt = Encodes.decodeHex(user.salt);
+                        SimpleHash sh = new SimpleHash("SHA-1", model.getPassword(), ByteSource.Util.bytes(salt), 1024);
 
-                                //if (!user.getPassword().equals(Encrypt.e(model.getPassword()))) {
-                                if (!user.getPassword().equals(sh.toHex())) {
-                                    isCheck = false;
-                                }
-                            }
-            //				//不需要输入原始密码
-            //				if (AppConstants.USER_UPDATE_PASSWORD_NO.equals(upateOperate)) {
-            //					isCheck = true;
-            //				}
-                            if (isCheck) {
-                                HashPassword hashPassword = shiroDbRealm.getEncrypt(newPassword);
-                                user.setPassword(hashPassword.password);
-                                user.setSalt(hashPassword.salt);
-                                userManager.saveAndFlush(user);
-                                result = Result.successResult();
-                            } else {
-                                result = new Result(Result.WARN, "原始密码输入错误.", "password");
-                            }
-                  } else{
-                      result = new Result(Result.ERROR, "两次输入的密码不一致..", null);
-                  }
+                        //if (!user.getPassword().equals(Encrypt.e(model.getPassword()))) {
+                        if (!user.getPassword().equals(sh.toHex())) {
+                            isCheck = false;
+                        }
+                    }
+                    //				//不需要输入原始密码
+                    //				if (AppConstants.USER_UPDATE_PASSWORD_NO.equals(upateOperate)) {
+                    //					isCheck = true;
+                    //				}
+                    if (isCheck) {
+                        HashPassword hashPassword = shiroDbRealm.getEncrypt(newPassword);
+                        user.setPassword(hashPassword.password);
+                        user.setSalt(hashPassword.salt);
+                        userManager.saveAndFlush(user);
+                        result = Result.successResult();
+                    } else {
+                        result = new Result(Result.WARN, "原始密码输入错误.", "password");
+                    }
+                } else {
+                    result = new Result(Result.ERROR, "两次输入的密码不一致..", null);
+                }
             } else {
                 result = new Result(Result.ERROR, "修改的用户不存在或已被删除.", null);
             }

@@ -1,243 +1,184 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "ReceivedIPower_", isUseUserId = true)
 public class ReceivedIPower {
 
     @Meta(name = "id")
-    @ImportEntity
     private String id;
     
     @Meta(name = "cellId")
-    @ImportEntity
     private String cellId;
     
     @Meta(name = "startTime")
-    @ImportEntity
     private Timestamp startTime;
     
     @Meta(name = "endTime")
-    @ImportEntity
     private Timestamp endTime;
     
     @Meta(name = "ReceivedIPower_00")
-    @ImportEntity
     private Integer ReceivedIPower_00;
     
     @Meta(name = "ReceivedIPower_01")
-    @ImportEntity
     private Integer ReceivedIPower_01;
     
     @Meta(name = "ReceivedIPower_02")
-    @ImportEntity
     private Integer ReceivedIPower_02;
     
     @Meta(name = "ReceivedIPower_03")
-    @ImportEntity
     private Integer ReceivedIPower_03;
     
     @Meta(name = "ReceivedIPower_04")
-    @ImportEntity
     private Integer ReceivedIPower_04;
     
     @Meta(name = "ReceivedIPower_05")
-    @ImportEntity
     private Integer ReceivedIPower_05;
     
     @Meta(name = "ReceivedIPower_06")
-    @ImportEntity
     private Integer ReceivedIPower_06;
     
     @Meta(name = "ReceivedIPower_07")
-    @ImportEntity
     private Integer ReceivedIPower_07;
     
     @Meta(name = "ReceivedIPower_08")
-    @ImportEntity
     private Integer ReceivedIPower_08;
     
     @Meta(name = "ReceivedIPower_09")
-    @ImportEntity
     private Integer ReceivedIPower_09;
     
     @Meta(name = "ReceivedIPower_10")
-    @ImportEntity
     private Integer ReceivedIPower_10;
     
     @Meta(name = "ReceivedIPower_11")
-    @ImportEntity
     private Integer ReceivedIPower_11;
     
     @Meta(name = "ReceivedIPower_12")
-    @ImportEntity
     private Integer ReceivedIPower_12;
     
     @Meta(name = "ReceivedIPower_13")
-    @ImportEntity
     private Integer ReceivedIPower_13;
     
     @Meta(name = "ReceivedIPower_14")
-    @ImportEntity
     private Integer ReceivedIPower_14;
     
     @Meta(name = "ReceivedIPower_15")
-    @ImportEntity
     private Integer ReceivedIPower_15;
     
     @Meta(name = "ReceivedIPower_16")
-    @ImportEntity
     private Integer ReceivedIPower_16;
     
     @Meta(name = "ReceivedIPower_17")
-    @ImportEntity
     private Integer ReceivedIPower_17;
     
     @Meta(name = "ReceivedIPower_18")
-    @ImportEntity
     private Integer ReceivedIPower_18;
     
     @Meta(name = "ReceivedIPower_19")
-    @ImportEntity
     private Integer ReceivedIPower_19;
     
     @Meta(name = "ReceivedIPower_20")
-    @ImportEntity
     private Integer ReceivedIPower_20;
     
     @Meta(name = "ReceivedIPower_21")
-    @ImportEntity
     private Integer ReceivedIPower_21;
     
     @Meta(name = "ReceivedIPower_22")
-    @ImportEntity
     private Integer ReceivedIPower_22;
     
     @Meta(name = "ReceivedIPower_23")
-    @ImportEntity
     private Integer ReceivedIPower_23;
     
     @Meta(name = "ReceivedIPower_24")
-    @ImportEntity
     private Integer ReceivedIPower_24;
     
     @Meta(name = "ReceivedIPower_25")
-    @ImportEntity
     private Integer ReceivedIPower_25;
     
     @Meta(name = "ReceivedIPower_26")
-    @ImportEntity
     private Integer ReceivedIPower_26;
     
     @Meta(name = "ReceivedIPower_27")
-    @ImportEntity
     private Integer ReceivedIPower_27;
     
     @Meta(name = "ReceivedIPower_28")
-    @ImportEntity
     private Integer ReceivedIPower_28;
     
     @Meta(name = "ReceivedIPower_29")
-    @ImportEntity
     private Integer ReceivedIPower_29;
     
     @Meta(name = "ReceivedIPower_30")
-    @ImportEntity
     private Integer ReceivedIPower_30;
     
     @Meta(name = "ReceivedIPower_31")
-    @ImportEntity
     private Integer ReceivedIPower_31;
     
     @Meta(name = "ReceivedIPower_32")
-    @ImportEntity
     private Integer ReceivedIPower_32;
     
     @Meta(name = "ReceivedIPower_33")
-    @ImportEntity
     private Integer ReceivedIPower_33;
     
     @Meta(name = "ReceivedIPower_34")
-    @ImportEntity
     private Integer ReceivedIPower_34;
     
     @Meta(name = "ReceivedIPower_35")
-    @ImportEntity
     private Integer ReceivedIPower_35;
     
     @Meta(name = "ReceivedIPower_36")
-    @ImportEntity
     private Integer ReceivedIPower_36;
     
     @Meta(name = "ReceivedIPower_37")
-    @ImportEntity
     private Integer ReceivedIPower_37;
     
     @Meta(name = "ReceivedIPower_38")
-    @ImportEntity
     private Integer ReceivedIPower_38;
     
     @Meta(name = "ReceivedIPower_39")
-    @ImportEntity
     private Integer ReceivedIPower_39;
     
     @Meta(name = "ReceivedIPower_40")
-    @ImportEntity
     private Integer ReceivedIPower_40;
     
     @Meta(name = "ReceivedIPower_41")
-    @ImportEntity
     private Integer ReceivedIPower_41;
     
     @Meta(name = "ReceivedIPower_42")
-    @ImportEntity
     private Integer ReceivedIPower_42;
     
     @Meta(name = "ReceivedIPower_43")
-    @ImportEntity
     private Integer ReceivedIPower_43;
     
     @Meta(name = "ReceivedIPower_44")
-    @ImportEntity
     private Integer ReceivedIPower_44;
     
     @Meta(name = "ReceivedIPower_45")
-    @ImportEntity
     private Integer ReceivedIPower_45;
     
     @Meta(name = "ReceivedIPower_46")
-    @ImportEntity
     private Integer ReceivedIPower_46;
     
     @Meta(name = "ReceivedIPower_47")
-    @ImportEntity
     private Integer ReceivedIPower_47;
     
     @Meta(name = "ReceivedIPower_48")
-    @ImportEntity
     private Integer ReceivedIPower_48;
     
     @Meta(name = "ReceivedIPower_49")
-    @ImportEntity
     private Integer ReceivedIPower_49;
     
     @Meta(name = "ReceivedIPower_50")
-    @ImportEntity
     private Integer ReceivedIPower_50;
     
     @Meta(name = "ReceivedIPower_51")
-    @ImportEntity
     private Integer ReceivedIPower_51;
     
     @Meta(name = "ReceivedIPower_52")
-    @ImportEntity
     private Integer ReceivedIPower_52;
 
     public String getId() {

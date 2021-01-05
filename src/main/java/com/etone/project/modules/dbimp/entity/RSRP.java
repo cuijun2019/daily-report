@@ -1,223 +1,169 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "RSRP_", isUseUserId = true)
 public class RSRP {
     
     @Meta(name = "id")
-    @ImportEntity
     private String id;
     
     @Meta(name = "cellId")
-    @ImportEntity
     private String cellId;
     
     @Meta(name = "startTime")
-    @ImportEntity
     private Timestamp startTime;
     
     @Meta(name = "endTime")
-    @ImportEntity
     private Timestamp endTime;
     
     @Meta(name = "RSRP_00")
-    @ImportEntity
     private Integer RSRP_00;
     
     @Meta(name = "RSRP_01")
-    @ImportEntity
     private Integer RSRP_01;
     
     @Meta(name = "RSRP_02")
-    @ImportEntity
     private Integer RSRP_02;
     
     @Meta(name = "RSRP_03")
-    @ImportEntity
     private Integer RSRP_03;
     
     @Meta(name = "RSRP_04")
-    @ImportEntity
     private Integer RSRP_04;
     
     @Meta(name = "RSRP_05")
-    @ImportEntity
     private Integer RSRP_05;
     
     @Meta(name = "RSRP_06")
-    @ImportEntity
     private Integer RSRP_06;
     
     @Meta(name = "RSRP_07")
-    @ImportEntity
     private Integer RSRP_07;
     
     @Meta(name = "RSRP_08")
-    @ImportEntity
     private Integer RSRP_08;
     
     @Meta(name = "RSRP_09")
-    @ImportEntity
     private Integer RSRP_09;
     
     @Meta(name = "RSRP_10")
-    @ImportEntity
     private Integer RSRP_10;
     
     @Meta(name = "RSRP_11")
-    @ImportEntity
     private Integer RSRP_11;
     
     @Meta(name = "RSRP_12")
-    @ImportEntity
     private Integer RSRP_12;
     
     @Meta(name = "RSRP_13")
-    @ImportEntity
     private Integer RSRP_13;
     
     @Meta(name = "RSRP_14")
-    @ImportEntity
     private Integer RSRP_14;
     
     @Meta(name = "RSRP_15")
-    @ImportEntity
     private Integer RSRP_15;
     
     @Meta(name = "RSRP_16")
-    @ImportEntity
     private Integer RSRP_16;
     
     @Meta(name = "RSRP_17")
-    @ImportEntity
     private Integer RSRP_17;
     
     @Meta(name = "RSRP_18")
-    @ImportEntity
     private Integer RSRP_18;
     
     @Meta(name = "RSRP_19")
-    @ImportEntity
     private Integer RSRP_19;
     
     @Meta(name = "RSRP_20")
-    @ImportEntity
     private Integer RSRP_20;
     
     @Meta(name = "RSRP_21")
-    @ImportEntity
     private Integer RSRP_21;
     
     @Meta(name = "RSRP_22")
-    @ImportEntity
     private Integer RSRP_22;
     
     @Meta(name = "RSRP_23")
-    @ImportEntity
     private Integer RSRP_23;
     
     @Meta(name = "RSRP_24")
-    @ImportEntity
     private Integer RSRP_24;
     
     @Meta(name = "RSRP_25")
-    @ImportEntity
     private Integer RSRP_25;
     
     @Meta(name = "RSRP_26")
-    @ImportEntity
     private Integer RSRP_26;
     
     @Meta(name = "RSRP_27")
-    @ImportEntity
     private Integer RSRP_27;
     
     @Meta(name = "RSRP_28")
-    @ImportEntity
     private Integer RSRP_28;
     
     @Meta(name = "RSRP_29")
-    @ImportEntity
     private Integer RSRP_29;
     
     @Meta(name = "RSRP_30")
-    @ImportEntity
     private Integer RSRP_30;
     
     @Meta(name = "RSRP_31")
-    @ImportEntity
     private Integer RSRP_31;
     
     @Meta(name = "RSRP_32")
-    @ImportEntity
     private Integer RSRP_32;
     
     @Meta(name = "RSRP_33")
-    @ImportEntity
     private Integer RSRP_33;
     
     @Meta(name = "RSRP_34")
-    @ImportEntity
     private Integer RSRP_34;
     
     @Meta(name = "RSRP_35")
-    @ImportEntity
     private Integer RSRP_35;
     
     @Meta(name = "RSRP_36")
-    @ImportEntity
     private Integer RSRP_36;
     
     @Meta(name = "RSRP_37")
-    @ImportEntity
     private Integer RSRP_37;
     
     @Meta(name = "RSRP_38")
-    @ImportEntity
     private Integer RSRP_38;
     
     @Meta(name = "RSRP_39")
-    @ImportEntity
     private Integer RSRP_39;
     
     @Meta(name = "RSRP_40")
-    @ImportEntity
     private Integer RSRP_40;
     
     @Meta(name = "RSRP_41")
-    @ImportEntity
     private Integer RSRP_41;
     
     @Meta(name = "RSRP_42")
-    @ImportEntity
     private Integer RSRP_42;
     
     @Meta(name = "RSRP_43")
-    @ImportEntity
     private Integer RSRP_43;
     
     @Meta(name = "RSRP_44")
-    @ImportEntity
     private Integer RSRP_44;
     
     @Meta(name = "RSRP_45")
-    @ImportEntity
     private Integer RSRP_45;
     
     @Meta(name = "RSRP_46")
-    @ImportEntity
     private Integer RSRP_46;
     
     @Meta(name = "RSRP_47")
-    @ImportEntity
     private Integer RSRP_47;
 
     public String getId() {

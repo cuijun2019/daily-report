@@ -1,242 +1,183 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "Mro_", isUseUserId = true)
 public class Mro {
     @Meta(name= "id", exportable = true)
-    @ImportEntity
     public String id;
     
     @Meta(name = "小区ID", exportable = true)
-    @ImportEntity
     public String cellId;
     
     @Meta(name = "earfcn", exportable = true)
-    @ImportEntity
     public String earfcn;
     
     @Meta(name = "SubFrameNbr")
-    @ImportEntity
     public String SubFrameNbr;
     
     @Meta(name = "PRBNbr")
-    @ImportEntity
     public String PRBNbr;
     
     @Meta(name = "TimeStamp")
-    @ImportEntity
     public Timestamp TimeStamp;
     
     @Meta(name = "MmeUeS1apId")
-    @ImportEntity
     public String MmeUeS1apId;
     
     @Meta(name = "MmeGroupId")
-    @ImportEntity
     public String MmeGroupId;
     
     @Meta(name = "MmeCode")
-    @ImportEntity
     public String MmeCode;
     
     @Meta(name = "mrId")
-    @ImportEntity(exportFieldWidth= 80)
     public String mrId;
     
     @Meta(name = "LteScRSRP")
-    @ImportEntity
     public Integer LteScRSRP;
     
     @Meta(name = "LteNcRSRP")
-    @ImportEntity
     public Integer LteNcRSRP;
     
     @Meta(name = "LteScRSRQ")
-    @ImportEntity
     public Integer LteScRSRQ;
     
     @Meta(name = "LteNcRSRQ")
-    @ImportEntity
     public Integer LteNcRSRQ;
     
     @Meta(name = "LteScTADV")
-    @ImportEntity
     public Integer LteScTAdv;
     
     @Meta(name = "LteScRI1")
-    @ImportEntity
     public Integer LteScRI1;
     
     @Meta(name = "LteScRI2")
-    @ImportEntity
     public Integer LteScRI2;
     
     @Meta(name = "LteScRI4")
-    @ImportEntity
     public Integer LteScRI4;
     
     @Meta(name = "LteScRI8")
-    @ImportEntity
     public Integer LteScRI8;
     
     @Meta(name = "LteScPUSCHPRBNum")
-    @ImportEntity
     public Integer LteScPUSCHPRBNum;
     
     @Meta(name = "LteScPDSCHPRBNum")
-    @ImportEntity
     public Integer LteScPDSCHPRBNum;
     
     @Meta(name = "LteScBSR")
-    @ImportEntity
     public Integer LteScBSR;
     
     @Meta(name = "LteSceNBRxTxTimeDiff")
-    @ImportEntity
     public Integer LteSceNBRxTxTimeDiff;
     
     @Meta(name = "LteScEarfcn")
-    @ImportEntity
     public Integer LteScEarfcn;
     
     @Meta(name = "LteScPci")
-    @ImportEntity
     public Integer LteScPci;
     
     @Meta(name = "LteNcEarfcn")
-    @ImportEntity
     public Integer LteNcEarfcn;
     
     @Meta(name = "LteNcPci")
-    @ImportEntity
     public Integer LteNcPci;
     
     @Meta(name = "LteScRTTD")
-    @ImportEntity
     public Integer LteScRTTD;
     
     @Meta(name = "LteScPHR")
-    @ImportEntity
     public Integer LteScPHR;
     
     @Meta(name = "LteScRIP")
-    @ImportEntity
     public Integer LteScRIP;
     
     @Meta(name = "LteScAOA")
-    @ImportEntity
     public Integer LteScAOA;
     
     @Meta(name = "LteScPlrULQci1")
-    @ImportEntity
     public Integer LteScPlrULQci1;
     
     @Meta(name = "LteScPlrULQci2")
-    @ImportEntity
     public Integer LteScPlrULQci2;
     
     @Meta(name = "LteScPlrULQci3")
-    @ImportEntity
     public Integer LteScPlrULQci3;
     
     @Meta(name = "LteScPlrULQci4")
-    @ImportEntity
     public Integer LteScPlrULQci4;
     
     @Meta(name = "LteScPlrULQci5")
-    @ImportEntity
     public Integer LteScPlrULQci5;
     
     @Meta(name = "LteScPlrULQci6")
-    @ImportEntity
     public Integer LteScPlrULQci6;
     
     @Meta(name = "LteScPlrULQci7")
-    @ImportEntity
     public Integer LteScPlrULQci7;
     
     @Meta(name = "LteScPlrULQci8")
-    @ImportEntity
     public Integer LteScPlrULQci8;
     
     @Meta(name = "LteScPlrULQci9")
-    @ImportEntity
     public Integer LteScPlrULQci9;
     
     @Meta(name = "LteScPlrDLQci1")
-    @ImportEntity
     public Integer LteScPlrDLQci1;
     
     @Meta(name = "LteScPlrDLQci2")
-    @ImportEntity
     public Integer LteScPlrDLQci2;
     
     @Meta(name = "LteScPlrDLQci3")
-    @ImportEntity
     public Integer LteScPlrDLQci3;
     
     @Meta(name = "LteScPlrDLQci4")
-    @ImportEntity
     public Integer LteScPlrDLQci4;
     
     @Meta(name = "LteScPlrDLQci5")
-    @ImportEntity
     public Integer LteScPlrDLQci5;
     
     @Meta(name = "LteScPlrDLQci6")
-    @ImportEntity
     public Integer LteScPlrDLQci6;
     
     @Meta(name = "LteScPlrDLQci7")
-    @ImportEntity
     public Integer LteScPlrDLQci7;
     
     @Meta(name = "LteScPlrDLQci8")
-    @ImportEntity
     public Integer LteScPlrDLQci8;
     
     @Meta(name = "LteScPlrDLQci9")
-    @ImportEntity
     public Integer LteScPlrDLQci9;
     
     @Meta(name = "LteScSinrUL")
-    @ImportEntity
     public Integer LteScSinrUL;
     
     @Meta(name = "GsmNcellBcch")
-    @ImportEntity
     public Integer GsmNcellBcch;
     
     @Meta(name = "GsmNcellCarrierRSSI")
-    @ImportEntity
     public Integer GsmNcellCarrierRSSI;
     
     @Meta(name = "GsmNcellNcc")
-    @ImportEntity
     public Integer GsmNcellNcc;
     
     @Meta(name = "GsmNcellBcc")
-    @ImportEntity
     public Integer GsmNcellBcc;
     
     @Meta(name = "TdsPccpchRSCP")
-    @ImportEntity
     public Integer TdsPccpchRSCP;
     
     @Meta(name = "TdsNcellUarfcn")
-    @ImportEntity
     public Integer TdsNcellUarfcn;
     
     @Meta(name = "TdsCellParameterId")
-    @ImportEntity
     public Integer TdsCellParameterId;
 
     public String getId() {

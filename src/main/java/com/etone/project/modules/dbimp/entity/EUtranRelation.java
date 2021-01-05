@@ -1,134 +1,101 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "EUtranRelation_", isUseUserId = true)
 public class EUtranRelation {
     
 //    @Meta(name = "SubNetwork")
-    @ImportEntity
     private Long SubNetwork;
     
 //    @Meta(name = "MEID")
-    @ImportEntity(importName = "MEID")
     private Long MEID;
     
     @Meta(name = "Sc.eNBId")
-    @ImportEntity(importName = "Sc.eNBId")
     private Long scEnbId;
     
     @Meta(name = "Sc.cellLocalId")
-    @ImportEntity(importName = "Sc.cellLocalId")
     private Long scCellLocalId;
     
     @Meta(name = "scID1")
-    @ImportEntity(importName = "Sc.ID1")
     private String scId1;
     
     @Meta(name = "scID2")
-    @ImportEntity(importName = "Sc.ID2")
     private String scId2;
     
     @Meta(name = "scPCI")
-    @ImportEntity(importName = "Sc.PCI")
     private Long scPCI;
     
     @Meta(name = "Sc.LteEarfcn")
-    @ImportEntity(importName = "Sc.LteEarfcn")
     private Long mrLteScEarfcn;
 
     @Meta(name = "userLabel")
-    @ImportEntity(exportFieldWidth = 128)
     private String userLabel;
     
     @Meta(name = "mcc")
-    @ImportEntity
     private String mcc;
     
     @Meta(name = "mnc")
-    @ImportEntity
     private String mnc;
     
     @Meta(name = "Nc.eNBId")
-    @ImportEntity(importName = "Nc.eNBId")
     private Long ncENBId;
     
     @Meta(name = "Nc.cellLocalId")
-    @ImportEntity(importName = "Nc.cellLocalId")
     private Long ncCellLocalId;
     
     @Meta(name = "Nc.ID1")
-    @ImportEntity(importName = "Nc.ID1")
     private String ncId1;
     
     @Meta(name = "Nc.ID2")
-    @ImportEntity(importName = "Nc.ID2")
     private String ndId2;
     
     @Meta(name = "Nc.PCI")
-    @ImportEntity(importName = "Nc.PCI")
     private Long pci;
    
     @Meta(name = "Nc.LteEarfcn")
-    @ImportEntity(importName= "Nc.LteEarfcn")
     private Long ncLteEarfcn;
     
     @Meta(name = "isRemoveAllowed")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isRemoveAllowed;
     
     @Meta(name = "isX2HOAllowed")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isX2HOAllowed;
     
     @Meta(name = "isHOAllowed")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isHOAllowed;
     
     @Meta(name = "isIcicInformationSendAllowed")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isIcicInformationSendAllowed;
     
     @Meta(name = "isLbAllowed")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isLbAllowed;
     
     @Meta(name = "shareCover")
-    @ImportEntity
     private Integer shareCover;
     
     @Meta(name = "qofStCell")
-    @ImportEntity
     private Long qofStCell;
     
     @Meta(name = "isAnrCreated")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean isAnrCreated;
     
     @Meta(name = "nCelPriority")
-    @ImportEntity
     private Integer nCelPriority;
     
     @Meta(name = "s1DataFwdFlag")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean s1DataFwdFlag;
     
     @Meta(name = "cellIndivOffset")
-    @ImportEntity
     private Long cellIndivOffset;
     
     @Meta(name = "stateInd")
-    @ImportEntity
     private Integer stateInd;
     
     @Meta(name = "radioMode")
-    @ImportEntity
     private String radioMode;
 
     public Long getSubNetwork() {

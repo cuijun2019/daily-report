@@ -1,70 +1,53 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "PrachTDD_", isUseUserId = true)
 public class PrachTDD {
     
     @Meta(name = "SubNetwork")
-    @ImportEntity
     private Long SubNetwork;
     
     @Meta(name = "MEID")
-    @ImportEntity
     private Long MEID;
     
     @Meta(name = "eNBId")
-    @ImportEntity(importName = "eNBId")
     private Long enbId;
     
     @Meta(name = "cellIdentity")
-    @ImportEntity
     private Long cellIdentity;
     
     @Meta(name = "CELLID1")
-    @ImportEntity(importName = "CELLID1")
     private String cellId1;
     
     @Meta(name = "CELLID2")
-    @ImportEntity(importName = "CELLID2")
     private String cellId2;
     
     @Meta(name = "userLabel")
-    @ImportEntity(exportFieldWidth = 100)
     private String userLabel;
     
     @Meta(name = "prachConfigIndex")
-    @ImportEntity
     private Long prachConfigIndex;
     
     @Meta(name = "prachFreqOffset")
-    @ImportEntity
     private Long prachFreqOffset;
     
     @Meta(name = "highSpeedFlag")
-    @ImportEntity(convertRugular= "0:false,1:true")
     private Boolean highSpeedFlag;
     
     @Meta(name = "rootSequenceIndex")
-    @ImportEntity
     private Long rootSequenceIndex;
     
     @Meta(name = "ncs")
-    @ImportEntity
     private Long ncs;
     
     @Meta(name = "numberOfRAPreambles")
-    @ImportEntity
     private Long numberOfRAPreambles;
     
     @Meta(name = "sizeOfRAPreamblesGroupA")
-    @ImportEntity
     private Long sizeOfRAPreamblesGroupA;
 
     public Long getSubNetwork() {

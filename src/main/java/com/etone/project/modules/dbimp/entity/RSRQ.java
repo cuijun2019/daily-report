@@ -1,103 +1,79 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "RSRQ_", isUseUserId = true)
 public class RSRQ {
     
     @Meta(name = "id")
-    @ImportEntity
     private String id;
     
     @Meta(name = "cellId")
-    @ImportEntity
     private String cellId;
     
     @Meta(name = "startTime")
-    @ImportEntity
     private Timestamp startTime;
     
     @Meta(name = "endTime")
-    @ImportEntity
     private Timestamp endTime;
     
     @Meta(name = "RSRQ_00")
-    @ImportEntity
     private Integer RSRQ_00;
     
     @Meta(name = "RSRQ_01")
-    @ImportEntity
     private Integer RSRQ_01;
     
     @Meta(name = "RSRQ_02")
-    @ImportEntity
     private Integer RSRQ_02;
     
     @Meta(name = "RSRQ_03")
-    @ImportEntity
     private Integer RSRQ_03;
     
     @Meta(name = "RSRQ_04")
-    @ImportEntity
     private Integer RSRQ_04;
     
     @Meta(name = "RSRQ_05")
-    @ImportEntity
     private Integer RSRQ_05;
     
     @Meta(name = "RSRQ_06")
-    @ImportEntity
     private Integer RSRQ_06;
     
     @Meta(name = "RSRQ_07")
-    @ImportEntity
     private Integer RSRQ_07;
     
     @Meta(name = "RSRQ_08")
-    @ImportEntity
     private Integer RSRQ_08;
     
     @Meta(name = "RSRQ_09")
-    @ImportEntity
     private Integer RSRQ_09;
     
     @Meta(name = "RSRQ_10")
-    @ImportEntity
     private Integer RSRQ_10;
     
     @Meta(name = "RSRQ_11")
-    @ImportEntity
     private Integer RSRQ_11;
     
     @Meta(name = "RSRQ_12")
-    @ImportEntity
     private Integer RSRQ_12;
     
     @Meta(name = "RSRQ_13")
-    @ImportEntity
     private Integer RSRQ_13;
     
     @Meta(name = "RSRQ_14")
-    @ImportEntity
     private Integer RSRQ_14;
     
     @Meta(name = "RSRQ_15")
-    @ImportEntity
     private Integer RSRQ_15;
     
     @Meta(name = "RSRQ_16")
-    @ImportEntity
     private Integer RSRQ_16;
     
     @Meta(name = "RSRQ_17")
-    @ImportEntity
     private Integer RSRQ_17;
 
     public String getId() {

@@ -1,39 +1,29 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
 
-@ImportTable(tableName = "tbDictionary")
 public class TbDictionary {
 	
 	@Meta(name = "创建用户ID")
-	@ImportEntity(importName = "创建用户ID")
-	private String vcCreateUser;
+    private String vcCreateUser;
 	
 	@Meta(name = "类型编码")
-	@ImportEntity(importName = "类型编码")
-	private String vcKey;
+    private String vcKey;
 	
 	@Meta(name = "类型名称")
-	@ImportEntity(importName = "类型名称")
-	private String name;
+    private String name;
 	
 	@Meta(name = "排序")
-	@ImportEntity(importName = "排序")
-	private Integer orderNo;
+    private Integer orderNo;
 	
 	@Meta(name = "备注")
-	@ImportEntity(importName = "备注")
-	private String vcRemark;
+    private String vcRemark;
 	
 	@Meta(name = "系统字典类型")
-	@ImportEntity(importName = "系统字典类型")
-	private String dictionarytypeCode;
+    private String dictionarytypeCode;
 	
 	@Meta(name = "参数值")
-	@ImportEntity(importName = "参数值")
-	private Integer value;
+    private Integer value;
 
 	public String getVcCreateUser() {
 		return vcCreateUser;

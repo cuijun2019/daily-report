@@ -1,287 +1,217 @@
 package com.etone.project.modules.dbimp.entity;
 
 import com.etone.ee.modules.data.Meta;
-import com.etone.project.utils.ImportEntity;
-import com.etone.project.utils.ImportTable;
+
 import java.sql.Timestamp;
 
 /**
  *
  * @author <a href="mailto:zhangjianlong@etonetech.com">zhangjianlong</a>
  */
-@ImportTable(tableName = "PowerHeadRoom_", isUseUserId= true)
 public class PowerHeadRoom {
     
     @Meta(name = "id")
-    @ImportEntity
     private String id;
     
     @Meta(name = "cellId")
-    @ImportEntity
     private String cellId;
     
     @Meta(name = "startTime")
-    @ImportEntity
     private Timestamp startTime;
     
     @Meta(name = "endTime")
-    @ImportEntity
     private Timestamp endTime;
     
     @Meta(name = "PowerHeadRoom_00")
-    @ImportEntity
     private Integer PowerHeadRoom_00;
     
     @Meta(name = "PowerHeadRoom_01")
-    @ImportEntity
     private Integer PowerHeadRoom_01;
     
     @Meta(name = "PowerHeadRoom_02")
-    @ImportEntity
     private Integer PowerHeadRoom_02;
     
     @Meta(name = "PowerHeadRoom_03")
-    @ImportEntity
     private Integer PowerHeadRoom_03;
     
     @Meta(name = "PowerHeadRoom_04")
-    @ImportEntity
     private Integer PowerHeadRoom_04;
     
     @Meta(name = "PowerHeadRoom_05")
-    @ImportEntity
     private Integer  PowerHeadRoom_05;
     
     @Meta(name = "PowerHeadRoom_06")
-    @ImportEntity
     private Integer  PowerHeadRoom_06;
     
     @Meta(name = "PowerHeadRoom_07")
-    @ImportEntity
     private Integer  PowerHeadRoom_07;
     
     @Meta(name = "PowerHeadRoom_08")
-    @ImportEntity
     private Integer  PowerHeadRoom_08;
     
     @Meta(name = "PowerHeadRoom_09")
-    @ImportEntity
     private Integer  PowerHeadRoom_09;
     
     @Meta(name = "PowerHeadRoom_10")
-    @ImportEntity
     private Integer  PowerHeadRoom_10;
     
     @Meta(name = "PowerHeadRoom_11")
-    @ImportEntity
     private Integer  PowerHeadRoom_11;
     
     @Meta(name = "PowerHeadRoom_12")
-    @ImportEntity
     private Integer  PowerHeadRoom_12;
     
     @Meta(name = "PowerHeadRoom_13")
-    @ImportEntity
     private Integer  PowerHeadRoom_13;
     
     @Meta(name = "PowerHeadRoom_14")
-    @ImportEntity
     private Integer  PowerHeadRoom_14;
     
     @Meta(name = "PowerHeadRoom_15")
-    @ImportEntity
     private Integer  PowerHeadRoom_15;
     
     @Meta(name = "PowerHeadRoom_16")
-    @ImportEntity
     private Integer  PowerHeadRoom_16;
     
     @Meta(name = "PowerHeadRoom_17")
-    @ImportEntity
     private Integer  PowerHeadRoom_17;
     
     @Meta(name = "PowerHeadRoom_18")
-    @ImportEntity
     private Integer  PowerHeadRoom_18;
     
     @Meta(name = "PowerHeadRoom_19")
-    @ImportEntity
     private Integer  PowerHeadRoom_19;
     
     @Meta(name = "PowerHeadRoom_20")
-    @ImportEntity
     private Integer  PowerHeadRoom_20;
     
     @Meta(name = "PowerHeadRoom_21")
-    @ImportEntity
     private Integer  PowerHeadRoom_21;
     
     @Meta(name = "PowerHeadRoom_22")
-    @ImportEntity
     private Integer  PowerHeadRoom_22;
     
     @Meta(name = "PowerHeadRoom_23")
-    @ImportEntity
     private Integer  PowerHeadRoom_23;
     
     @Meta(name = "PowerHeadRoom_24")
-    @ImportEntity
     private Integer  PowerHeadRoom_24;
     
     @Meta(name = "PowerHeadRoom_25")
-    @ImportEntity
     private Integer  PowerHeadRoom_25;
     
     @Meta(name = "PowerHeadRoom_26")
-    @ImportEntity
     private Integer  PowerHeadRoom_26;
     
     @Meta(name = "PowerHeadRoom_27")
-    @ImportEntity
     private Integer  PowerHeadRoom_27;
     
     @Meta(name = "PowerHeadRoom_28")
-    @ImportEntity
     private Integer  PowerHeadRoom_28;
     
     @Meta(name = "PowerHeadRoom_29")
-    @ImportEntity
     private Integer  PowerHeadRoom_29;
     
     @Meta(name = "PowerHeadRoom_30")
-    @ImportEntity
     private Integer  PowerHeadRoom_30;
     
     @Meta(name = "PowerHeadRoom_31")
-    @ImportEntity
     private Integer  PowerHeadRoom_31;
     
     @Meta(name = "PowerHeadRoom_32")
-    @ImportEntity
     private Integer  PowerHeadRoom_32;
     
     @Meta(name = "PowerHeadRoom_33")
-    @ImportEntity
     private Integer  PowerHeadRoom_33;
     
     @Meta(name = "PowerHeadRoom_34")
-    @ImportEntity
     private Integer  PowerHeadRoom_34;
     
     @Meta(name = "PowerHeadRoom_35")
-    @ImportEntity
     private Integer  PowerHeadRoom_35;
     
     @Meta(name = "PowerHeadRoom_36")
-    @ImportEntity
     private Integer  PowerHeadRoom_36;
     
     @Meta(name = "PowerHeadRoom_37")
-    @ImportEntity
     private Integer  PowerHeadRoom_37;
     
     @Meta(name = "PowerHeadRoom_38")
-    @ImportEntity
     private Integer  PowerHeadRoom_38;
     
     @Meta(name = "PowerHeadRoom_39")
-    @ImportEntity
     private Integer  PowerHeadRoom_39;
     
     @Meta(name = "PowerHeadRoom_40")
-    @ImportEntity
     private Integer  PowerHeadRoom_40;
     
     @Meta(name = "PowerHeadRoom_41")
-    @ImportEntity
     private Integer  PowerHeadRoom_41;
     
     @Meta(name = "PowerHeadRoom_42")
-    @ImportEntity
     private Integer  PowerHeadRoom_42;
     
     @Meta(name = "PowerHeadRoom_43")
-    @ImportEntity
     private Integer  PowerHeadRoom_43;
     
     @Meta(name = "PowerHeadRoom_44")
-    @ImportEntity
     private Integer  PowerHeadRoom_44;
     
     @Meta(name = "PowerHeadRoom_45")
-    @ImportEntity
     private Integer  PowerHeadRoom_45;
     
     @Meta(name = "PowerHeadRoom_46")
-    @ImportEntity
     private Integer  PowerHeadRoom_46;
     
     @Meta(name = "PowerHeadRoom_47")
-    @ImportEntity
     private Integer  PowerHeadRoom_47;
     
     @Meta(name = "PowerHeadRoom_48")
-    @ImportEntity
     private Integer  PowerHeadRoom_48;
     
     @Meta(name = "PowerHeadRoom_49")
-    @ImportEntity
     private Integer  PowerHeadRoom_49;
     
     @Meta(name = "PowerHeadRoom_50")
-    @ImportEntity
     private Integer   PowerHeadRoom_50;
     
     @Meta(name = "PowerHeadRoom_51")
-    @ImportEntity
     private Integer   PowerHeadRoom_51;
     
     @Meta(name = "PowerHeadRoom_52")
-    @ImportEntity
     private Integer   PowerHeadRoom_52;
     
     @Meta(name = "PowerHeadRoom_53")
-    @ImportEntity
     private Integer   PowerHeadRoom_53;
     
     @Meta(name = "PowerHeadRoom_54")
-    @ImportEntity
     private Integer   PowerHeadRoom_54;
     
     @Meta(name = "PowerHeadRoom_55")
-    @ImportEntity
     private Integer   PowerHeadRoom_55;
     
     @Meta(name = "PowerHeadRoom_56")
-    @ImportEntity
     private Integer   PowerHeadRoom_56;
     
     @Meta(name = "PowerHeadRoom_57")
-    @ImportEntity
     private Integer   PowerHeadRoom_57;
     
     @Meta(name = "PowerHeadRoom_58")
-    @ImportEntity
     private Integer   PowerHeadRoom_58;
     
     @Meta(name = "PowerHeadRoom_59")
-    @ImportEntity
     private Integer   PowerHeadRoom_59;
     
     @Meta(name = "PowerHeadRoom_60")
-    @ImportEntity
     private Integer   PowerHeadRoom_60;
     
     @Meta(name = "PowerHeadRoom_61")
-    @ImportEntity
     private Integer   PowerHeadRoom_61;
     
     @Meta(name = "PowerHeadRoom_62")
-    @ImportEntity
     private Integer   PowerHeadRoom_62;
     
     @Meta(name = "PowerHeadRoom_63")
-    @ImportEntity
     private Integer   PowerHeadRoom_63;
 
     public String getId() {
