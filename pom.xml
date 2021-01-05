@@ -10,10 +10,10 @@
         <version>3.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ltemr-web-yn</artifactId>
+    <artifactId>daily-report</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>etone-ltemr-web-yn-module</name>
+    <name>daily-report-module</name>
     <description>LteMR - WAR</description>
     <url>http://www.etonetech.com/j2ee/examples/web</url>
 
