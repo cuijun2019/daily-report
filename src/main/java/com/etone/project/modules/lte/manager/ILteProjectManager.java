@@ -107,10 +107,6 @@ public interface ILteProjectManager {
 
     public Double querySumProportion(QueryCriteria criteria);
 
-    public String getToken(String corpid, String corpsecret);
-
-    public String getUserId(String token, String code);
-
     public String createRingChart(QueryCriteria criteria);
 
     public List<Map> queryAppraiseEmployee(QueryCriteria criteria);

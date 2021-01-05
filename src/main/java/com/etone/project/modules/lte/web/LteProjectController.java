@@ -1,6 +1,5 @@
 package com.etone.project.modules.lte.web;
 
-import Alert.weChat.send_weChatMsg;
 import com.etone.project.base.support.result.Results;
 import com.etone.project.base.support.security.Auditmeta;
 import com.etone.project.core.model.PageResult;
@@ -63,20 +62,6 @@ public final class LteProjectController extends GenericController {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @ResponseBody
-    @RequestMapping(value = "/getAccessToken", method = {RequestMethod.GET, RequestMethod.POST})
-    public void getAccessToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String corpid = request.getParameter("corpid");
-        String corpsecret = request.getParameter("corpsecret");
-
-        send_weChatMsg sw = new send_weChatMsg();
-        String accesstoken = sw.getToken(corpid,corpsecret);
-        JSONObject json = new JSONObject();
-        json.put("accesstoken", accesstoken);
-
-        ResponseUtils.print(response, json.toString());
-    }
 
     @ResponseBody
     @RequestMapping(value = "/getUserId", method = {RequestMethod.GET, RequestMethod.POST})

@@ -1,14 +1,10 @@
 package com.etone.project.modules.lte.manager.impl;
 
-import Alert.weChat.send_weChatMsg;
-import Alert.weChat.urlData;
 import com.etone.project.core.model.PageResult;
 import com.etone.project.core.model.QueryCriteria;
 import com.etone.project.modules.lte.dao.LteProjectMapper;
 import com.etone.project.modules.lte.manager.ILteProjectManager;
 import com.etone.project.utils.Common;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.*;
@@ -19,13 +15,14 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.Collator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,17 +37,17 @@ import java.util.*;
  */
 @Service
 @Transactional
-public final class LteProjectManager implements ILteProjectManager {
+public class LteProjectManager implements ILteProjectManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(LteProjectManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(LteProjectManager.class);
 
-	@Autowired
-	private LteProjectMapper lteProjectMapper;
+    @Autowired
+    private LteProjectMapper lteProjectMapper;
 
-	@Override
-	public List<Map> queryContractReview(QueryCriteria criteria) {
-		return lteProjectMapper.queryContractReview(criteria);
-	}
+    @Override
+    public List<Map> queryContractReview(QueryCriteria criteria) {
+        return lteProjectMapper.queryContractReview(criteria);
+    }
 
     @Override
     public int countContractReview(QueryCriteria criteria) {
@@ -83,7 +80,7 @@ public final class LteProjectManager implements ILteProjectManager {
     }
 
     @Override
-     public String validEmployeeCode(String employeeCode) {
+    public String validEmployeeCode(String employeeCode) {
         return lteProjectMapper.validEmployeeCode(employeeCode);
     }
 
@@ -118,7 +115,7 @@ public final class LteProjectManager implements ILteProjectManager {
         String workNature = request.getParameter("workNature");
         String context = request.getParameter("context");
         String logInfoListJson = request.getParameter("logInfoList");
-        String[] workNatures = new String[]{"开发","测试","维护","生产","培训","部署","策划","数据分析","文档撰写","内部交流","外部交流","商务","服务交付","研究","休假","其他"};
+        String[] workNatures = new String[]{"开发", "测试", "维护", "生产", "培训", "部署", "策划", "数据分析", "文档撰写", "内部交流", "外部交流", "商务", "服务交付", "研究", "休假", "其他"};
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         JSONArray jsonArray = JSONArray.fromObject(logInfoListJson);//把String转换为json
         list = JSONArray.toList(jsonArray, Map.class);//这里的t是Class<T>
@@ -267,6 +264,7 @@ public final class LteProjectManager implements ILteProjectManager {
      * 真实工时：一个月某人在一个项目的工时之和
      * 固定工时：默认为22
      * 实际工时：为一个月内需要工作的天数（工作日）
+     *
      * @param criteria
      * @return
      */
@@ -338,7 +336,7 @@ public final class LteProjectManager implements ILteProjectManager {
         String payCondition = String.valueOf(criteria.get("payCondition"));
         List<Map> list = new ArrayList<Map>();
         List<Map> payList = new ArrayList<Map>();
-        String remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + allCount + "天没有交日志，具体时间分别是" + workDate.replace(",", "、") + "。";
+        String remark = "从" + criteria.get("startDate") + "到" + criteria.get("endDate") + "，共" + allCount + "天没有交日志，具体时间分别是" + workDate.replace(",", "、") + "。";
         criteria.put("remark", remark);
         criteria.put("notLogCount", allCount);
         criteria.put("workDate", workDate);
@@ -363,16 +361,16 @@ public final class LteProjectManager implements ILteProjectManager {
                     if (Common.judgeString(notWorkLogs)) {
                         Integer notWorkLogsCount = countNotWorkLogs(notWorkLogs);
 //                        remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + notWorkLogs.split(",").length + "天没有交日志，具体时间分别是" + notWorkLogs.replace(",", "、") + "。";
-                        if (notWorkLogsCount.equals(0)){
-                            remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
+                        if (notWorkLogsCount.equals(0)) {
+                            remark = "从" + criteria.get("startDate") + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
                             statistics.put("employeeCode", employeeCode);
                             statistics.put("employee", employee);
                             statistics.put("remark", remark);
                             statistics.put("notLogCount", 0);
                             statistics.put("workDate", workDate);
                             payList.add(statistics);
-                        }else{
-                            remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + notWorkLogsCount + "天没有交日志，具体时间分别是" + notWorkLogs.replace(",", "、") + "。";
+                        } else {
+                            remark = "从" + criteria.get("startDate") + "到" + criteria.get("endDate") + "，共" + notWorkLogsCount + "天没有交日志，具体时间分别是" + notWorkLogs.replace(",", "、") + "。";
                             statistics.put("employeeCode", employeeCode);
                             statistics.put("employee", employee);
                             statistics.put("remark", remark);
@@ -382,7 +380,7 @@ public final class LteProjectManager implements ILteProjectManager {
                             unpaidList.add(statistics);
                         }
                     } else {
-                        remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
+                        remark = "从" + criteria.get("startDate") + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
                         statistics.put("employeeCode", employeeCode);
                         statistics.put("employee", employee);
                         statistics.put("remark", remark);
@@ -391,7 +389,7 @@ public final class LteProjectManager implements ILteProjectManager {
                         payList.add(statistics);
                     }
                 } else {
-                    remark = "从" + criteria.get("startDate")  + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
+                    remark = "从" + criteria.get("startDate") + "到" + criteria.get("endDate") + "，共" + allCount + "天都交了日志。";
                     statistics.put("employeeCode", employeeCode);
                     statistics.put("employee", employee);
                     statistics.put("remark", remark);
@@ -453,7 +451,7 @@ public final class LteProjectManager implements ILteProjectManager {
         return list;
     }
 
-    private int countNotWorkLogs(String datelist){
+    private int countNotWorkLogs(String datelist) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         int j = 0;
         String workDate = "";
@@ -462,23 +460,23 @@ public final class LteProjectManager implements ILteProjectManager {
                 workDate = datelist.split(",")[i];
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(df.parse(workDate));
-                if(cal.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY) {
+                if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                     j++;
                 }
             }
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        return (datelist.split(",").length-j);
+        return (datelist.split(",").length - j);
     }
 
     private String queryNotWorkLog(List<String> workDateList, List<String> logTimeList) {
         String notWorkLog = "";
         if (workDateList != null && !workDateList.isEmpty()) {
             for (String workDate : workDateList) {
-                 if (!logTimeList.contains(workDate)) {
-                     notWorkLog += "," + workDate;
-                 }
+                if (!logTimeList.contains(workDate)) {
+                    notWorkLog += "," + workDate;
+                }
             }
         }
         return Common.judgeString(notWorkLog) ? notWorkLog.substring(1) : "";
@@ -559,7 +557,7 @@ public final class LteProjectManager implements ILteProjectManager {
             String holidays = lteProjectMapper.queryHolidays(year);
             String makeUpClassDays = lteProjectMapper.queryMakeUpClassDays(year);
             String dateStr = "";
-            while(c1.compareTo(c2) != 1) {
+            while (c1.compareTo(c2) != 1) {
                 dayOfWeek = c1.get(Calendar.DAY_OF_WEEK);
                 dateStr = df.format(c1.getTime());
 //                判断是否跨年，跨年要重新获取节假日
@@ -585,9 +583,9 @@ public final class LteProjectManager implements ILteProjectManager {
 
     private boolean isHoliday(int dayOfWeek, String dateStr, String holidays, String makeUpClassDays) {
 //        if (type.equals("export")){
-            if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) && !makeUpClassDays.contains(dateStr)) {
-                return true;
-            }
+        if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) && !makeUpClassDays.contains(dateStr)) {
+            return true;
+        }
 //        }
         if (holidays.contains(dateStr)) {
             return true;
@@ -599,14 +597,14 @@ public final class LteProjectManager implements ILteProjectManager {
         if (LogTimes.equals("0")) {
             return false;
         }
-        if(LogTimes.contains(",")){
+        if (LogTimes.contains(",")) {
             for (int i = 0; i < LogTimes.split(",").length; i++) {
-                if (dateStr.contains(LogTimes.split(",")[i])){
+                if (dateStr.contains(LogTimes.split(",")[i])) {
                     return true;
                 }
             }
-        }else{
-            if (dateStr.contains(LogTimes)){
+        } else {
+            if (dateStr.contains(LogTimes)) {
                 return true;
             }
         }
@@ -624,10 +622,10 @@ public final class LteProjectManager implements ILteProjectManager {
     }
 
     @Override
-    public String validExcelTitle(org.apache.poi.ss.usermodel.Sheet sheet,String [] titleArr) {
+    public String validExcelTitle(org.apache.poi.ss.usermodel.Sheet sheet, String[] titleArr) {
         String message = "";
-        for(int i = 0,length=titleArr.length - 1; i < length; i++) {
-            if(!getCellValue(sheet,0,i).toString().contains(titleArr[i])) {
+        for (int i = 0, length = titleArr.length - 1; i < length; i++) {
+            if (!getCellValue(sheet, 0, i).toString().contains(titleArr[i])) {
                 message = "导入失败，excel表中第" + (i + 1) + "列的标题应为" + titleArr[i];
                 break;
             }
@@ -644,9 +642,9 @@ public final class LteProjectManager implements ILteProjectManager {
         return message;
     }
 
-    public Object getCellValue(org.apache.poi.ss.usermodel.Sheet sheet,int row,int column) {
+    public Object getCellValue(org.apache.poi.ss.usermodel.Sheet sheet, int row, int column) {
         Object sheetTitle = null;
-        if(sheet != null) {
+        if (sheet != null) {
             Row rows = sheet.getRow(row);
             if (rows != null) {
                 org.apache.poi.ss.usermodel.Cell cell = rows.getCell(column);
@@ -655,7 +653,7 @@ public final class LteProjectManager implements ILteProjectManager {
                     if (cellType == XSSFCell.CELL_TYPE_STRING) {
                         sheetTitle = cell.getStringCellValue();
                     }
-                    if(cellType == XSSFCell.CELL_TYPE_NUMERIC) {
+                    if (cellType == XSSFCell.CELL_TYPE_NUMERIC) {
                         if (DateUtil.isCellDateFormatted(cell)) {
                             sheetTitle = Common.getDateString(cell.getDateCellValue(), "yyyy-MM-dd");
                         } else {
@@ -686,7 +684,7 @@ public final class LteProjectManager implements ILteProjectManager {
                 if (rows.getPhysicalNumberOfCells() > column) {
                     cell = rows.getCell(column++);
                     cellType = cell.getCellType();
-                    if(cellType == XSSFCell.CELL_TYPE_NUMERIC) {
+                    if (cellType == XSSFCell.CELL_TYPE_NUMERIC) {
                         if (DateUtil.isCellDateFormatted(cell)) {
                             cellContent = Common.getDateString(cell.getDateCellValue(), "yyyy-MM-dd");
                         } else {
@@ -711,8 +709,8 @@ public final class LteProjectManager implements ILteProjectManager {
                     }
                     dataMap.put(columnName, cellContent);
                 } else {
-                    for (int j = size - rows.getPhysicalNumberOfCells(); j >= 0;  j--) {
-                        dataMap.put(map.get(map.size()-(j-1)), "");
+                    for (int j = size - rows.getPhysicalNumberOfCells(); j >= 0; j--) {
+                        dataMap.put(map.get(map.size() - (j - 1)), "");
                     }
                 }
             }
@@ -739,7 +737,7 @@ public final class LteProjectManager implements ILteProjectManager {
                     cell = rows.getCell(column++);
                     if (cell != null) {
                         cellType = cell.getCellType();
-                        if(cellType == XSSFCell.CELL_TYPE_NUMERIC) {
+                        if (cellType == XSSFCell.CELL_TYPE_NUMERIC) {
                             if (DateUtil.isCellDateFormatted(cell)) {
                                 cellContent = Common.getDateString(cell.getDateCellValue(), "yyyy-MM-dd");
                             } else {
@@ -768,8 +766,8 @@ public final class LteProjectManager implements ILteProjectManager {
                         dataMap.put(columnName, cellContent);
                     }
                 } else {
-                    for (int j = size - rows.getPhysicalNumberOfCells(); j >= 0;  j--) {
-                        dataMap.put(map.get(map.size()-j), "");
+                    for (int j = size - rows.getPhysicalNumberOfCells(); j >= 0; j--) {
+                        dataMap.put(map.get(map.size() - j), "");
                     }
                 }
             }
@@ -794,6 +792,7 @@ public final class LteProjectManager implements ILteProjectManager {
 
     /**
      * 导出数据
+     *
      * @param os
      * @param param
      */
@@ -801,8 +800,7 @@ public final class LteProjectManager implements ILteProjectManager {
     public void exportData(OutputStream os, QueryCriteria param) {
         try {
             this.export(os, param);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -811,8 +809,7 @@ public final class LteProjectManager implements ILteProjectManager {
     public void exportContractReviewData(OutputStream os, QueryCriteria param) {
         try {
             this.exportContractReview(os, param);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -821,8 +818,7 @@ public final class LteProjectManager implements ILteProjectManager {
     public void exportStatisticsData(OutputStream os, QueryCriteria param) {
         try {
             this.exportStatistics(os, param);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -831,8 +827,7 @@ public final class LteProjectManager implements ILteProjectManager {
     public void exportFinalStatisticsData(OutputStream os, QueryCriteria param) {
         try {
             this.exportFinalStatistics(os, param);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -973,7 +968,7 @@ public final class LteProjectManager implements ILteProjectManager {
         String employeeCode = "";
         String employee = "";
         String workNature = "";
-        for(int i = 0; i < mapList.size(); i++) {
+        for (int i = 0; i < mapList.size(); i++) {
             row = sheet.createRow((int) i + 1);
             // 第四步，创建单元格，并设置值
             Map map = mapList.get(i);
@@ -1046,7 +1041,7 @@ public final class LteProjectManager implements ILteProjectManager {
         String marketLeader = "";
         String startTime = "";
         String endTime = "";
-        for(int i = 0; i < mapList.size(); i++) {
+        for (int i = 0; i < mapList.size(); i++) {
             row = sheet.createRow((int) i + 1);
             // 第四步，创建单元格，并设置值
             Map map = mapList.get(i);
@@ -1093,7 +1088,7 @@ public final class LteProjectManager implements ILteProjectManager {
         cell.setCellStyle(style);
 
         List<Map> mapList = queryStatistics(criteria);
-        for(int i = 0; i < mapList.size(); i++) {
+        for (int i = 0; i < mapList.size(); i++) {
             row = sheet.createRow((int) i + 1);
             // 第四步，创建单元格，并设置值
             Map map = mapList.get(i);
@@ -1192,7 +1187,7 @@ public final class LteProjectManager implements ILteProjectManager {
             list.addAll(mapList);
         }
 
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             row = sheet.createRow((int) i + 1);
             // 第四步，创建单元格，并设置值
             Map map = list.get(i);
@@ -1334,7 +1329,7 @@ public final class LteProjectManager implements ILteProjectManager {
         String reg = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(\\s(((0?[0-9])|([1-2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$";
         String numberReg = "^\\+?[1-9][0-9]*$";
         String floagReg = "^(-?\\d+)(\\.\\d+)?$";// 数值
-        String[] workNature = new String[] { "开发","测试","维护","生产","培训","部署","策划","数据分析","文档撰写","内部交流","外部交流","商务","服务交付","研究","休假","其他" };
+        String[] workNature = new String[]{"开发", "测试", "维护", "生产", "培训", "部署", "策划", "数据分析", "文档撰写", "内部交流", "外部交流", "商务", "服务交付", "研究", "休假", "其他"};
         QueryCriteria criteria = new QueryCriteria();
         if (!Common.judgeString(cellContent)) {
             return "导入失败，第" + row + "行，" + getLogColumnNameMap().get(columnName) + "不能为空！";
@@ -1442,14 +1437,14 @@ public final class LteProjectManager implements ILteProjectManager {
         return listToString(dic);
     }
 
-    private boolean checkRepeat(String[] array){
+    private boolean checkRepeat(String[] array) {
         Set<String> set = new HashSet<String>();
-        for(String str : array){
+        for (String str : array) {
             set.add(str);
         }
-        if(set.size() != array.length){
+        if (set.size() != array.length) {
             return true;//有重复
-        }else{
+        } else {
             return false;//不重复
         }
     }
@@ -1458,54 +1453,6 @@ public final class LteProjectManager implements ILteProjectManager {
 //    public String getAccessToken(String param, String param2) {
 //        return String.valueOf(System.currentTimeMillis() + param + param2);
 //    }
-
-    @Cacheable(value="accessTokenCache")
-    public String getToken(String corpid, String corpsecret) {
-        send_weChatMsg sw = new send_weChatMsg();
-        Gson gson = new Gson();
-        urlData uData = new urlData();
-        try {
-            uData.setGet_Token_Url(corpid,corpsecret);
-            String resp = sw.toAuth(uData.getGet_Token_Url());
-
-            Map<String, Object> map = gson.fromJson(resp,
-                    new TypeToken<Map<String, Object>>() {
-                    }.getType());
-            return map.get("access_token").toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    @Override
-    public String getUserId(String token, String code) {
-        send_weChatMsg sw = new send_weChatMsg();
-        Gson gson = new Gson();
-        urlData uData = new urlData();
-        try {
-            uData.setGet_User_Url(token,code);
-            String resp = sw.toUserAuth(uData.getGet_User_Url());
-
-            Map<String, Object> map = gson.fromJson(resp,
-                    new TypeToken<Map<String, Object>>() {
-                    }.getType());
-            return "ok".equals(map.get("errmsg").toString()) ? map.get("UserId").toString() : "";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-
-    public static void main(String[] args) {
-        String resp = "{\"UserId\":\"3223\",\"DeviceId\":\"159f4f160108bef03d23fc7c029fdced\",\"errcode\":0,\"errmsg\":\"ok\",\"user_ticket\":\"IQqSdId_A7Ws6z3ObVBx6ShMtC44eFVhgGTeKUCHQsCsZn7KkZdMa8qdxOUvmVFM_gm0_JebqKE6AGsR0ZxXXg\",\"expires_in\":1800}";
-        Gson gson = new Gson();
-        Map<String, Object> map = gson.fromJson(resp,
-                new TypeToken<Map<String, Object>>() {
-                }.getType());
-        System.out.println(map );
-    }
 
     @Override
     public String createRingChart(QueryCriteria criteria) {
@@ -1593,7 +1540,7 @@ public final class LteProjectManager implements ILteProjectManager {
 
         Collections.sort(notLogList, new Comparator<Map>() {
             public int compare(Map a, Map b) {
-            return Collator.getInstance(Locale.CHINESE).compare(a.get("employee"), b.get("employee"));
+                return Collator.getInstance(Locale.CHINESE).compare(a.get("employee"), b.get("employee"));
             }
         });
         Collections.sort(lateLogList, new Comparator<Map>() {
@@ -1656,7 +1603,7 @@ public final class LteProjectManager implements ILteProjectManager {
             c1.setTime(df.parse(startDate));
             Calendar c2 = Calendar.getInstance();
             c2.setTime(df.parse(endDate));
-            while(c1.compareTo(c2) != 1) {
+            while (c1.compareTo(c2) != 1) {
                 currentTime = df.format(c1.getTime());
                 if (!workDateList.contains(currentTime)) {
                     list.add(currentTime);
