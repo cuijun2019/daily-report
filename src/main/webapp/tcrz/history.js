@@ -1,6 +1,6 @@
 var historyInfo = {
     action : {
-		queryOwnLogInfo : '/modules/lteproject/queryOwnLogInfo'
+		queryOwnLogInfo : '/modules/project/queryOwnLogInfo'
     },
 
     init : function() {

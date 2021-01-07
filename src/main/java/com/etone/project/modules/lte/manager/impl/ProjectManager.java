@@ -2,8 +2,8 @@ package com.etone.project.modules.lte.manager.impl;
 
 import com.etone.project.core.model.PageResult;
 import com.etone.project.core.model.QueryCriteria;
-import com.etone.project.modules.lte.dao.LteProjectMapper;
-import com.etone.project.modules.lte.manager.ILteProjectManager;
+import com.etone.project.modules.lte.dao.ProjectMapper;
+import com.etone.project.modules.lte.manager.IProjectManager;
 import com.etone.project.utils.Common;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -37,66 +37,64 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class LteProjectManager implements ILteProjectManager {
-
-    private static final Logger logger = LoggerFactory.getLogger(LteProjectManager.class);
+public class ProjectManager implements IProjectManager {
 
     @Autowired
-    private LteProjectMapper lteProjectMapper;
+    private ProjectMapper projectMapper;
 
     @Override
     public List<Map> queryContractReview(QueryCriteria criteria) {
-        return lteProjectMapper.queryContractReview(criteria);
+        return projectMapper.queryContractReview(criteria);
     }
 
     @Override
     public int countContractReview(QueryCriteria criteria) {
-        return lteProjectMapper.countContractReview(criteria);
+        return projectMapper.countContractReview(criteria);
     }
 
     @Override
     public List<Map> queryEmployeeInfo() {
-        return lteProjectMapper.queryEmployeeInfo();
+        return projectMapper.queryEmployeeInfo();
     }
 
     @Override
     public List<Map> queryLatestLogInfo(String employeeCode) {
-        return lteProjectMapper.queryLatestLogInfo(employeeCode);
+        return projectMapper.queryLatestLogInfo(employeeCode);
     }
 
     @Override
     public boolean validProjectCode(String projectCode) {
-        return lteProjectMapper.validProjectCode(projectCode) > 0 ? true : false;
+        return projectMapper.validProjectCode(projectCode) > 0 ? true : false;
     }
 
     @Override
     public boolean validProjectName(String projectName) {
-        return lteProjectMapper.validProjectName(projectName) > 0 ? true : false;
+        return projectMapper.validProjectName(projectName) > 0 ? true : false;
     }
 
     @Override
     public boolean validReporter(String reporter) {
-        return lteProjectMapper.validReporter(reporter) > 0 ? true : false;
+        return projectMapper.validReporter(reporter) > 0 ? true : false;
     }
 
     @Override
     public String validEmployeeCode(String employeeCode) {
-        return lteProjectMapper.validEmployeeCode(employeeCode);
+        return projectMapper.validEmployeeCode(employeeCode);
     }
 
     @Override
     public String validEmployee(String employee) {
-        return lteProjectMapper.validEmployee(employee);
+        return projectMapper.validEmployee(employee);
     }
 
     @Override
     public boolean validProportion(String proportion) {
         try {
             if (Common.judgeString(proportion)) {
-                if (proportion.indexOf("%") != -1) {
-                    proportion = proportion.replace("%", "");
+                if (proportion.indexOf("小时") != -1) {
+                    proportion = proportion.replace("小时", "");
                     double proportionD = Double.parseDouble(proportion);
-                    if (proportionD == 100) {
+                    if (proportionD <= 7) {
                         return true;
                     }
                 }
@@ -113,21 +111,20 @@ public class LteProjectManager implements ILteProjectManager {
         String employeeCode = request.getParameter("employeeCode");
         String logTime = request.getParameter("logTime");
         String workNature = request.getParameter("workNature");
-        String context = request.getParameter("context");
         String logInfoListJson = request.getParameter("logInfoList");
         String[] workNatures = new String[]{"开发", "测试", "维护", "生产", "培训", "部署", "策划", "数据分析", "文档撰写", "内部交流", "外部交流", "商务", "服务交付", "研究", "休假", "其他"};
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> list;
         JSONArray jsonArray = JSONArray.fromObject(logInfoListJson);//把String转换为json
         list = JSONArray.toList(jsonArray, Map.class);//这里的t是Class<T>
         String reg = "^\\+?[1-9][0-9]*$";// 正整数
         String floagReg = "^(-?\\d+)(\\.\\d+)?$";// 数值
-        String projectCode = "";
-        String projectName = "";
-        String proportion = "";
+        String projectCode;
+        String projectName;
+        String proportion;
         int proportions = 0;
         String projectCodes = "";
         if (list == null || list.isEmpty() || list.get(0) == null) {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>();
             map.put("projectCode", request.getParameter("projectCode"));
             map.put("projectName", request.getParameter("projectName"));
             map.put("proportion", request.getParameter("proportion"));
@@ -154,13 +151,13 @@ public class LteProjectManager implements ILteProjectManager {
                 if (!Common.judgeString(proportion)) {
                     return "项目占比不能为空";
                 }
-                if (!proportion.endsWith("%")) {
-                    return "项目占比应以英文%结尾";
+                if (!proportion.endsWith("小时")) {
+                    return "项目占比应以小时结尾";
                 }
-                if (!proportion.substring(0, proportion.length() - 1).matches(floagReg)) {
+                if (!proportion.substring(0, proportion.length() - 2).matches(floagReg)) {
                     return "项目占比格式不正确";
                 }
-                if (!proportion.substring(0, proportion.length() - 1).matches(reg)) {
+                if (!proportion.substring(0, proportion.length() - 2).matches(reg)) {
                     return "项目占比应为正整数";
                 }
 //            跟数据库验证是否存在同一时间，同一项目，同一个人的日志
@@ -168,7 +165,7 @@ public class LteProjectManager implements ILteProjectManager {
                     return "已经写过" + logTime + "的日志";
                 }
                 projectCodes += ";" + projectCode + "," + logTime;
-                proportions += Double.parseDouble(proportion.replace("%", ""));
+                proportions += Double.parseDouble(proportion.replace("小时", ""));
             }
         }
         if (this.checkRepeat(projectCodes.split(";"))) {
@@ -177,56 +174,50 @@ public class LteProjectManager implements ILteProjectManager {
         QueryCriteria criteria = new QueryCriteria();
         criteria.put("employeeCode", employeeCode);
         criteria.put("logTime", logTime);
-        if (!Common.judgeString(id) && lteProjectMapper.querySumProportion(criteria) + proportions != 100) {
-            return "项目占比之和只能等于100";
+        if (!Common.judgeString(id) && projectMapper.querySumProportion(criteria) + proportions > 7) {
+            return "项目占比之和只能小于等于7";
         }
         if (!Common.judgeString(employeeCode)) {
             return "员工工号不能为空,请退出,再进入";
         }
-        if (!Common.judgeString(workNature)) {
-            return "工作性质不能为空";
-        } else if (!Arrays.asList(workNatures).contains(workNature)) {
+//        if (!Common.judgeString(workNature)) {
+//            return "工作性质不能为空";
+        if (!Common.judgeString(workNature) && !Arrays.asList(workNatures).contains(workNature)) {
             return "工作性质只能为开发、测试、维护、生产、培训、部署、策划、数据分析、文档撰写、内部交流、外部交流、商务、服务交付、研究、休假或其他";
         }
-        if (!Common.judgeString(context)) {
-            return "工作日志内容不能为空";
-        }
+//        if (!Common.judgeString(context)) {
+//            return "工作日志内容不能为空";
+//        }
         return "";
     }
 
     @Override
     public List<String> queryReporter(String projectName) {
-        return lteProjectMapper.queryReporter(projectName);
-    }
-
-    @Override
-    public String queryEmployeeByCode(String employeeCode) {
-        List<String> employee = lteProjectMapper.queryEmployeeByCode(employeeCode);
-        return (employee != null && !employee.isEmpty()) ? employee.get(0) : "";
+        return projectMapper.queryReporter(projectName);
     }
 
     @Override
     public void saveLogInfo(QueryCriteria criteria) {
-        lteProjectMapper.saveLogInfo(criteria);
+        projectMapper.saveLogInfo(criteria);
     }
 
     @Override
     public void saveLogInfo(String logInfoListJson) {
-        QueryCriteria criteria = null;
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        QueryCriteria criteria;
+        List<Map<String, Object>> list;
         JSONArray jsonArray = JSONArray.fromObject(logInfoListJson);//把String转换为json
         list = JSONArray.toList(jsonArray, Map.class);//这里的t是Class<T>
         for (Map map : list) {
             criteria = new QueryCriteria();
             criteria.setCondition(map);
-            lteProjectMapper.saveLogInfo(criteria);
+            projectMapper.saveLogInfo(criteria);
         }
     }
 
     @Override
     public PageResult queryContractReviewInfo(QueryCriteria criteria) {
-        List<Map> actual = lteProjectMapper.queryContractReviewInfo(criteria);
-        int total = lteProjectMapper.countContractReview(criteria);
+        List<Map> actual = projectMapper.queryContractReviewInfo(criteria);
+        int total = projectMapper.countContractReview(criteria);
         PageResult page = new PageResult(criteria.getPageNo(), criteria.getPageSize());
         page.setResult(actual);
         page.setTotalItems(total);
@@ -235,8 +226,8 @@ public class LteProjectManager implements ILteProjectManager {
 
     @Override
     public PageResult queryLogInfo(QueryCriteria criteria) {
-        List<Map> actual = lteProjectMapper.queryLogInfo(criteria);
-        int total = lteProjectMapper.countLogInfo(criteria);
+        List<Map> actual = projectMapper.queryLogInfo(criteria);
+        int total = projectMapper.countLogInfo(criteria);
         PageResult page = new PageResult(criteria.getPageNo(), criteria.getPageSize());
         page.setResult(actual);
         page.setTotalItems(total);
@@ -271,7 +262,7 @@ public class LteProjectManager implements ILteProjectManager {
     @Override
     public PageResult queryFinalStatisticsInfo(QueryCriteria criteria) {
         setStartEndDate(criteria);
-        List<Map> actual = lteProjectMapper.queryFinalStatisticsInfo(criteria);
+        List<Map> actual = projectMapper.queryFinalStatisticsInfo(criteria);
         List<String> workDateList = queryWorkDay(criteria);
         int workDate = workDateList.size();
         int i = 1;
@@ -340,9 +331,9 @@ public class LteProjectManager implements ILteProjectManager {
         criteria.put("remark", remark);
         criteria.put("notLogCount", allCount);
         criteria.put("workDate", workDate);
-        List<Map> unpaidList = lteProjectMapper.queryEmptyWorkLog(criteria);
+        List<Map> unpaidList = projectMapper.queryEmptyWorkLog(criteria);
 
-        List<Map> notAllWorkLogList = lteProjectMapper.queryNotAllWorkLog(criteria);
+        List<Map> notAllWorkLogList = projectMapper.queryNotAllWorkLog(criteria);
         String employeeCode = "";
         String employee = "";
 //        int count = 0;
@@ -423,9 +414,9 @@ public class LteProjectManager implements ILteProjectManager {
         criteria.put("notLogCount", allCount);
         criteria.put("isStaff", "true");
         criteria.put("remark", "");
-        List<Map> list = lteProjectMapper.queryEmptyWorkLog(criteria);
+        List<Map> list = projectMapper.queryEmptyWorkLog(criteria);
 
-        List<Map> notAllWorkLogList = lteProjectMapper.queryNotAllWorkLog(criteria);
+        List<Map> notAllWorkLogList = projectMapper.queryNotAllWorkLog(criteria);
         String employeeCode = "";
         String employee = "";
         Map statistics = null;
@@ -554,8 +545,8 @@ public class LteProjectManager implements ILteProjectManager {
             c2.setTime(df.parse(endDate));
             int dayOfWeek = 0;
             String year = startDate.substring(0, 4);
-            String holidays = lteProjectMapper.queryHolidays(year);
-            String makeUpClassDays = lteProjectMapper.queryMakeUpClassDays(year);
+            String holidays = projectMapper.queryHolidays(year);
+            String makeUpClassDays = projectMapper.queryMakeUpClassDays(year);
             String dateStr = "";
             while (c1.compareTo(c2) != 1) {
                 dayOfWeek = c1.get(Calendar.DAY_OF_WEEK);
@@ -563,8 +554,8 @@ public class LteProjectManager implements ILteProjectManager {
 //                判断是否跨年，跨年要重新获取节假日
                 if (!dateStr.substring(0, 4).equals(year)) {
                     year = String.valueOf(Integer.parseInt(year) + 1);
-                    holidays = lteProjectMapper.queryHolidays(year);
-                    makeUpClassDays = lteProjectMapper.queryMakeUpClassDays(year);
+                    holidays = projectMapper.queryHolidays(year);
+                    makeUpClassDays = projectMapper.queryMakeUpClassDays(year);
                 }
 //                判断是否节假日
                 if (isHoliday(dayOfWeek, dateStr, holidays, makeUpClassDays)) {
@@ -777,17 +768,17 @@ public class LteProjectManager implements ILteProjectManager {
 
     @Override
     public void deleteData(QueryCriteria criteria) {
-        lteProjectMapper.deleteData(criteria);
+        projectMapper.deleteData(criteria);
     }
 
     @Override
     public void saveData(QueryCriteria criteria) {
-        lteProjectMapper.saveData(criteria);
+        projectMapper.saveData(criteria);
     }
 
     @Override
     public void saveLogData(QueryCriteria criteria) {
-        lteProjectMapper.saveLogData(criteria);
+        projectMapper.saveLogData(criteria);
     }
 
     /**
@@ -835,48 +826,48 @@ public class LteProjectManager implements ILteProjectManager {
     @Override
     public void deleteProjectInfo(List<Long> ids) {
         for (Long id : ids) {
-            lteProjectMapper.deleteProjectInfo(id);
+            projectMapper.deleteProjectInfo(id);
         }
     }
 
     @Override
     public String deleteLogInfo(QueryCriteria criteria) {
-        List<Map> list = lteProjectMapper.validProportion(criteria);
+        List<Map> list = projectMapper.validProportion(criteria);
         for (Map map : list) {
             if (Double.parseDouble(map.get("count").toString()) != 100) {
                 return "不能删除" + map.get("employee") + "，" + map.get("logTime").toString().substring(0, 10) + "的部分日志信息";
             }
         }
-        lteProjectMapper.deleteLogInfo(criteria);
+        projectMapper.deleteLogInfo(criteria);
         return "";
     }
 
     @Override
     public void saveOrUpdateProjectInfo(QueryCriteria criteria) {
         if (Common.judgeString(String.valueOf(criteria.get("id")))) {
-            lteProjectMapper.updateProjectInfo(criteria);
+            projectMapper.updateProjectInfo(criteria);
         } else {
-            lteProjectMapper.saveProjectInfo(criteria);
+            projectMapper.saveProjectInfo(criteria);
         }
     }
 
     @Override
     public void saveOrUpdateLogInfo(QueryCriteria criteria) {
         if (Common.judgeString(String.valueOf(criteria.get("id")))) {
-            lteProjectMapper.updateLogInfo(criteria);
+            projectMapper.updateLogInfo(criteria);
         } else {
-            lteProjectMapper.saveLogInfo(criteria);
+            projectMapper.saveLogInfo(criteria);
         }
     }
 
     @Override
     public List<Map> queryCodeAndReporter(String projectName) {
-        return lteProjectMapper.queryCodeAndReporter(projectName);
+        return projectMapper.queryCodeAndReporter(projectName);
     }
 
     @Override
     public List<Map> queryNameAndReporter(String projectCode) {
-        return lteProjectMapper.queryNameAndReporter(projectCode);
+        return projectMapper.queryNameAndReporter(projectCode);
     }
 
     @Override
@@ -884,13 +875,13 @@ public class LteProjectManager implements ILteProjectManager {
         setStartEndDate(criteria);
         criteria.setRowStart(null);
         criteria.setPageSize(null);
-        return lteProjectMapper.queryLogInfo(criteria);
+        return projectMapper.queryLogInfo(criteria);
     }
 
     @Override
     public List<Map> queryEmployeeProject(QueryCriteria criteria) {
         setStartEndDate(criteria);
-        List<Map> list = lteProjectMapper.queryEmployeeProject(criteria);
+        List<Map> list = projectMapper.queryEmployeeProject(criteria);
         return list;
     }
 
@@ -900,17 +891,17 @@ public class LteProjectManager implements ILteProjectManager {
         criteria.put("projectCode", projectCode);
         criteria.put("employeeCode", employeeCode);
         criteria.put("logTime", logTime);
-        return lteProjectMapper.countRepeatLogInfo(criteria) > 0 ? true : false;
+        return projectMapper.countRepeatLogInfo(criteria) > 0 ? true : false;
     }
 
     @Override
     public List<String> queryProjectCode() {
-        return lteProjectMapper.queryProjectCode();
+        return projectMapper.queryProjectCode();
     }
 
     @Override
     public Double querySumProportion(QueryCriteria criteria) {
-        return lteProjectMapper.querySumProportion(criteria);
+        return projectMapper.querySumProportion(criteria);
     }
 
     private void export(OutputStream os, QueryCriteria criteria) throws Exception {
@@ -962,7 +953,7 @@ public class LteProjectManager implements ILteProjectManager {
         cell.setCellValue("日志内容");
         cell.setCellStyle(style);
 
-        List<Map> mapList = lteProjectMapper.exportLogList(criteria);
+        List<Map> mapList = projectMapper.exportLogList(criteria);
         String proportion = "";
         String logTime = "";
         String employeeCode = "";
@@ -1035,7 +1026,7 @@ public class LteProjectManager implements ILteProjectManager {
         cell.setCellValue("项目结束时间");
         cell.setCellStyle(style);
 
-        List<Map> mapList = lteProjectMapper.exportContractReviewList(criteria);
+        List<Map> mapList = projectMapper.exportContractReviewList(criteria);
         String contractAmount = "";
         String contractTime = "";
         String marketLeader = "";
@@ -1154,7 +1145,7 @@ public class LteProjectManager implements ILteProjectManager {
 
         String ids = String.valueOf(criteria.get("id"));
         setStartEndDate(criteria);
-        List<Map> mapList = lteProjectMapper.queryFinalStatisticsInfo(criteria);
+        List<Map> mapList = projectMapper.queryFinalStatisticsInfo(criteria);
         List<String> workDateList = queryWorkDay(criteria);
         int workDate = workDateList.size();
         List<Map> list = new ArrayList<Map>();
@@ -1363,7 +1354,7 @@ public class LteProjectManager implements ILteProjectManager {
             criteria.put("projectCode", String.valueOf(dataMap.get("projectCode")));
             criteria.put("projectName", String.valueOf(dataMap.get("projectName")));
             criteria.put("reporter", cellContent);
-            if (lteProjectMapper.countContractReview(criteria) <= 0) {
+            if (projectMapper.countContractReview(criteria) <= 0) {
                 return "导入失败，第" + row + "行，项目编码、项目名称和项目经理不匹配！";
             }
         }
@@ -1373,10 +1364,10 @@ public class LteProjectManager implements ILteProjectManager {
             criteria.put("logTime", String.valueOf(dataMap.get("logTime")));
             criteria.put("employeeCode", String.valueOf(dataMap.get("employeeCode")));
             criteria.put("employee", cellContent);
-            if (lteProjectMapper.countLogInfo(criteria) > 0) {
+            if (projectMapper.countLogInfo(criteria) > 0) {
                 return "导入失败，第" + row + "行，同一时间已经录入了项目一样的日志！";
             }
-            if (lteProjectMapper.countRepeatEmployeeInfo(criteria) <= 0) {
+            if (projectMapper.countRepeatEmployeeInfo(criteria) <= 0) {
                 return "导入失败，第" + row + "行，员工工号和员工姓名不匹配！";
             }
             return validLogRepeat(dataList, dataMap);
@@ -1466,13 +1457,13 @@ public class LteProjectManager implements ILteProjectManager {
         List<String> workDateList = queryWorkDay(criteria);
         List<String> weekendList = queryWeekend(criteria, workDateList);
         String workDate = listToString(workDateList);
-        List<Map> list = lteProjectMapper.queryEmptyWorkLog(criteria);
+        List<Map> list = projectMapper.queryEmptyWorkLog(criteria);
         if (list != null && !list.isEmpty()) {
             notLogCount = list.size();
         }
         String logTimes = "";
         String createTimes = "";
-        List<Map> notAllWorkLogList = lteProjectMapper.queryNotAllWorkLog(criteria);
+        List<Map> notAllWorkLogList = projectMapper.queryNotAllWorkLog(criteria);
         for (Map notAllWorkLog : notAllWorkLogList) {
             if (Common.judgeString(String.valueOf(notAllWorkLog.get("employeeCode")))) {
                 logTimes = String.valueOf(notAllWorkLog.get("logTimes"));
@@ -1500,7 +1491,7 @@ public class LteProjectManager implements ILteProjectManager {
     public List<Map> queryAppraiseEmployee(QueryCriteria criteria) {
         setPreStartEndDate(criteria);
         List<Map> logList = new ArrayList<Map>();
-        List<Map> notLogList = lteProjectMapper.queryEmptyWorkLog(criteria);
+        List<Map> notLogList = projectMapper.queryEmptyWorkLog(criteria);
         List<Map> lateLogList = new ArrayList<Map>();
         List<Map> normalLogList = new ArrayList<Map>();
         String type = String.valueOf(criteria.get("type"));
@@ -1514,7 +1505,7 @@ public class LteProjectManager implements ILteProjectManager {
         Map statisticsMap = null;
         String logTimes = "";
         String createTimes = "";
-        List<Map> notAllWorkLogList = lteProjectMapper.queryNotAllWorkLog(criteria);
+        List<Map> notAllWorkLogList = projectMapper.queryNotAllWorkLog(criteria);
         for (Map notAllWorkLog : notAllWorkLogList) {
             employeeCode = String.valueOf(notAllWorkLog.get("employeeCode"));
             employee = String.valueOf(notAllWorkLog.get("employee"));
@@ -1573,23 +1564,23 @@ public class LteProjectManager implements ILteProjectManager {
 
     @Override
     public List<Map> queryProjectLine(QueryCriteria criteria) {
-        return lteProjectMapper.queryProjectLine(criteria);
+        return projectMapper.queryProjectLine(criteria);
     }
 
     @Override
     public List<Map> queryProjectByLine(QueryCriteria criteria) {
-        return lteProjectMapper.queryProjectByLine(criteria);
+        return projectMapper.queryProjectByLine(criteria);
     }
 
     @Override
     public String queryLineNameByCode(String projectCode) {
-        return lteProjectMapper.queryLineNameByCode(projectCode);
+        return projectMapper.queryLineNameByCode(projectCode);
     }
 
     @Override
     public List<Map> queryEmployeeLog(QueryCriteria criteria) {
         setPreStartEndDate(criteria);
-        return lteProjectMapper.queryEmployeeLog(criteria);
+        return projectMapper.queryEmployeeLog(criteria);
     }
 
     private List<String> queryWeekend(QueryCriteria criteria, List<String> workDateList) {

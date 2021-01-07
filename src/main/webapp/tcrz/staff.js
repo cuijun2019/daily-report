@@ -1,7 +1,7 @@
 var staffInfo = {
     action : {
-		queryEmployeeProject : '/modules/lteproject/queryEmployeeProject',
-		queryOwnLogInfo : '/modules/lteproject/queryOwnLogInfo'
+		queryEmployeeProject : '/modules/project/queryEmployeeProject',
+		queryOwnLogInfo : '/modules/project/queryOwnLogInfo'
     },
 
     init : function() {

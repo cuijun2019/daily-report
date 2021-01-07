@@ -1,9 +1,9 @@
 var projectLineInfo = {
     action : {
-		queryProjectLine : '/modules/lteproject/queryProjectLine',
-		queryProjectByLine : '/modules/lteproject/queryProjectByLine',
-		queryLineNameByCode : '/modules/lteproject/queryLineNameByCode',
-		queryOwnLogInfo : '/modules/lteproject/queryOwnLogInfo'
+		queryProjectLine : '/modules/project/queryProjectLine',
+		queryProjectByLine : '/modules/project/queryProjectByLine',
+		queryLineNameByCode : '/modules/project/queryLineNameByCode',
+		queryOwnLogInfo : '/modules/project/queryOwnLogInfo'
     },
 
     init : function() {

@@ -18,7 +18,7 @@ $(function () {
     var employeeCode = "";
     var employee = "";
     $.ajax({
-        url : "/modules/lteproject/getUserId?corpid=wxf6eb3a37aa3b2042&corpsecret=S81CfWcVFSczYZVMkOHnPwDdok1OrNgdIByzpFg82Eg&code=" + getQueryString("code"),
+        url : "/modules/project/getUserId?corpid=wxf6eb3a37aa3b2042&corpsecret=S81CfWcVFSczYZVMkOHnPwDdok1OrNgdIByzpFg82Eg&code=" + getQueryString("code"),
         type : "post",
         async : false,
         cache : false,
@@ -439,7 +439,7 @@ $(function () {
         }
         isCommitted = true;
         $.ajax({
-            url : "/modules/lteproject/saveLogInfo2?random=" + Math.random(),
+            url : "/modules/project/saveLogInfo2?random=" + Math.random(),
             type : "post",
             data : {
                 logInfoList : encode(logInfoList)
@@ -634,7 +634,7 @@ function personalLog(employeeCode, projectCode, startDate, endDate, status) {
         $("#projectCode").val(projectCode);
         $("#staffLogDetail").empty();
         $.ajax({
-            url : "/modules/lteproject/queryLineNameByCode?projectCode=" + projectCode,
+            url : "/modules/project/queryLineNameByCode?projectCode=" + projectCode,
             type : "post",
             async : false,
             cache : false,
@@ -650,7 +650,7 @@ function personalLog(employeeCode, projectCode, startDate, endDate, status) {
         $("#personlog").empty();
     }
     $.ajax({
-        url : "/modules/lteproject/queryOwnLogInfo?employeeCode=" + employeeCode + "&projectCode=" + projectCode + "&startDate=" + startDate + "&endDate=" + endDate,
+        url : "/modules/project/queryOwnLogInfo?employeeCode=" + employeeCode + "&projectCode=" + projectCode + "&startDate=" + startDate + "&endDate=" + endDate,
         type : "post",
         async : false,
         cache : false,
@@ -763,7 +763,7 @@ function stafflog(employeeCode, employee, staffStartDate, staffEndDate) {
     $("#stafflog").empty();
     $("#backLi").hide();
     $.ajax({
-        url : "/modules/lteproject/queryEmployeeProject",
+        url : "/modules/project/queryEmployeeProject",
         type : "post",
 	    data : {
             employeeCode : employeeCode,
@@ -865,7 +865,7 @@ function typeaheadProjectCode(i) {
     $('#projectCode'+i).typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -889,7 +889,7 @@ function typeaheadProjectName(i) {
     $('#projectName'+i).typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -950,7 +950,7 @@ function changeProjectName(i) {
         var projectName = $("#projectName"+i).val();
         if (projectName != "") {
             $.ajax({
-                url : "/modules/lteproject/validProjectName?projectName=" + projectName,
+                url : "/modules/project/validProjectName?projectName=" + projectName,
                 type : "post",
                 async : false,
                 cache : false,
@@ -977,7 +977,7 @@ function changeProjectCode(i) {
         var projectCode = $("#projectCode"+i).val();
         if (projectCode != "" && projectCode.length > 4) {
             $.ajax({
-                url : "/modules/lteproject/validProjectCode?projectCode=" + projectCode,
+                url : "/modules/project/validProjectCode?projectCode=" + projectCode,
                 type : "post",
                 async : false,
                 cache : false,
@@ -1063,7 +1063,7 @@ function naturelistFunc() {
 function validMessage(employeeCode, logTime, workNature, context, logInfoList) {
     var message = "";
     $.ajax({
-        url : "/modules/lteproject/validLogInfo?random=" + Math.random(),
+        url : "/modules/project/validLogInfo?random=" + Math.random(),
         type : "post",
         data : {
             employeeCode : employeeCode.substring(0, employeeCode.indexOf(" ")),

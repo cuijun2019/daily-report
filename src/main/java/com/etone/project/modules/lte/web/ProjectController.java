@@ -7,7 +7,7 @@ import com.etone.project.core.model.QueryCriteria;
 import com.etone.project.core.model.Result;
 import com.etone.project.core.utils.StringUtils;
 import com.etone.project.core.web.control.GenericController;
-import com.etone.project.modules.lte.manager.ILteProjectManager;
+import com.etone.project.modules.lte.manager.IProjectManager;
 import com.etone.project.utils.Common;
 import com.etone.project.utils.ResponseUtils;
 import net.sf.json.JSONArray;
@@ -43,22 +43,22 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping("/modules/lteproject")
+@RequestMapping("/modules/project")
 @Auditmeta(code = "003", name = "项目信息", symbol = "")
-public final class LteProjectController extends GenericController {
+public final class ProjectController extends GenericController {
     @Bean
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(LteProjectController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     private final static String ACCESS_TOKEN = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s";
-    private final static String USER_INFO = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s";
-    private final static String USER_DETAIL = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s";
+    private final static String USER_INFO    = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=%s&code=%s";
+    private final static String USER_DETAIL  = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=%s&userid=%s";
 
     @Autowired
-    private ILteProjectManager lteProjectManager;
+    private IProjectManager projectManager;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -94,21 +94,21 @@ public final class LteProjectController extends GenericController {
     public void queryContractReview(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QueryCriteria criteria = new QueryCriteria();
         criteria.put("employee", URLDecoder.decode(request.getParameter("employee"), "UTF-8"));
-        List<Map> list = lteProjectManager.queryContractReview(criteria);
+        List<Map> list = projectManager.queryContractReview(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 
     @ResponseBody
     @RequestMapping(value = "/queryEmployeeInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryEmployeeInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Map> list = lteProjectManager.queryEmployeeInfo();
+        List<Map> list = projectManager.queryEmployeeInfo();
         ResponseUtils.printArrayList(response, list);
     }
 
     @ResponseBody
     @RequestMapping(value = "/queryLatestLogInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryLatestLogInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Map> list = lteProjectManager.queryLatestLogInfo(request.getParameter("employeeCode"));
+        List<Map> list = projectManager.queryLatestLogInfo(request.getParameter("employeeCode"));
         ResponseUtils.printArrayList(response, list);
     }
 
@@ -119,7 +119,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("employeeCode", request.getParameter("employeeCode"));
         criteria.put("startDate", request.getParameter("staffStartDate"));
         criteria.put("endDate", request.getParameter("staffEndDate"));
-        List<Map> list = lteProjectManager.queryEmployeeProject(criteria);
+        List<Map> list = projectManager.queryEmployeeProject(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 
@@ -132,7 +132,7 @@ public final class LteProjectController extends GenericController {
         } else {
             projectCode = request.getParameter("projectCode");
         }
-        List<Map> nameAndReporter = lteProjectManager.queryNameAndReporter(projectCode);
+        List<Map> nameAndReporter = projectManager.queryNameAndReporter(projectCode);
         JSONObject json = new JSONObject();
         if (nameAndReporter != null && !nameAndReporter.isEmpty()) {
             json.put("valid", true);
@@ -156,7 +156,7 @@ public final class LteProjectController extends GenericController {
         } else {
             projectName = request.getParameter("projectName");
         }
-        List<Map> codeAndReporter = lteProjectManager.queryCodeAndReporter(projectName);
+        List<Map> codeAndReporter = projectManager.queryCodeAndReporter(projectName);
         JSONObject json = new JSONObject();
         if (codeAndReporter != null && !codeAndReporter.isEmpty()) {
             json.put("valid", true);
@@ -180,7 +180,7 @@ public final class LteProjectController extends GenericController {
         } else {
             reporter = request.getParameter("reporter");
         }
-        boolean isExist = lteProjectManager.validReporter(reporter);
+        boolean isExist = projectManager.validReporter(reporter);
         if (isExist) {
             return "{\"valid\":true}";
         }
@@ -190,7 +190,7 @@ public final class LteProjectController extends GenericController {
     @ResponseBody
     @RequestMapping(value = "/validEmployeeCode", method = {RequestMethod.GET, RequestMethod.POST})
     public void validEmployeeCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String employee = lteProjectManager.validEmployeeCode(request.getParameter("employeeCode"));
+        String employee = projectManager.validEmployeeCode(request.getParameter("employeeCode"));
         JSONObject json = new JSONObject();
         json.put("valid", Common.judgeString(employee));
         json.put("employee", employee);
@@ -207,7 +207,7 @@ public final class LteProjectController extends GenericController {
         } else {
             employee = request.getParameter("employee");
         }
-        String employeeCode = lteProjectManager.validEmployee(employee);
+        String employeeCode = projectManager.validEmployee(employee);
         JSONObject json = new JSONObject();
         json.put("valid", Common.judgeString(employeeCode));
         json.put("employee", employeeCode);
@@ -224,7 +224,7 @@ public final class LteProjectController extends GenericController {
         } else {
             proportion = request.getParameter("proportion");
         }
-        boolean isExist = lteProjectManager.validProportion(proportion);
+        boolean isExist = projectManager.validProportion(proportion);
         if (isExist) {
             return "{\"valid\":true}";
         }
@@ -234,7 +234,7 @@ public final class LteProjectController extends GenericController {
     @ResponseBody
     @RequestMapping(value = "/validRepeatLogInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void validRepeatLogInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        boolean flag = lteProjectManager.validRepeatLogInfo( request.getParameter("projectCode"), request.getParameter("employeeCode"), request.getParameter("logTime"));
+        boolean flag = projectManager.validRepeatLogInfo(request.getParameter("projectCode"), request.getParameter("employeeCode"), request.getParameter("logTime"));
         JSONObject json = new JSONObject();
         json.put("message", flag ? "同一时间不能写项目一样的日志" : "");
 
@@ -244,7 +244,7 @@ public final class LteProjectController extends GenericController {
     @ResponseBody
     @RequestMapping(value = "/validLogInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void validLogInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String message = lteProjectManager.validLogInfo(request);
+        String message = projectManager.validLogInfo(request);
         JSONObject json = new JSONObject();
         json.put("message", message);
 
@@ -260,7 +260,7 @@ public final class LteProjectController extends GenericController {
         } else {
             projectName = request.getParameter("projectName");
         }
-        List<String> reporters = lteProjectManager.queryReporter(projectName);
+        List<String> reporters = projectManager.queryReporter(projectName);
         JSONObject json = new JSONObject();
         if (reporters != null && !reporters.isEmpty()) {
             json.put("reporter", reporters.get(0));
@@ -275,7 +275,7 @@ public final class LteProjectController extends GenericController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
 
-        PrintWriter writer = null;
+        PrintWriter writer;
         Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
         QueryCriteria criteria = new QueryCriteria();
         try {
@@ -290,7 +290,7 @@ public final class LteProjectController extends GenericController {
             criteria.put("createTime", simpledateformat.format(new Date()));
             criteria.put("employeeCode", request.getParameter("employeeCode"));
             criteria.put("employee", request.getParameter("employee"));
-            lteProjectManager.saveLogInfo(criteria);
+            projectManager.saveLogInfo(criteria);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             result = new Result(Result.ERROR, "保存失败", "保存失败");
@@ -310,19 +310,18 @@ public final class LteProjectController extends GenericController {
     }
 
     @ResponseBody
-     @RequestMapping(value = "/saveLogInfo2", method = {RequestMethod.GET, RequestMethod.POST})
-     public void saveLogInfo2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/saveLogInfo2", method = {RequestMethod.GET, RequestMethod.POST})
+    public void saveLogInfo2(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.reset();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
 
-        PrintWriter writer = null;
+        PrintWriter writer;
         Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
-        QueryCriteria criteria = new QueryCriteria();
         String logInfoListJson = request.getParameter("logInfoList");
 
         try {
-            lteProjectManager.saveLogInfo(logInfoListJson);
+            projectManager.saveLogInfo(logInfoListJson);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             result = new Result(Result.ERROR, "保存失败", "保存失败");
@@ -352,7 +351,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("reporter", String.valueOf(query.get("reporter")));
         criteria.setPageSize(Integer.parseInt(String.valueOf(query.get("limit"))));
         criteria.setRowStart(Integer.parseInt(String.valueOf(query.get("offset"))));
-        PageResult<Map> page = lteProjectManager.queryContractReviewInfo(criteria);
+        PageResult<Map> page = projectManager.queryContractReviewInfo(criteria);
         Results results = Results.getPage(page, Map.class);
         results.setTotal(page.getTotalItems());
         return results;
@@ -371,7 +370,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("endDate", String.valueOf(query.get("endDate")));
         criteria.setPageSize(Integer.parseInt(String.valueOf(query.get("limit"))));
         criteria.setRowStart(Integer.parseInt(String.valueOf(query.get("offset"))));
-        PageResult<Map> page = lteProjectManager.queryLogInfo(criteria);
+        PageResult<Map> page = projectManager.queryLogInfo(criteria);
         Results results = Results.getPage(page, Map.class);
         results.setTotal(page.getTotalItems());
 
@@ -394,7 +393,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("payCondition", String.valueOf(query.get("payCondition")));
         criteria.setPageSize(Integer.parseInt(String.valueOf(query.get("limit"))));
         criteria.setRowStart(Integer.parseInt(String.valueOf(query.get("offset"))));
-        PageResult<Map> page = lteProjectManager.queryStatisticsInfo(criteria);
+        PageResult<Map> page = projectManager.queryStatisticsInfo(criteria);
         Results results = Results.getPage(page, Map.class);
         results.setTotal(page.getTotalItems());
         return results;
@@ -413,7 +412,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("endDate", String.valueOf(query.get("endDate")));
         criteria.setPageSize(Integer.parseInt(String.valueOf(query.get("limit"))));
         criteria.setRowStart(Integer.parseInt(String.valueOf(query.get("offset"))));
-        PageResult<Map> page = lteProjectManager.queryFinalStatisticsInfo(criteria);
+        PageResult<Map> page = projectManager.queryFinalStatisticsInfo(criteria);
         Results results = Results.getPage(page, Map.class);
         results.setTotal(page.getTotalItems());
         return results;
@@ -434,11 +433,11 @@ public final class LteProjectController extends GenericController {
         if (StringUtils.isNotEmpty(id)) {
             criteria.put("sort", "order by id " + id);
         }
-        List<Map> list = lteProjectManager.queryContractReview(criteria);
+        List<Map> list = projectManager.queryContractReview(criteria);
         JSONObject json = new JSONObject();
         json.put("current", current);
         json.put("rowCount", rowCount);
-        json.put("total", lteProjectManager.countContractReview(criteria));
+        json.put("total", projectManager.countContractReview(criteria));
 
         JSONArray childJsonMembers = new JSONArray();
         JSONObject childMember = new JSONObject();
@@ -475,9 +474,9 @@ public final class LteProjectController extends GenericController {
         org.apache.poi.ss.usermodel.Sheet sheet = null;
         String fileName = "";
         try {
-            inputStream = lteProjectManager.validExcelFile(fileMap);
+            inputStream = projectManager.validExcelFile(fileMap);
 
-            if(inputStream == null) {
+            if (inputStream == null) {
                 result = new Result(Result.ERROR, "导入失败，导入的文件错误！", "导入失败，导入的文件错误！");
                 flag = false;
             }
@@ -485,7 +484,7 @@ public final class LteProjectController extends GenericController {
             fileName = fileMap.values().iterator().next().getOriginalFilename();
             if (fileName.endsWith(".xls")) {
                 book = new HSSFWorkbook(inputStream);
-            } else if(fileName.endsWith(".xlsx")) {
+            } else if (fileName.endsWith(".xlsx")) {
                 book = new XSSFWorkbook(inputStream);
             } else {
                 result = new Result(Result.ERROR, "导入失败，文件类型错误！", "导入失败，文件类型错误！");
@@ -494,27 +493,27 @@ public final class LteProjectController extends GenericController {
             System.out.println("-----end------");
             sheet = book.getSheetAt(0);
             int rows = sheet.getPhysicalNumberOfRows();
-            String[] titleArr = new String[] { "项目编码", "项目名称", "项目经理", "合同签订金额", "合同签订时间", "市场负责人", "项目开始时间", "项目结束时间" };
+            String[] titleArr = new String[]{"项目编码", "项目名称", "项目经理", "合同签订金额", "合同签订时间", "市场负责人", "项目开始时间", "项目结束时间"};
 
-            String message = lteProjectManager.validExcelTitle(sheet, titleArr);
+            String message = projectManager.validExcelTitle(sheet, titleArr);
             if (Common.judgeString(message)) {
                 result = new Result(Result.ERROR, message, message);
                 flag = false;
             }
-            message = lteProjectManager.validExcelData(rows);
+            message = projectManager.validExcelData(rows);
             if (Common.judgeString(message)) {
                 result = new Result(Result.ERROR, message, message);
                 flag = false;
             }
 
             if (flag) {
-                Map dataMap = null;
+                Map dataMap;
                 List dataList = new ArrayList();
                 String projectCode = "";
-                List<String> projectCodes = lteProjectManager.queryProjectCode();
-                List<String> repeatCodes = new ArrayList<String>();
+                List<String> projectCodes = projectManager.queryProjectCode();
+                List<String> repeatCodes = new ArrayList<>();
                 for (int row = 1; row < rows; row++) {
-                    dataMap = lteProjectManager.getExcelData(row + 1, sheet, dataList);
+                    dataMap = projectManager.getExcelData(row + 1, sheet, dataList);
                     message = String.valueOf(dataMap.get("message"));
                     if (Common.judgeString(message)) {
                         result = new Result(Result.ERROR, message, message);
@@ -530,11 +529,11 @@ public final class LteProjectController extends GenericController {
                 }
                 if (repeatCodes != null && !repeatCodes.isEmpty()) {
                     criteria.put("repeatCodes", repeatCodes);
-                    lteProjectManager.deleteData(criteria);
+                    projectManager.deleteData(criteria);
                 }
-                for (int i = 1,length=dataList.size() / 150 + 1; i <= length; i++) {
+                for (int i = 1, length = dataList.size() / 150 + 1; i <= length; i++) {
                     criteria.put("dataList", getPagedList(i, 150, dataList));
-                    lteProjectManager.saveData(criteria);
+                    projectManager.saveData(criteria);
                 }
             }
         } catch (Exception e) {
@@ -548,7 +547,7 @@ public final class LteProjectController extends GenericController {
             //关闭文件流
             try {
                 inputStream.close();
-            } catch (Exception  e) {
+            } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
             if (writer != null) {
@@ -578,37 +577,37 @@ public final class LteProjectController extends GenericController {
         // 获得文件：
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         InputStream inputStream = null;
-        org.apache.poi.ss.usermodel.Workbook book = null;
-        org.apache.poi.ss.usermodel.Sheet sheet = null;
+        org.apache.poi.ss.usermodel.Workbook book;
+        org.apache.poi.ss.usermodel.Sheet sheet;
         try {
-            inputStream = lteProjectManager.validExcelFile(fileMap);
+            inputStream = projectManager.validExcelFile(fileMap);
 
-            if(inputStream == null) {
+            if (inputStream == null) {
                 result = new Result(Result.ERROR, "导入失败，导入的文件错误！", "导入失败，导入的文件错误！");
                 flag = false;
             }
             book = WorkbookFactory.create(inputStream);
             sheet = book.getSheetAt(0);
             int rows = sheet.getPhysicalNumberOfRows();
-            String[] titleArr = new String[] { "项目编码", "项目名称", "项目经理", "项目占比", "日志时间", "员工工号", "员工姓名", "工作性质", "日志内容" };
+            String[] titleArr = new String[]{"项目编码", "项目名称", "项目经理", "项目占比", "日志时间", "员工工号", "员工姓名", "工作性质", "日志内容"};
 
-            String message = lteProjectManager.validExcelTitle(sheet, titleArr);
+            String message = projectManager.validExcelTitle(sheet, titleArr);
             if (Common.judgeString(message)) {
                 result = new Result(Result.ERROR, message, message);
                 flag = false;
             }
-            message = lteProjectManager.validExcelData(rows);
+            message = projectManager.validExcelData(rows);
             if (Common.judgeString(message)) {
                 result = new Result(Result.ERROR, message, message);
                 flag = false;
             }
 
             if (flag) {
-                Map dataMap = null;
+                Map dataMap;
                 List<Map> dataList = new ArrayList<Map>();
                 String projectCode = "";
                 for (int row = 1; row < rows; row++) {
-                    dataMap = lteProjectManager.getLogExcelData(row + 1, sheet, dataList);
+                    dataMap = projectManager.getLogExcelData(row + 1, sheet, dataList);
                     message = String.valueOf(dataMap.get("message"));
                     if (Common.judgeString(message)) {
                         result = new Result(Result.ERROR, message, message);
@@ -620,17 +619,17 @@ public final class LteProjectController extends GenericController {
                     }
                     criteria.put("employeeCode", dataMap.get("employeeCode").toString());
                     criteria.put("logTime", dataMap.get("logTime").toString());
-                    if (lteProjectManager.querySumProportion(criteria) + Double.parseDouble(dataMap.get("proportion").toString().replace("%", "")) != 100) {
-                        result = new Result(Result.ERROR, "导入失败，第" + row + "行，项目占比之和应等于100", "导入失败，第" + row + "行，项目占比之和应等于100");
+                    if (projectManager.querySumProportion(criteria) + Double.parseDouble(dataMap.get("proportion").toString().replace("小时", "")) > 7) {
+                        result = new Result(Result.ERROR, "导入失败，第" + row + "行，项目占比之和应小于等于7小时", "导入失败，第" + row + "行，项目占比之和应小于等于7小时");
                         return;
                     }
                     if (Common.judgeString(projectCode)) {
                         dataList.add(dataMap);
                     }
                 }
-                for (int i = 1,length=dataList.size() / 150 + 1; i <= length; i++) {
+                for (int i = 1, length = dataList.size() / 150 + 1; i <= length; i++) {
                     criteria.put("dataList", getPagedList(i, 150, dataList));
-                    lteProjectManager.saveLogData(criteria);
+                    projectManager.saveLogData(criteria);
                 }
             }
         } catch (Exception e) {
@@ -644,7 +643,7 @@ public final class LteProjectController extends GenericController {
             //关闭文件流
             try {
                 inputStream.close();
-            } catch (Exception  e) {
+            } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
             if (writer != null) {
@@ -666,8 +665,8 @@ public final class LteProjectController extends GenericController {
         Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
         QueryCriteria criteria = new QueryCriteria();
 //        initParameters(criteria, query);
-        String projectName = "";
-        String employee = "";
+        String projectName;
+        String employee;
         if (443 == request.getServerPort()) {
             projectName = new String(request.getParameter("projectName").getBytes("ISO8859-1"), "UTF-8");
             employee = new String(request.getParameter("employee").getBytes("ISO8859-1"), "UTF-8");
@@ -679,17 +678,17 @@ public final class LteProjectController extends GenericController {
         criteria.put("employee", employee);
         criteria.put("startDate", String.valueOf(query.get("timeStart")));
         criteria.put("endDate", String.valueOf(query.get("timeEnd")));
-        String ids = (String)query.get("ids");
-        if(Common.judgeString(ids)){
+        String ids = (String) query.get("ids");
+        if (Common.judgeString(ids)) {
             List<String> idList = Arrays.asList(ids.split(","));
             criteria.put("id", idList);
         }
         criteria.setPageSize(null);
         try {
-            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1" ) + ".xls");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1") + ".xls");
             OutputStream os = response.getOutputStream();
 
-            lteProjectManager.exportData(os, criteria);
+            projectManager.exportData(os, criteria);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -704,8 +703,8 @@ public final class LteProjectController extends GenericController {
         Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
         QueryCriteria criteria = new QueryCriteria();
 //        initParameters(criteria, query);
-        String projectName = "";
-        String reporter = "";
+        String projectName;
+        String reporter;
         if (443 == request.getServerPort()) {
             projectName = new String(request.getParameter("projectName").getBytes("ISO8859-1"), "UTF-8");
             reporter = new String(request.getParameter("reporter").getBytes("ISO8859-1"), "UTF-8");
@@ -715,17 +714,17 @@ public final class LteProjectController extends GenericController {
         }
         criteria.put("projectName", projectName);
         criteria.put("reporter", reporter);
-        String ids = (String)query.get("ids");
+        String ids = (String) query.get("ids");
         if (Common.judgeString(ids)) {
             List<String> idList = Arrays.asList(ids.split(","));
             criteria.put("id", idList);
         }
         criteria.setPageSize(null);
         try {
-            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1" ) + ".xls");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1") + ".xls");
             OutputStream os = response.getOutputStream();
 
-            lteProjectManager.exportContractReviewData(os, criteria);
+            projectManager.exportContractReviewData(os, criteria);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -753,17 +752,17 @@ public final class LteProjectController extends GenericController {
         criteria.put("employee", employee);
         criteria.put("startDate", String.valueOf(query.get("timeStart")));
         criteria.put("endDate", String.valueOf(query.get("timeEnd")));
-        if(Common.judgeString(employeeCodes)){
+        if (Common.judgeString(employeeCodes)) {
             criteria.put("employee", "");
             List<String> employeeCodeList = Arrays.asList(employeeCodes.split(","));
             criteria.put("employeeCodeList", employeeCodeList);
         }
         criteria.setPageSize(null);
         try {
-            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1" ) + ".xls");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1") + ".xls");
             OutputStream os = response.getOutputStream();
 
-            lteProjectManager.exportStatisticsData(os, criteria);
+            projectManager.exportStatisticsData(os, criteria);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -791,17 +790,17 @@ public final class LteProjectController extends GenericController {
         criteria.put("employee", employee);
         criteria.put("startDate", String.valueOf(query.get("timeStart")));
         criteria.put("endDate", String.valueOf(query.get("timeEnd")));
-        String ids = (String)query.get("ids");
+        String ids = (String) query.get("ids");
         if (Common.judgeString(ids)) {
             List<String> idList = Arrays.asList(ids.split(","));
             criteria.put("id", idList);
         }
         criteria.setPageSize(null);
         try {
-            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1" ) + ".xls");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1") + ".xls");
             OutputStream os = response.getOutputStream();
 
-            lteProjectManager.exportFinalStatisticsData(os, criteria);
+            projectManager.exportFinalStatisticsData(os, criteria);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -819,7 +818,7 @@ public final class LteProjectController extends GenericController {
         QueryCriteria criteria = new QueryCriteria();
         try {
             List<Long> ids = Common.stringToList(request.getParameter("ids"));
-            lteProjectManager.deleteProjectInfo(ids);
+            projectManager.deleteProjectInfo(ids);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             result = new Result(Result.ERROR, "删除失败", "删除失败");
@@ -852,7 +851,7 @@ public final class LteProjectController extends GenericController {
         try {
             List<Long> ids = Common.stringToList(request.getParameter("ids"));
             criteria.put("ids", ids);
-            message = lteProjectManager.deleteLogInfo(criteria);
+            message = projectManager.deleteLogInfo(criteria);
             if (Common.judgeString(message)) {
                 result = new Result(Result.ERROR, message, message);
             }
@@ -897,7 +896,7 @@ public final class LteProjectController extends GenericController {
             criteria.put("marketLeader", request.getParameter("marketLeader"));
             criteria.put("startTime", Common.judgeString(startTime) ? startTime : "");
             criteria.put("endTime", Common.judgeString(endTime) ? endTime : "");
-            lteProjectManager.saveOrUpdateProjectInfo(criteria);
+            projectManager.saveOrUpdateProjectInfo(criteria);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             result = new Result(Result.ERROR, "保存失败", "保存失败");
@@ -938,7 +937,7 @@ public final class LteProjectController extends GenericController {
             criteria.put("employee", request.getParameter("employee"));
             criteria.put("workNature", request.getParameter("workNature"));
             criteria.put("context", request.getParameter("context"));
-            lteProjectManager.saveOrUpdateLogInfo(criteria);
+            projectManager.saveOrUpdateLogInfo(criteria);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             result = new Result(Result.ERROR, "保存失败", "保存失败");
@@ -965,7 +964,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("projectCode", request.getParameter("projectCode"));
         criteria.put("startDate", request.getParameter("startDate"));
         criteria.put("endDate", request.getParameter("endDate"));
-        List<Map> list = lteProjectManager.queryOwnLogInfo(criteria);
+        List<Map> list = projectManager.queryOwnLogInfo(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 
@@ -1002,7 +1001,7 @@ public final class LteProjectController extends GenericController {
         QueryCriteria criteria = new QueryCriteria();
         criteria.put("startDate", request.getParameter("startDate"));
         criteria.put("endDate", request.getParameter("endDate"));
-        String jsonString = lteProjectManager.createRingChart(criteria);
+        String jsonString = projectManager.createRingChart(criteria);
         ResponseUtils.print(response, jsonString);
     }
 
@@ -1013,14 +1012,14 @@ public final class LteProjectController extends GenericController {
         criteria.put("startDate", request.getParameter("startDate"));
         criteria.put("endDate", request.getParameter("endDate"));
         criteria.put("type", request.getParameter("type"));
-        ResponseUtils.printArrayList(response, lteProjectManager.queryAppraiseEmployee(criteria));
+        ResponseUtils.printArrayList(response, projectManager.queryAppraiseEmployee(criteria));
     }
 
     @ResponseBody
     @RequestMapping(value = "/queryProjectLine", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryProjectLine(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QueryCriteria criteria = new QueryCriteria();
-        List<Map> list = lteProjectManager.queryProjectLine(criteria);
+        List<Map> list = projectManager.queryProjectLine(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 
@@ -1030,14 +1029,15 @@ public final class LteProjectController extends GenericController {
         QueryCriteria criteria = new QueryCriteria();
         criteria.put("lineName", request.getParameter("lineName"));
         criteria.put("searchData", request.getParameter("searchData"));
-        List<Map> list = lteProjectManager.queryProjectByLine(criteria);
+        List<Map> list = projectManager.queryProjectByLine(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 
     @ResponseBody
     @RequestMapping(value = "/queryLineNameByCode", method = {RequestMethod.GET, RequestMethod.POST})
-    public void queryLineNameByCode(HttpServletRequest request, HttpServletResponse response) throws IOException {;
-        String lineName = lteProjectManager.queryLineNameByCode(request.getParameter("projectCode"));
+    public void queryLineNameByCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ;
+        String lineName = projectManager.queryLineNameByCode(request.getParameter("projectCode"));
         JSONObject json = new JSONObject();
         json.put("lineName", lineName);
         ResponseUtils.print(response, json.toString());
@@ -1051,7 +1051,7 @@ public final class LteProjectController extends GenericController {
         criteria.put("startDate", request.getParameter("startDate"));
         criteria.put("endDate", request.getParameter("endDate"));
         criteria.put("type", request.getParameter("type"));
-        List<Map> list = lteProjectManager.queryEmployeeLog(criteria);
+        List<Map> list = projectManager.queryEmployeeLog(criteria);
         ResponseUtils.printArrayList(response, list);
     }
 }

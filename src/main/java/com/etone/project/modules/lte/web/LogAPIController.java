@@ -4,7 +4,7 @@ import com.etone.project.base.support.BaseController;
 import com.etone.project.core.model.QueryCriteria;
 import com.etone.project.core.model.Result;
 import com.etone.project.modules.lte.entity.LogInfoDto;
-import com.etone.project.modules.lte.manager.ILteProjectManager;
+import com.etone.project.modules.lte.manager.IProjectManager;
 import com.etone.project.utils.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ import java.util.*;
 public class LogAPIController extends BaseController {
 
     @Autowired
-    private ILteProjectManager lteProjectManager;
+    private IProjectManager lteProjectManager;
 
     @ResponseBody
     @RequestMapping(value = "/saveLog", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")

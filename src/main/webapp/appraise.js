@@ -5,7 +5,7 @@ function initHighCharts(startDate, endDate) {
     $("#appraiseSpan").show();
     $("#employeeLog").hide();
     $.ajax({
-        url:"/modules/lteproject/queryAppraiseEmployee",
+        url:"/modules/project/queryAppraiseEmployee",
         type:"post",
         data : {
             startDate : startDate,
@@ -248,7 +248,7 @@ function showEmployee(type) {
 
 function employeeLog(employeeCode, startDate, endDate, type) {
     $.ajax({
-        url : "/modules/lteproject/queryEmployeeLog",
+        url : "/modules/project/queryEmployeeLog",
         type : "post",
         data : {
             employeeCode : employeeCode,

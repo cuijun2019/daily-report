@@ -39,7 +39,7 @@ $(function () {
 
     //0.初始化fileinput
     var oFileInput = new FileInput();
-    oFileInput.Init("fileUpload", "/modules/lteproject/importLogInfo");
+    oFileInput.Init("fileUpload", "/modules/project/importLogInfo");
 
     $('#tb_logInfo').bootstrapTable('hideColumn', 'id');
 
@@ -83,7 +83,7 @@ $(function () {
             return;
         }
         $.ajax({
-            url : "/modules/lteproject/saveOrUpdateLog?random=" + Math.random(),
+            url : "/modules/project/saveOrUpdateLog?random=" + Math.random(),
             type : "post",
             data : {
                 id : id,
@@ -120,7 +120,7 @@ $(function () {
     $('#projectName').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -142,7 +142,7 @@ $(function () {
     $('#employee').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -164,7 +164,7 @@ $(function () {
     $('#addProjectCode').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -186,7 +186,7 @@ $(function () {
     $('#addProjectName').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryContractReview?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -219,7 +219,7 @@ $(function () {
     $('#addEmployee').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post("/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+            $.post("/modules/project/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -241,7 +241,7 @@ $(function () {
     $('#addEmployeeCode').typeahead({
         source: function (query, process) {
             //query是输入的值
-            $.post(localhostPath + "/modules/lteproject/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
+            $.post(localhostPath + "/modules/project/queryEmployeeInfo?random=" + Math.random(), { name: query }, function (datas) {
                 var array = [];
                 for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
@@ -264,7 +264,7 @@ $(function () {
         var projectCode = $("#addProjectCode").val();
         if (projectCode != "") {
             $.ajax({
-                url : "/modules/lteproject/validProjectCode?projectCode=" + projectCode,
+                url : "/modules/project/validProjectCode?projectCode=" + projectCode,
                 type : "post",
                 async : false,
                 cache : false,
@@ -283,7 +283,7 @@ $(function () {
         var projectName = $("#addProjectName").val();
         if (projectName != "") {
             $.ajax({
-                url : "/modules/lteproject/validProjectName?projectName=" + projectName,
+                url : "/modules/project/validProjectName?projectName=" + projectName,
                 type : "post",
                 async : false,
                 cache : false,
@@ -309,7 +309,7 @@ $(function () {
         var employeeCode = $("#addEmployeeCode").val();
         if (employeeCode != "") {
             $.ajax({
-                url : "/modules/lteproject/validEmployeeCode?employeeCode=" + employeeCode,
+                url : "/modules/project/validEmployeeCode?employeeCode=" + employeeCode,
                 type : "post",
                 async : false,
                 cache : false,
@@ -327,7 +327,7 @@ $(function () {
         var employee = $("#addEmployee").val();
         if (employee != "") {
             $.ajax({
-                url : "/modules/lteproject/validEmployee?employee=" + employee,
+                url : "/modules/project/validEmployee?employee=" + employee,
                 type : "post",
                 async : false,
                 cache : false,
@@ -404,7 +404,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_logInfo').bootstrapTable({
-            url: "/modules/lteproject/queryLogInfo",
+            url: "/modules/project/queryLogInfo",
             method: 'post', //请求方式（*）
             contentType : "application/x-www-form-urlencoded",
             toolbar: '#toolbar', //工具按钮用哪个容器
@@ -519,7 +519,7 @@ var ButtonInit = function () {
                 }
                 ids = ids.substring(1);
             }
-            $('#down_temp_iframe').attr('src','/modules/lteproject/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
+            $('#down_temp_iframe').attr('src','/modules/project/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
         });
         $("#btn_remove").click(function() {
             var rows = $("#tb_logInfo").bootstrapTable('getSelections');
@@ -535,7 +535,7 @@ var ButtonInit = function () {
                         ids = ids.substring(1);
                     }
                     $.ajax({
-                        url : "/modules/lteproject/deleteLogInfo?random=" + Math.random(),
+                        url : "/modules/project/deleteLogInfo?random=" + Math.random(),
                         type : "post",
                         data : {
                             ids : ids
@@ -613,7 +613,7 @@ function validMessage(projectCode, projectName, reporter, proportion, logTime, e
 	    employeeCode = employeeCode.substring(0, employeeCode.indexOf(" "));
     }
     $.ajax({
-        url : "/modules/lteproject/validLogInfo?random=" + Math.random(),
+        url : "/modules/project/validLogInfo?random=" + Math.random(),
         type : "post",
         data : {
             projectCode : projectCode,

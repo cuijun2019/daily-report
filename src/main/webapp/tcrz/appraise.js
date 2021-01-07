@@ -1,7 +1,7 @@
 var appraiseInfo = {
     action : {
-		queryAppraiseEmployee : '/modules/lteproject/queryAppraiseEmployee',
-		queryEmployeeLog : '/modules/lteproject/queryEmployeeLog'
+		queryAppraiseEmployee : '/modules/project/queryAppraiseEmployee',
+		queryEmployeeLog : '/modules/project/queryEmployeeLog'
     },
 
     init : function() {

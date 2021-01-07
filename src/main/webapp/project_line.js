@@ -7,7 +7,7 @@ function projectLine() {
     $("#backLi").hide();
     $("#searchLi").hide();
     $.ajax({
-        url : "/modules/lteproject/queryProjectLine",
+        url : "/modules/project/queryProjectLine",
         type : "post",
         async : false,
         cache : false,
@@ -61,7 +61,7 @@ function queryProjectByLine(lineName) {
     $("#backLi a").attr("onclick", "projectLine()");
     $("#projectLineName").val(lineName);
     $.ajax({
-        url : "/modules/lteproject/queryProjectByLine",
+        url : "/modules/project/queryProjectByLine",
         type : "post",
         data : {
             lineName : lineName
@@ -115,7 +115,7 @@ function queryData(){
     }
 
     $.ajax({
-        url : "/modules/lteproject/queryProjectLikeLine",
+        url : "/modules/project/queryProjectLikeLine",
         type : "post",
         data : {
             lineName : lineName ,
