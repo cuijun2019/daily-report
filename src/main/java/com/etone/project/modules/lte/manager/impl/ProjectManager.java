@@ -182,7 +182,7 @@ public class ProjectManager implements IProjectManager {
         }
 //        if (!Common.judgeString(workNature)) {
 //            return "工作性质不能为空";
-        if (!Common.judgeString(workNature) && !Arrays.asList(workNatures).contains(workNature)) {
+        if (Common.judgeString(workNature) && !Arrays.asList(workNatures).contains(workNature)) {
             return "工作性质只能为开发、测试、维护、生产、培训、部署、策划、数据分析、文档撰写、内部交流、外部交流、商务、服务交付、研究、休假或其他";
         }
 //        if (!Common.judgeString(context)) {
@@ -268,8 +268,8 @@ public class ProjectManager implements IProjectManager {
         int i = 1;
         double shareWork;
         int projectCount;
-        double nowManHour = 0;
-        double tempHour = 1;
+        double nowManHour;
+        double tempHour;
         for (Map map : actual) {
             projectCount = Integer.parseInt(String.valueOf(map.get("projectCount")));
             if (projectCount == 1) {

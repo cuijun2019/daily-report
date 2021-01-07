@@ -25,27 +25,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55633be6-6fbe-4f2a-a1aa-844b38f982bb" name="Default" comment="修改配置">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/IProjectManager.java" afterDir="false" />
+    <list default="true" id="55633be6-6fbe-4f2a-a1aa-844b38f982bb" name="Default" comment="修改项目占比百分比改成小时">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/dao/LteProjectMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/dao/ProjectMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/ILteProjectManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/impl/LteProjectManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/impl/ProjectManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/LogAPIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/LogAPIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/LteProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/mysql/LteProjectMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/mysql/ProjectMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/appraise.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/appraise.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/finalstatistics_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/finalstatistics_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/log_entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/log_entry.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/impl/ProjectManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/manager/impl/ProjectManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/etone/project/modules/lte/web/ProjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/mysql/ProjectMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/mysql/ProjectMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/log_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/log_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/project_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/project_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/project_line.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/project_line.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/statistics_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/statistics_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/appraise.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/appraise.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/history.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/history.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/log_entry2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/log_entry2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/project_line.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/project_line.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/staff.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/staff.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/tcrz/write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/tcrz/write.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -569,7 +554,7 @@
       <workItem from="1609808222318" duration="11559000" />
       <workItem from="1609894400279" duration="75000" />
       <workItem from="1609932072057" duration="926000" />
-      <workItem from="1609980891524" duration="4854000" />
+      <workItem from="1609980891524" duration="8446000" />
     </task>
     <task id="LOCAL-00001" summary="修改配置">
       <created>1609828941044</created>
@@ -578,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609828941044</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="修改项目占比百分比改成小时">
+      <created>1609986858411</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1609986858411</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,7 +604,8 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <MESSAGE value="修改配置" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改配置" />
+    <MESSAGE value="修改项目占比百分比改成小时" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改项目占比百分比改成小时" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -677,78 +670,78 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609827166002" />
-    <state x="256" y="300" width="1112" height="465" key="#xdebugger.evaluate" timestamp="1609815834457">
+    <state x="551" y="559" width="1112" height="465" key="#xdebugger.evaluate" timestamp="1609987812190">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="256" y="300" width="1112" height="465" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1609815834457" />
-    <state x="338" y="120" width="1365" height="830" key="CommitChangelistDialog2" timestamp="1609828940192">
+    <state x="551" y="559" width="1112" height="465" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1609987812190" />
+    <state x="338" y="120" width="1365" height="830" key="CommitChangelistDialog2" timestamp="1609988681330">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="338" y="120" width="1365" height="830" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1609828940192" />
-    <state x="262" y="86" key="DiffContextDialog" timestamp="1609828918175">
+    <state x="338" y="120" width="1365" height="830" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1609988681330" />
+    <state x="262" y="86" key="DiffContextDialog" timestamp="1609988679964">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="262" y="86" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609828918175" />
+    <state x="262" y="86" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609988679964" />
     <state x="638" y="341" key="FileChooserDialogImpl" timestamp="1609828533178">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="638" y="341" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1609828533178" />
-    <state width="1575" height="206" key="GridCell.Tab.0.bottom" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.0.bottom" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.0.center" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.0.center" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.0.left" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.0.left" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.0.right" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.0.right" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.1.bottom" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.1.bottom" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.1.center" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.1.center" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.1.left" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.1.left" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.1.right" timestamp="1609985130125">
+    <state width="1575" height="282" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.1.right" timestamp="1609988752069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609985130125" />
-    <state width="1575" height="206" key="GridCell.Tab.2.bottom" timestamp="1609985129905">
+    <state width="1575" height="282" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609988752069" />
+    <state width="1575" height="282" key="GridCell.Tab.2.bottom" timestamp="1609988751917">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609985129905" />
-    <state width="1575" height="206" key="GridCell.Tab.2.center" timestamp="1609985129905">
+    <state width="1575" height="282" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609988751917" />
+    <state width="1575" height="282" key="GridCell.Tab.2.center" timestamp="1609988751917">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609985129905" />
-    <state width="1575" height="206" key="GridCell.Tab.2.left" timestamp="1609985129905">
+    <state width="1575" height="282" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609988751917" />
+    <state width="1575" height="282" key="GridCell.Tab.2.left" timestamp="1609988751917">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609985129905" />
-    <state width="1575" height="206" key="GridCell.Tab.2.right" timestamp="1609985129905">
+    <state width="1575" height="282" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609988751917" />
+    <state width="1575" height="282" key="GridCell.Tab.2.right" timestamp="1609988751917">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1575" height="206" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609985129905" />
+    <state width="1575" height="282" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609988751917" />
     <state x="375" y="97" width="1170" height="851" key="SettingsEditor" timestamp="1609827981972">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="375" y="97" width="1170" height="851" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1609827981972" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1609828944221">
+    <state x="552" y="253" width="896" height="534" key="Vcs.Push.Dialog.v2" timestamp="1609986884391">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609828944221" />
+    <state x="552" y="253" width="896" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609986884391" />
     <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1608384934793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -761,10 +754,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="9" y="6" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609147766083" />
-    <state x="450" y="31" width="1432" height="1009" key="find.popup" timestamp="1609985102957">
+    <state x="450" y="31" width="1432" height="1009" key="find.popup" timestamp="1609988243690">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="450" y="31" width="1432" height="1009" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609985102957" />
+    <state x="450" y="31" width="1432" height="1009" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609988243690" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1609125904972">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

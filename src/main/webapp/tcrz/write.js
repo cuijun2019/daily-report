@@ -4,7 +4,7 @@ var writeInfo = {
 		queryContractReview: '/modules/project/queryContractReview?employee={0}',
 		validProjectCode: '/modules/project/validProjectCode',
 		validProjectName: '/modules/project/validProjectName',
-		saveLogInfo2: '/modules/project/saveLogInfo2',
+		saveLogInfo: '/modules/project/saveLogInfo',
 		validLogInfo: '/modules/project/validLogInfo',
 		queryLatestLogInfo: '/modules/project/queryLatestLogInfo'
 	},
@@ -505,7 +505,7 @@ var writeInfo = {
 			}
 			writeInfo.isCommitted = true;
 			$.ajax({
-				url: writeInfo.action.saveLogInfo2,
+				url: writeInfo.action.saveLogInfo,
 				type: "post",
 				data: {
 					logInfoList: encode(logInfoList)

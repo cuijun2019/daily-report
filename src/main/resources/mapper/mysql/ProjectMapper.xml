@@ -487,8 +487,8 @@
           a.*, (
             SELECT
               sum(
-                substring_index(l.proportion, '%', 1)
-              ) * 0.01
+                substring_index(l.proportion, '小时', 1) / 7
+              )
             FROM
               log_info l
             WHERE
@@ -551,8 +551,8 @@
               '' score,
               count(1) manHour,
               sum(
-                substring_index(i.proportion, '%', 1)
-              ) * 0.01 nowManHour,
+                substring_index(i.proportion, '小时', 1) / 7
+              ) nowManHour,
               '' actualHour,
               '22' fixedWork
             FROM
@@ -623,7 +623,7 @@
     <select id='validProportion' parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
         SELECT
             logTime, employeeCode, employee,
-            sum(substring_index(proportion, '%', 1)) count
+            sum(substring_index(proportion, '小时', 1)) count
         FROM
             log_info i
         where 1=1
