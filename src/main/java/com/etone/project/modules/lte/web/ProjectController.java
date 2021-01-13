@@ -277,6 +277,47 @@ public final class ProjectController extends GenericController {
 
         PrintWriter writer;
         Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
+        QueryCriteria criteria = new QueryCriteria();
+        try {
+            SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
+            criteria.put("projectCode", request.getParameter("projectCode"));
+            criteria.put("projectName", request.getParameter("projectName"));
+            criteria.put("reporter", request.getParameter("reporter"));
+            criteria.put("proportion", request.getParameter("proportion"));
+            criteria.put("logTime", request.getParameter("logTime"));
+            criteria.put("workNature", request.getParameter("workNature"));
+            criteria.put("context", request.getParameter("context"));
+            criteria.put("createTime", simpledateformat.format(new Date()));
+            criteria.put("employeeCode", request.getParameter("employeeCode"));
+            criteria.put("employee", request.getParameter("employee"));
+            projectManager.saveLogInfo(criteria);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            result = new Result(Result.ERROR, "保存失败", "保存失败");
+        } finally {
+            writer = response.getWriter();
+            System.out.println(result.toString());
+            writer.println(result.toString());  //想办法把map转成json
+            writer.flush();
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (Exception e) {
+                    logger.debug(e.getMessage());
+                }
+            }
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/saveLogInfo2", method = {RequestMethod.GET, RequestMethod.POST})
+    public void saveLogInfo2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.reset();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
+
+        PrintWriter writer;
+        Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
         String logInfoListJson = request.getParameter("logInfoList");
 
         try {
@@ -803,10 +844,10 @@ public final class ProjectController extends GenericController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
 
-        PrintWriter writer;
+        PrintWriter writer = null;
         Result result = new Result(Result.SUCCESS, "删除成功！", "删除成功！");
         QueryCriteria criteria = new QueryCriteria();
-        String message;
+        String message = "";
         try {
             List<Long> ids = Common.stringToList(request.getParameter("ids"));
             criteria.put("ids", ids);
@@ -881,7 +922,7 @@ public final class ProjectController extends GenericController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
 
-        PrintWriter writer;
+        PrintWriter writer = null;
         Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
         QueryCriteria criteria = new QueryCriteria();
         try {

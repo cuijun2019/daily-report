@@ -206,7 +206,7 @@ $(function () {
     });
 
     $('#addProportion').typeahead({
-        source: ['1', '2', '3', '4', '5', '6', '7'],
+        source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
         items : "all",
         updater : function(item) {
             return item;
@@ -300,8 +300,8 @@ $(function () {
 
     $("#addProportion").change(function(){
         var proportion = $("#addProportion").val();
-        if (proportion.indexOf("小时") == -1) {
-            $("#addProportion").val(proportion + "小时");
+        if (proportion.indexOf("%") == -1) {
+            $("#addProportion").val(proportion + "%");
         }
     });
 
@@ -448,7 +448,7 @@ var TableInit = function () {
                 title: '<span style="width:80px;display:inline-block;">项目经理</span>'
             }, {
                 field: 'proportion',
-                title: '<span style="width:80px;display:inline-block;">项目占比（小时）</span>'
+                title: '<span style="width:80px;display:inline-block;">项目占比</span>'
             }, {
                 field: 'logTime',
                 title: '<span style="width:100px;display:inline-block;">日志时间</span>'
@@ -722,7 +722,7 @@ function validMessage(projectCode, projectName, reporter, proportion, logTime, e
                         <br />
                         <input type="text" class="form-control" id="addReporter" placeholder="请输入项目经理" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目经理'" readOnly="readOnly" />
                         <br />
-                        <input type="text" class="form-control" id="addProportion" data-provide="typeahead" data-source="" placeholder="请输入项目占比（小时）" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目占比（小时）'" />
+                        <input type="text" class="form-control" id="addProportion" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目占比'" />
                         <br />
                         <input type="text" class="form-control" id="addLogTime" placeholder="请输入日志时间" onfocus="this.placeholder=''" onblur="this.placeholder='请输入日志时间'" />
                         <br />
