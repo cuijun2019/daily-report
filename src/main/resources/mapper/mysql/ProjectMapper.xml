@@ -608,9 +608,9 @@
         SELECT
             case when
             sum(
-                substring_index(proportion, '小时', 1)
+                substring_index(proportion, '%', 1)
             ) is null then 0 else sum(
-                substring_index(proportion, '小时', 1)
+                substring_index(proportion, '%', 1)
             ) end
         FROM
             log_info i

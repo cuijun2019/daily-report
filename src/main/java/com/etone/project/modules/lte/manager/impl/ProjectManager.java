@@ -91,8 +91,8 @@ public class ProjectManager implements IProjectManager {
     public boolean validProportion(String proportion) {
         try {
             if (Common.judgeString(proportion)) {
-                if (proportion.indexOf("小时") != -1) {
-                    proportion = proportion.replace("小时", "");
+                if (proportion.indexOf("%") != -1) {
+                    proportion = proportion.replace("%", "");
                     double proportionD = Double.parseDouble(proportion);
                     if (proportionD <= 7) {
                         return true;
@@ -151,8 +151,8 @@ public class ProjectManager implements IProjectManager {
                 if (!Common.judgeString(proportion)) {
                     return "项目占比不能为空";
                 }
-                if (!proportion.endsWith("小时")) {
-                    return "项目占比应以小时结尾";
+                if (!proportion.endsWith("%")) {
+                    return "项目占比应以%结尾";
                 }
                 if (!proportion.substring(0, proportion.length() - 2).matches(floagReg)) {
                     return "项目占比格式不正确";
@@ -165,7 +165,7 @@ public class ProjectManager implements IProjectManager {
                     return "已经写过" + logTime + "的日志";
                 }
                 projectCodes += ";" + projectCode + "," + logTime;
-                proportions += Double.parseDouble(proportion.replace("小时", ""));
+                proportions += Double.parseDouble(proportion.replace("%", ""));
             }
         }
         if (this.checkRepeat(projectCodes.split(";"))) {
@@ -174,15 +174,15 @@ public class ProjectManager implements IProjectManager {
         QueryCriteria criteria = new QueryCriteria();
         criteria.put("employeeCode", employeeCode);
         criteria.put("logTime", logTime);
-        if (!Common.judgeString(id) && projectMapper.querySumProportion(criteria) + proportions > 7) {
-            return "项目占比之和只能小于等于7";
+        if (!Common.judgeString(id) && projectMapper.querySumProportion(criteria) + proportions != 100) {
+            return "项目占比之和只能等于100";
         }
         if (!Common.judgeString(employeeCode)) {
             return "员工工号不能为空,请退出,再进入";
         }
 //        if (!Common.judgeString(workNature)) {
 //            return "工作性质不能为空";
-        if (!Common.judgeString(workNature) && !Arrays.asList(workNatures).contains(workNature)) {
+        if (Common.judgeString(workNature) && !Arrays.asList(workNatures).contains(workNature)) {
             return "工作性质只能为开发、测试、维护、生产、培训、部署、策划、数据分析、文档撰写、内部交流、外部交流、商务、服务交付、研究、休假或其他";
         }
 //        if (!Common.judgeString(context)) {

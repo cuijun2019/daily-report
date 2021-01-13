@@ -39,7 +39,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -271,47 +270,6 @@ public final class ProjectController extends GenericController {
     @ResponseBody
     @RequestMapping(value = "/saveLogInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void saveLogInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.reset();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html");
-
-        PrintWriter writer;
-        Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
-        QueryCriteria criteria = new QueryCriteria();
-        try {
-            SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
-            criteria.put("projectCode", request.getParameter("projectCode"));
-            criteria.put("projectName", request.getParameter("projectName"));
-            criteria.put("reporter", request.getParameter("reporter"));
-            criteria.put("proportion", request.getParameter("proportion"));
-            criteria.put("logTime", request.getParameter("logTime"));
-            criteria.put("workNature", request.getParameter("workNature"));
-            criteria.put("context", request.getParameter("context"));
-            criteria.put("createTime", simpledateformat.format(new Date()));
-            criteria.put("employeeCode", request.getParameter("employeeCode"));
-            criteria.put("employee", request.getParameter("employee"));
-            projectManager.saveLogInfo(criteria);
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            result = new Result(Result.ERROR, "保存失败", "保存失败");
-        } finally {
-            writer = response.getWriter();
-            System.out.println(result.toString());
-            writer.println(result.toString());  //想办法把map转成json
-            writer.flush();
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (Exception e) {
-                    logger.debug(e.getMessage());
-                }
-            }
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/saveLogInfo2", method = {RequestMethod.GET, RequestMethod.POST})
-    public void saveLogInfo2(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.reset();
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
@@ -619,8 +577,8 @@ public final class ProjectController extends GenericController {
                     }
                     criteria.put("employeeCode", dataMap.get("employeeCode").toString());
                     criteria.put("logTime", dataMap.get("logTime").toString());
-                    if (projectManager.querySumProportion(criteria) + Double.parseDouble(dataMap.get("proportion").toString().replace("小时", "")) > 7) {
-                        result = new Result(Result.ERROR, "导入失败，第" + row + "行，项目占比之和应小于等于7小时", "导入失败，第" + row + "行，项目占比之和应小于等于7小时");
+                    if (projectManager.querySumProportion(criteria) + Double.parseDouble(dataMap.get("proportion").toString().replace("%", "")) != 100) {
+                        result = new Result(Result.ERROR, "导入失败，第" + row + "行，项目占比之和应等于100", "导入失败，第" + row + "行，项目占比之和应等于100");
                         return;
                     }
                     if (Common.judgeString(projectCode)) {

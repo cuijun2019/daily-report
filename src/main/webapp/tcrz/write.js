@@ -4,7 +4,7 @@ var writeInfo = {
 		queryContractReview: '/modules/project/queryContractReview?employee={0}',
 		validProjectCode: '/modules/project/validProjectCode',
 		validProjectName: '/modules/project/validProjectName',
-		saveLogInfo2: '/modules/project/saveLogInfo2',
+		saveLogInfo: '/modules/project/saveLogInfo',
 		validLogInfo: '/modules/project/validLogInfo',
 		queryLatestLogInfo: '/modules/project/queryLatestLogInfo'
 	},
@@ -58,7 +58,7 @@ var writeInfo = {
 			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectNameClearBtn{0}" />'
 			+ '</div>'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
-			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比（小时）" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比（小时）\'" />'
+			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
 			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
 			+ '</span>',
 		projectTemplate2: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
@@ -69,7 +69,7 @@ var writeInfo = {
 			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectNameClearBtn{0}" />'
 			+ '</div>'
 			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="reporter" name="reporter" id="reporter{0}" value="{4}" placeholder="请输入汇报对象" autocomplete="off" readOnly="readOnly" /><br />'
-			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比（小时）" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比（小时）\'" />'
+			+ '<input type="text" style="width:90%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="proportion" name="proportion" id="proportion{0}" value="{5}" data-provide="typeahead" data-source="" placeholder="请输入项目占比" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目占比\'" />'
 			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.events.removeProject({0})"><img src="/modules/geogis/img/remove.png" /></a>'
 			+ '</span>',
 		successTemplate: '<div style="background-color:white;width:150px;height:100px;border-radius:6px;">'
@@ -120,9 +120,9 @@ var writeInfo = {
 
 	addProject: function (i) {
 		// if (($("#projectCode1").val() != undefined && $("#projectCode1").val() != "") || ($("#proportion1").val() != undefined && $("#proportion1").val() != "")) {
-		if ($("#proportion1").val() >= "7") {
+		if ($("#proportion1").val() == "100") {
 			$("#popdiv").empty();
-			var row = String.format(writeInfo.config.failureTemplate, "项目占比之和大于等于7小时，不能添加项目");
+			var row = String.format(writeInfo.config.failureTemplate, "项目占比之和等于100，不能添加项目");
 			var element = $(row);
 			$("#popdiv").append(element);
 			$("#popdiv").popup("open");
@@ -363,7 +363,7 @@ var writeInfo = {
 
 		$("input[id^='proportion']").each(function (index, element) {
 			$(this).typeahead({
-				source: ['1', '2', '3', '4', '5', '6', '7'],
+				source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
 				items: "all",
 				updater: function (item) {
 					return item;
@@ -371,8 +371,8 @@ var writeInfo = {
 				afterSelect: function (item) {
 					var i = $(element).attr("id").replace("proportion", "");
 					var proportion = $("#proportion" + i).val();
-					if (proportion.indexOf("小时") == -1) {
-						$("#proportion" + i).val(proportion + "小时");
+					if (proportion.indexOf("%") == -1) {
+						$("#proportion" + i).val(proportion + "%");
 					}
 					$("#proportion" + i).parent().attr("x-proportion", $("#proportion" + i).val());
 				},
@@ -448,8 +448,8 @@ var writeInfo = {
 		changeProportion: function (i) {
 			$("#proportion" + i).change(function () {
 				var proportion = $("#proportion" + i).val();
-				if (proportion.indexOf("小时") == -1) {
-					$("#proportion" + i).val(proportion + "小时");
+				if (proportion.indexOf("%") == -1) {
+					$("#proportion" + i).val(proportion + "%");
 				}
 				$("#proportion" + i).parent().attr("x-proportion", $("#proportion" + i).val());
 			});
@@ -505,7 +505,7 @@ var writeInfo = {
 			}
 			writeInfo.isCommitted = true;
 			$.ajax({
-				url: writeInfo.action.saveLogInfo2,
+				url: writeInfo.action.saveLogInfo,
 				type: "post",
 				data: {
 					logInfoList: encode(logInfoList)
