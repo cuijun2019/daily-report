@@ -345,15 +345,15 @@ var writeInfo = {
 									$("#projectCode" + i).val(result.projectCode);
 									$("#reporter" + i).val(result.reporter);
 									// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-									$("#projectName" + i).parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
+									$("#projectName" + i).parent().parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
 								} else {
-									$("#projectName" + i).parent().attr("x-project-name", projectName);
+									$("#projectName" + i).parent().parent().attr("x-project-name", projectName);
 								}
 								$("#projectNameClearBtn" + i).show();
 							}
 						});
 					} else {
-						$("#projectName" + i).parent().attr("x-project-name", "");
+						$("#projectName" + i).parent().parent().attr("x-project-name", "");
 						$("#projectNameClearBtn" + i).hide();
 					}
 				},
@@ -427,19 +427,21 @@ var writeInfo = {
 						cache: false,
 						dataType: 'json',
 						success: function (result) {
+							console.log(i);
+							console.log(result);
 							if (result.valid) {
 								$("#projectCode" + i).val(result.projectCode);
 								$("#reporter" + i).val(result.reporter);
 								// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-								$("#projectName" + i).parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
+								$("#projectName" + i).parent().parent().attr("x-project-code", result.projectCode).attr("x-project-name", projectName).attr("x-reporter", result.reporter);
 							} else {
-								$("#projectName" + i).parent().attr("x-project-name", projectName);
+								$("#projectName" + i).parent().parent().attr("x-project-name", projectName);
 							}
 							$("#projectNameClearBtn" + i).show();
 						}
 					});
 				} else {
-					$("#projectName" + i).parent().attr("x-project-name", "");
+					$("#projectName" + i).parent().parent().attr("x-project-name", "");
 					$("#projectNameClearBtn" + i).hide();
 				}
 			});
