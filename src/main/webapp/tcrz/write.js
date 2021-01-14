@@ -427,8 +427,6 @@ var writeInfo = {
 						cache: false,
 						dataType: 'json',
 						success: function (result) {
-							console.log(i);
-							console.log(result);
 							if (result.valid) {
 								$("#projectCode" + i).val(result.projectCode);
 								$("#reporter" + i).val(result.reporter);
