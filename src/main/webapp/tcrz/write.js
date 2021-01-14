@@ -474,6 +474,7 @@ var writeInfo = {
 
 		clearData: function (i) {
 			$("#projectName" + i).val("");
+			$("#projectName" + i).text("");
 			$("#projectNameClearBtn" + i).hide();
 		},
 
