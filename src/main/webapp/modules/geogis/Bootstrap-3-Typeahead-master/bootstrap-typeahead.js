@@ -210,6 +210,7 @@
             } else {
                 this.query = this.$element.val();
             }
+
             if (this.query.length < this.options.minLength && !this.options.showHintOnFocus) {
                 return this.shown ? this.hide() : this;
             }
@@ -619,11 +620,6 @@
             if (this.skipShowHintOnFocus) {
                 this.skipShowHintOnFocus = false;
             }
-            var currentValue = this.$element.val() || this.$element.text();
-            if (currentValue == "") {
-                this.value = currentValue;
-                this.lookup();
-            }
         },
 
         blur: function (e) {
@@ -720,7 +716,7 @@
     Typeahead.defaults = {
         source: [],
         items: 8,
-        minLength: 0,
+        minLength: 1,
         scrollHeight: 0,
         autoSelect: true,
         afterSelect: $.noop,

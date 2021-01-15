@@ -272,6 +272,7 @@ var writeInfo = {
 						process(array);
 					});
 				},
+				showHintOnFocus: true,
 				items: "all",
 				updater: function (item) {
 					return item;
@@ -323,6 +324,7 @@ var writeInfo = {
 						process(array);
 					});
 				},
+				showHintOnFocus: true,
 				items: "all",
 				updater: function (item) {
 					return item;
@@ -364,6 +366,7 @@ var writeInfo = {
 		$("input[id^='proportion']").each(function (index, element) {
 			$(this).typeahead({
 				source: ['10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '100'],
+				showHintOnFocus: true,
 				items: "all",
 				updater: function (item) {
 					return item;
