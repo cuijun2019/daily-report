@@ -765,6 +765,38 @@ public final class ProjectController extends GenericController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/exportWorkDayStatData", method = {RequestMethod.GET, RequestMethod.POST})
+    public void exportWorkDayStatData(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        String fileName = "工时统计信息";
+        Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
+        QueryCriteria criteria = new QueryCriteria();
+        String projectName;
+        String employee;
+        if (443 == request.getServerPort()) {
+            projectName = new String(request.getParameter("projectName").getBytes("ISO8859-1"), "UTF-8");
+            employee = new String(request.getParameter("employee").getBytes("ISO8859-1"), "UTF-8");
+        } else {
+            projectName = request.getParameter("projectName");
+            employee = request.getParameter("employee");
+        }
+        criteria.put("projectName", projectName);
+        criteria.put("employee", employee);
+        criteria.put("startDate", String.valueOf(query.get("timeStart")));
+        criteria.put("endDate", String.valueOf(query.get("timeEnd")));
+        criteria.setPageSize(null);
+        try {
+            response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GB2312"), "ISO8859-1") + ".xls");
+            OutputStream os = response.getOutputStream();
+
+            projectManager.exportWorkDayStatData(os, criteria);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/deleteProjectInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public void deleteProjectInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.reset();

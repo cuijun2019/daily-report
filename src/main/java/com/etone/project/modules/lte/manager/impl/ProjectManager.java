@@ -12,8 +12,6 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -824,6 +822,15 @@ public class ProjectManager implements IProjectManager {
     }
 
     @Override
+    public void exportWorkDayStatData(OutputStream os, QueryCriteria param) {
+        try {
+            this.exportWorkDayStat(os, param);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteProjectInfo(List<Long> ids) {
         for (Long id : ids) {
             projectMapper.deleteProjectInfo(id);
@@ -1192,6 +1199,53 @@ public class ProjectManager implements IProjectManager {
             row.createCell(7).setCellValue(workDate);
             row.createCell(8).setCellValue("22");
             row.createCell(9).setCellValue(String.valueOf(map.get("shareWork")));
+        }
+        wb.write(os);
+    }
+
+    private void exportWorkDayStat(OutputStream os, QueryCriteria criteria) throws Exception {
+        // 第一步，创建一个webbook，对应一个Excel文件
+        HSSFWorkbook wb = new HSSFWorkbook();
+        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+        HSSFSheet sheet = wb.createSheet("工时统计");
+        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
+        HSSFRow row = sheet.createRow((int) 0);
+        // 第四步，创建单元格，并设置值表头 设置表头居中
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+
+        sheet.setColumnWidth(0, 10 * 256);
+        sheet.setColumnWidth(1, 10 * 256);
+        sheet.setColumnWidth(2, 20 * 256);
+        sheet.setColumnWidth(3, 50 * 256);
+        sheet.setColumnWidth(4, 10 * 256);
+
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("员工工号");
+        cell.setCellStyle(style);
+        cell = row.createCell(1);
+        cell.setCellValue("员工姓名");
+        cell.setCellStyle(style);
+        cell = row.createCell(2);
+        cell.setCellValue("填写日志时间");
+        cell.setCellStyle(style);
+        cell = row.createCell(3);
+        cell.setCellValue("项目名称");
+        cell.setCellStyle(style);
+        cell = row.createCell(4);
+        cell.setCellValue("项目占比");
+        cell.setCellStyle(style);
+
+        List<Map> mapList = projectMapper.exportLogListSortByEmployee(criteria);
+        for (int i = 0; i < mapList.size(); i++) {
+            row = sheet.createRow(i + 1);
+            // 第四步，创建单元格，并设置值
+            Map map = mapList.get(i);
+            row.createCell(0).setCellValue(String.valueOf(map.get("员工工号")));
+            row.createCell(1).setCellValue(String.valueOf(map.get("员工姓名")));
+            row.createCell(2).setCellValue(String.valueOf(map.get("日志时间")));
+            row.createCell(3).setCellValue(String.valueOf(map.get("项目名称")));
+            row.createCell(4).setCellValue(String.valueOf(map.get("项目占比")));
         }
         wb.write(os);
     }

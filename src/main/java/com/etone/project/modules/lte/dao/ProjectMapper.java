@@ -54,6 +54,8 @@ public interface ProjectMapper {
 
     List<Map> exportLogList(QueryCriteria criteria);
 
+    List<Map> exportLogListSortByEmployee(QueryCriteria criteria);
+
     List<Map> exportContractReviewList(QueryCriteria criteria);
 
     List<Map> queryEmptyWorkLog(QueryCriteria criteria);

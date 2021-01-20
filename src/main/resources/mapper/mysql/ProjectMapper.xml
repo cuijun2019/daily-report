@@ -298,6 +298,36 @@
         order by i.logTime desc,i.id desc
     </select>
 
+    <select id="exportLogListSortByEmployee" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
+        SELECT
+        i.projectCode 项目编码,
+        i.projectName 项目名称,
+        date_format(i.logTime,'%Y-%m-%d') 日志时间,
+        i.proportion 项目占比,
+        i.reporter 项目经理,
+        i.employeeCode 员工工号,
+        i.employee 员工姓名,
+        i.workNature 工作性质,
+        i.context 日志内容
+        FROM
+        log_info i
+        WHERE
+        1 = 1
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+            <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+            <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
+            <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
+        </if>
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
+            <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
+        </if>
+        order by i.employeeCode,i.logTime
+    </select>
+
     <select id="exportContractReviewList" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
         SELECT
         r.projectCode 项目编码,

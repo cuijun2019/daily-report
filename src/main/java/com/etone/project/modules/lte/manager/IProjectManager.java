@@ -75,6 +75,8 @@ public interface IProjectManager {
 
     void exportFinalStatisticsData(OutputStream os, QueryCriteria param);
 
+    void exportWorkDayStatData(OutputStream os, QueryCriteria param);
+
     void deleteProjectInfo(List<Long> ids);
 
     String deleteLogInfo(QueryCriteria criteria);

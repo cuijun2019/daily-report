@@ -521,6 +521,13 @@ var ButtonInit = function () {
             }
             $('#down_temp_iframe').attr('src','/modules/project/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
         });
+        $("#btn_export_sort_employee").click(function() {
+            var projectName = $("#projectName").val();
+            var employee = $("#employee").val();
+            var timeStart = $("#start_date").val();
+            var timeEnd = $("#end_date").val();
+            $('#down_temp_iframe').attr('src','/modules/project/exportWorkDayStatData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd);
+        });
         $("#btn_remove").click(function() {
             var rows = $("#tb_logInfo").bootstrapTable('getSelections');
             if (rows != null && rows != "") {
@@ -670,6 +677,9 @@ function validMessage(projectCode, projectName, reporter, proportion, logTime, e
         <div id="toolbar" class="btn-group">
             <button id="btn_export" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-download" aria-hidden="true"></span>导出
+            </button>
+            <button id="btn_export_sort_employee" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>导出员工日志
             </button>
             <!--<button id="btn_import" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
                 <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>导入
