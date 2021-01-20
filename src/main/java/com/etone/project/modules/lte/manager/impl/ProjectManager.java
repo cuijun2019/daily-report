@@ -1207,7 +1207,7 @@ public class ProjectManager implements IProjectManager {
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
         // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
-        HSSFSheet sheet = wb.createSheet("工时统计");
+        HSSFSheet sheet = wb.createSheet("员工日志");
         // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
         HSSFRow row = sheet.createRow((int) 0);
         // 第四步，创建单元格，并设置值表头 设置表头居中

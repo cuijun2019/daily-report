@@ -769,7 +769,7 @@ public final class ProjectController extends GenericController {
     public void exportWorkDayStatData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
-        String fileName = "工时统计信息";
+        String fileName = "员工日志信息";
         Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
         QueryCriteria criteria = new QueryCriteria();
         String projectName;
