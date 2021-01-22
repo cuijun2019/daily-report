@@ -51,7 +51,11 @@ const writeInfo = {
 
 	config: {
 		projectTemplate: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
-			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
+			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
+			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" />'
+			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
+			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectCodeClearBtn{0}" />'
+			+ '</div>'
 			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
 			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" value="{3}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
 			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
@@ -62,7 +66,11 @@ const writeInfo = {
 			+ '<a id="png{0}" style="text-decoration:none;" onclick="writeInfo.addProject({1})"><img src="/modules/geogis/img/14.png" /></a>'
 			+ '</span>',
 		projectTemplate2: '<span id="projectInfo{0}" class="projectInfo" x-project-code="{2}" x-project-name="{3}" x-reporter="{4}" x-proportion="{5}">'
-			+ '<input type="text" style="width:100%;height:50px;padding-left:10px;border-style:none none solid none;border-bottom:1px solid #EEEEEE;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" /><br />'
+			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
+			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectCode" name="projectCode" id="projectCode{0}" value="{2}" data-provide="typeahead" data-source="" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目编码\'" />'
+			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
+			+ '<img style="display:none;" src="/modules/geogis/img/removePro.png" id="projectCodeClearBtn{0}" />'
+			+ '</div>'
 			+ '<div style="border-style:none none solid none;border-bottom:1px solid #EEEEEE;">'
 			+ '<input type="text" style="width:85%;height:50px;padding-left:10px;border-style:none;" class="projectName" name="projectName" id="projectName{0}" value="{3}" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'请输入项目名称\'" />'
 			+ '<input style="width:5%;border-style:none;" class="blank" readOnly="readOnly" />'
@@ -128,7 +136,9 @@ const writeInfo = {
 
 		this.events.fillLogInfo(this.employeeCode, i);
 
-		$("#projectName" + i).attr("onKeyUp", "writeInfo.events.showBtn(" + i + ")");
+		$("#projectCode" + i).attr("onKeyUp", "writeInfo.events.showProjectCodeBtn(" + i + ")");
+		$("#projectName" + i).attr("onKeyUp", "writeInfo.events.showProjectNameBtn(" + i + ")");
+		$("#projectCodeClearBtn" + i).attr("onclick", "writeInfo.events.clearData(" + i + ")");
 		$("#projectNameClearBtn" + i).attr("onclick", "writeInfo.events.clearData(" + i + ")");
 		$("#leftTabBox").css({
 			"overflow": "hidden",
@@ -246,15 +256,20 @@ const writeInfo = {
 									$("#projectName" + i).val(result.projectName);
 									$("#reporter" + i).val(result.reporter);
 									// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-									$("#projectCode" + i).parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+									$("#projectCode" + i).parent().parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+									$("#projectCodeClearBtn" + i).show();
 									$("#projectNameClearBtn" + i).show();
 								} else {
-									$("#projectCode" + i).parent().attr("x-project-code", projectCode);
+									$("#projectCode" + i).parent().parent().attr("x-project-code", projectCode);
 								}
 							}
 						});
+					} else if (projectCode == "") {
+						$("#projectCode" + i).parent().parent().attr("x-project-code", "");
+						$("#projectCodeClearBtn" + i).hide();
+						$("#projectNameClearBtn" + i).hide();
 					} else {
-						$("#projectCode" + i).parent().attr("x-project-code", "");
+						$("#projectCode" + i).parent().parent().attr("x-project-code", "");
 					}
 				},
 				delay: 500
@@ -302,11 +317,13 @@ const writeInfo = {
 								} else {
 									$("#projectName" + i).parent().parent().attr("x-project-name", projectName);
 								}
+								$("#projectCodeClearBtn" + i).show();
 								$("#projectNameClearBtn" + i).show();
 							}
 						});
 					} else {
 						$("#projectName" + i).parent().parent().attr("x-project-name", "");
+						$("#projectCodeClearBtn" + i).hide();
 						$("#projectNameClearBtn" + i).hide();
 					}
 				},
@@ -354,15 +371,20 @@ const writeInfo = {
 								$("#projectName" + i).val(result.projectName);
 								$("#reporter" + i).val(result.reporter);
 								// 设置每个项目的项目编码，项目名称，汇报对象，以便后面的保存操作
-								$("#projectCode" + i).parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+								$("#projectCode" + i).parent().parent().attr("x-project-code", projectCode).attr("x-project-name", result.projectName).attr("x-reporter", result.reporter);
+								$("#projectCodeClearBtn" + i).show();
 								$("#projectNameClearBtn" + i).show();
 							} else {
-								$("#projectCode" + i).parent().attr("x-project-code", projectCode);
+								$("#projectCode" + i).parent().parent().attr("x-project-code", projectCode);
 							}
 						}
 					});
+				} else if (projectCode == "") {
+					$("#projectCode" + i).parent().parent().attr("x-project-code", "");
+					$("#projectCodeClearBtn" + i).hide();
+					$("#projectNameClearBtn" + i).hide();
 				} else {
-					$("#projectCode" + i).parent().attr("x-project-code", "");
+					$("#projectCode" + i).parent().parent().attr("x-project-code", "");
 				}
 			});
 		},
@@ -389,11 +411,13 @@ const writeInfo = {
 							} else {
 								$("#projectName" + i).parent().parent().attr("x-project-name", projectName);
 							}
+							$("#projectCodeClearBtn" + i).show();
 							$("#projectNameClearBtn" + i).show();
 						}
 					});
 				} else {
 					$("#projectName" + i).parent().parent().attr("x-project-name", "");
+					$("#projectCodeClearBtn" + i).hide();
 					$("#projectNameClearBtn" + i).hide();
 				}
 			});
@@ -418,7 +442,15 @@ const writeInfo = {
 			});
 		},
 
-		showBtn: function (i) {
+		showProjectCodeBtn: function (i) {
+			if ($("#projectCode" + i).val().length > 0) {
+				$("#projectCodeClearBtn" + i).show();
+			} else {
+				$("#projectCodeClearBtn" + i).hide();
+			}
+		},
+
+		showProjectNameBtn: function (i) {
 			if ($("#projectName" + i).val().length > 0) {
 				$("#projectNameClearBtn" + i).show();
 			} else {
@@ -427,9 +459,15 @@ const writeInfo = {
 		},
 
 		clearData: function (i) {
+			$("#projectCode" + i).val("");
+			$("#projectCode" + i).text("");
 			$("#projectName" + i).val("");
 			$("#projectName" + i).text("");
+			$("#reporter" + i).val("");
+			$("#reporter" + i).text("");
+			$("#projectCodeClearBtn" + i).hide();
 			$("#projectNameClearBtn" + i).hide();
+			$("#projectCode" + i).parent().parent().attr("x-project-code", "").attr("x-project-name", "").attr("x-reporter", "");
 		},
 
 		save: function () {
@@ -529,6 +567,8 @@ const writeInfo = {
 							let row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
 							element = $(row);
 							$("#addProject").append(element);
+							$("#projectCodeClearBtn" + i).hide();
+							$("#projectNameClearBtn" + i).hide();
 						} else {
 							for (let j = 0; j < datas.length; j++) {
 								const data = datas[j];
@@ -543,6 +583,8 @@ const writeInfo = {
 								$("#naturelist_dummy").val(data.workNature);
 								$("#workNature").val(data.workNature);
 								$("#context").val(data.context);
+								$("#projectCodeClearBtn" + (i + j)).show();
+								$("#projectNameClearBtn" + (i + j)).show();
 							}
 						}
 					}
@@ -551,6 +593,8 @@ const writeInfo = {
 				const row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
 				const element = $(row);
 				$("#addProject").append(element);
+				$("#projectCodeClearBtn" + i).hide();
+				$("#projectNameClearBtn" + i).hide();
 			}
 		}
 	},
