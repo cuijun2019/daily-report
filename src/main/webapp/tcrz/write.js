@@ -1,4 +1,4 @@
-var writeInfo = {
+const writeInfo = {
 	action: {
 		getUserId: '/modules/project/getUserId?corpid={0}&corpsecret={1}&code={2}',
 		queryContractReview: '/modules/project/queryContractReview?employee={0}',
@@ -10,9 +10,9 @@ var writeInfo = {
 	},
 
 	init: function () {
-		var that = this;
+		const that = this;
 		$('#employeeCode').val("3223    崔军");
-		var employeeCodes = $("#employeeCode").val();
+		const employeeCodes = $("#employeeCode").val();
 		this.employeeCode = employeeCodes.substring(0, employeeCodes.indexOf(" "));
 		this.employee = $.trim(employeeCodes.substring(employeeCodes.indexOf(" ")));
 
@@ -40,7 +40,7 @@ var writeInfo = {
 		this.currentDate = new Date().Format("yyyy-MM-dd");
 		this.currentOneDate = this.currentDate.substring(0, this.currentDate.length - 2) + "01";
 
-		var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+		const weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
 		$("#logTime").attr("placeholder", this.currentDate.replace("-", "年").replace("-", "月") + "日" + " " + weekArray[new Date(this.currentDate).getDay()]);
 
 		this.isCommitted = false;
@@ -94,35 +94,21 @@ var writeInfo = {
 	},
 
 	initWrite: function () {
-		// 日志时间加载前一个星期
-		var date = new Date();
-		// var today = new Array('周日','周一','周二','周三','周四','周五','周六');
-		// var treelist = "";
-		// var currentDate = "";
-		// $("#logTime").val(date.Format("yyyy-MM-dd"));
-		// $("#treelist").empty();
-		// for (var i=7; i >= 0; i--) {
-		// 	currentDate = new Date((+date)-i*24*3600*1000);
-		// 	treelist += "<li><font size='2px;'>" + currentDate.Format("yyyy年MM月dd日") + " " + today[currentDate.getDay()] + "</font></li>";
-		// }
-		// $("#treelist").append(treelist);
 		// 设置工作性质
-		var natureList = new Array('开发', '测试', '维护', '生产', '培训', '部署', '策划', '数据分析', '文档撰写', '内部交流', '外部交流', '商务', '服务交付', '研究', '休假', '其他');
-		var naturelist = "";
-		for (var i = 0; i < natureList.length; i++) {
+		const natureList = new Array('开发', '测试', '维护', '生产', '培训', '部署', '策划', '数据分析', '文档撰写', '内部交流', '外部交流', '商务', '服务交付', '研究', '休假', '其他');
+		let naturelist = "";
+		for (let i = 0; i < natureList.length; i++) {
 			naturelist += "<li><font size='2px;'>" + natureList[i] + "</font></li>";
 		}
 		$("#naturelist").append(naturelist);
 
-		// this.initTreelist();
 		this.initNaturelist();
 	},
 
 	addProject: function (i) {
-		// if (($("#projectCode1").val() != undefined && $("#projectCode1").val() != "") || ($("#proportion1").val() != undefined && $("#proportion1").val() != "")) {
 		if ($("#proportion1").val() == "100") {
 			$("#popdiv").empty();
-			var row = String.format(writeInfo.config.failureTemplate, "项目占比之和等于100，不能添加项目");
+			const row = String.format(writeInfo.config.failureTemplate, "项目占比之和等于100，不能添加项目");
 			var element = $(row);
 			$("#popdiv").append(element);
 			$("#popdiv").popup("open");
@@ -142,10 +128,6 @@ var writeInfo = {
 
 		this.events.fillLogInfo(this.employeeCode, i);
 
-		// var row = String.format(this.config.projectTemplate, i, i + 1);
-		// var element = $(row);
-		// $("#addProject").append(element);
-		// $("#png" + i).attr("onclick", "writeInfo.addProject(" + (i + 1) + ")");
 		$("#projectName" + i).attr("onKeyUp", "writeInfo.events.showBtn(" + i + ")");
 		$("#projectNameClearBtn" + i).attr("onclick", "writeInfo.events.clearData(" + i + ")");
 		$("#leftTabBox").css({
@@ -166,37 +148,6 @@ var writeInfo = {
 		this.initFields();
 	},
 
-	// initTreelist : function() {
-	// 	var date=new Date();
-	// 	var today = new Array('周日','周一','周二','周三','周四','周五','周六');
-	// 	$("#treelist").mobiscroll().treelist({
-	// 		theme: "android-holo-light",
-	// 		lang: "zh",
-	// 		rows:3,
-	// 		headerText: function (valueText) { return "<font size='2px;'>日志时间</font>"; },
-	// 		placeholder: date.Format("yyyy年MM月dd日") + " " + today[date.getDay()],
-	// 		inputClass: 'logTimeClass',
-	// 		height: 35,
-	// 		fixedWidth: [200],
-	// 		defaultValue: [7],
-	// 		closeOnOverlay: true,
-	// 		formatResult: function (array) { //返回自定义格式结果
-	// 			var logTime = $('#treelist>li').eq(array[0]).children('font').text();
-	// 			var logTimeFormat = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
-	// 			$("#logTime").val(logTimeFormat);
-	// 			return logTime;
-	// 		},
-	// 		onBeforeShow : function (inst) {
-	// 			$(".projectCode").css("background-color", "white");
-	// 			$(".projectName").css("background-color", "white");
-	// 			$(".reporter").css("background-color", "white");
-	// 			$(".proportion").css("background-color", "white");
-	// 			$("#employeeCode").css("background-color", "white");
-	// 			$("#context").css("background-color", "white");
-	// 		}
-	// 	});
-	// },
-
 	initNaturelist: function () {
 		$("#naturelist").mobiscroll().treelist({
 			theme: "android-holo-light",
@@ -212,7 +163,7 @@ var writeInfo = {
 			defaultValue: [0],
 			closeOnOverlay: true,
 			formatResult: function (array) { //返回自定义格式结果
-				var workNature = $('#naturelist>li').eq(array[0]).children('font').text();
+				const workNature = $('#naturelist>li').eq(array[0]).children('font').text();
 				return workNature;
 			},
 			onSelect: function (valueText, inst) {
@@ -249,23 +200,23 @@ var writeInfo = {
 			// that.hide = false;
 		}).on("hide", function (ev) {
 			// that.hide = true;
-			var date = new Date(ev.date.valueOf()).Format("yyyy-MM-dd");
-			var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+			const date = new Date(ev.date.valueOf()).Format("yyyy-MM-dd");
+			const weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
 			$("#logTime").val("");
 			$("#logTime").attr("placeholder", date.replace("-", "年").replace("-", "月") + "日" + " " + weekArray[new Date(date).getDay()]);
 		});
 	},
 
 	initFields: function () {
-		var that = this;
+		const that = this;
 		$("input[id^='projectCode']").each(function (index, element) {
 			$(this).typeahead({
 				source: function (query, process) {
 					//query是输入的值
 					$.post(String.format(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
-						var array = [];
-						for (var i = 0; i < datas.length; i++) {
-							var data = datas[i];
+						let array = [];
+						for (let i = 0; i < datas.length; i++) {
+							const data = datas[i];
 							array.push(data.projectCode);
 						}
 						array = unique(array);
@@ -278,8 +229,8 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
-					var i = $(element).attr("id").replace("projectCode", "");
-					var projectCode = $("#projectCode" + i).val();
+					const i = $(element).attr("id").replace("projectCode", "");
+					const projectCode = $("#projectCode" + i).val();
 					if (projectCode != "" && projectCode.length > 4) {
 						$.ajax({
 							url: writeInfo.action.validProjectCode,
@@ -315,9 +266,9 @@ var writeInfo = {
 				source: function (query, process) {
 					//query是输入的值
 					$.post(String.format(that.action.queryContractReview, encodeURI(encodeURI(that.employee))), {name: query}, function (datas) {
-						var array = [];
-						for (var i = 0; i < datas.length; i++) {
-							var data = datas[i];
+						let array = [];
+						for (let i = 0; i < datas.length; i++) {
+							const data = datas[i];
 							array.push(data.projectName);
 						}
 						array = unique(array);
@@ -330,9 +281,9 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
-					var i = $(element).attr("id").replace("projectName", "");
-					var projectName = $("#projectName" + i).val();
-					if (projectName != "") {
+					const i = $(element).attr("id").replace("projectName", "");
+					const projectName = $("#projectName" + i).val();
+					if (projectName !== "") {
 						$.ajax({
 							url: writeInfo.action.validProjectName,
 							type: "post",
@@ -372,8 +323,8 @@ var writeInfo = {
 					return item;
 				},
 				afterSelect: function (item) {
-					var i = $(element).attr("id").replace("proportion", "");
-					var proportion = $("#proportion" + i).val();
+					const i = $(element).attr("id").replace("proportion", "");
+					const proportion = $("#proportion" + i).val();
 					if (proportion.indexOf("%") == -1) {
 						$("#proportion" + i).val(proportion + "%");
 					}
@@ -387,8 +338,8 @@ var writeInfo = {
 	events: {
 		changeProjectCode: function (i) {
 			$("#projectCode" + i).change(function () {
-				var projectCode = $("#projectCode" + i).val();
-				if (projectCode != "" && projectCode.length > 4) {
+				const projectCode = $("#projectCode" + i).val();
+				if (projectCode !== "" && projectCode.length > 4) {
 					$.ajax({
 						url: writeInfo.action.validProjectCode,
 						type: "post",
@@ -418,7 +369,7 @@ var writeInfo = {
 
 		changeProjectName: function (i) {
 			$("#projectName" + i).change(function () {
-				var projectName = $("#projectName" + i).val();
+				const projectName = $("#projectName" + i).val();
 				if (projectName != "") {
 					$.ajax({
 						url: writeInfo.action.validProjectName,
@@ -450,7 +401,7 @@ var writeInfo = {
 
 		changeProportion: function (i) {
 			$("#proportion" + i).change(function () {
-				var proportion = $("#proportion" + i).val();
+				const proportion = $("#proportion" + i).val();
 				if (proportion.indexOf("%") == -1) {
 					$("#proportion" + i).val(proportion + "%");
 				}
@@ -482,18 +433,17 @@ var writeInfo = {
 		},
 
 		save: function () {
-			var employeeCode = $("#employeeCode").val();
-			var logTime = $("#logTime").attr("placeholder");
+			const employeeCode = $("#employeeCode").val();
+			let logTime = $("#logTime").attr("placeholder");
 			logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
-			var workNature = $("#workNature").val();
-			var context = $("#context").val();
-			var logInfoList = writeInfo.collectData(".projectInfo");
-			var message = writeInfo.validMessage(employeeCode, logTime, workNature, context, logInfoList);
+			const workNature = $("#workNature").val();
+			const context = $("#context").val();
+			const logInfoList = writeInfo.collectData(".projectInfo");
+			const message = writeInfo.validMessage(employeeCode, logTime, workNature, context, logInfoList);
 			if (message != "") {
-				//layer.alert(message);
 				$("#popdiv").empty();
-				var row = String.format(writeInfo.config.failureTemplate, message);
-				var element = $(row);
+				const row = String.format(writeInfo.config.failureTemplate, message);
+				const element = $(row);
 				$("#popdiv").append(element);
 				$("#popdiv").popup("open");
 				$("#popdiv").css({"left": "0px", "top": "0px", "display": "block"});
@@ -518,9 +468,8 @@ var writeInfo = {
 				cache: false,
 				dataType: 'json',
 				success: function (data) {
-					//layer.alert(data.msg);
 					$("#popdiv").empty();
-					var element = $(writeInfo.config.successTemplate);
+					const element = $(writeInfo.config.successTemplate);
 					$("#popdiv").append(element);
 					$("#popdiv").popup("open");
 					$("#popdiv").css({"left": "0px", "top": "0px", "display": "block"});
@@ -530,24 +479,24 @@ var writeInfo = {
 						$("#popdiv").empty();
 					}, 2000);//两秒后关闭
 
-					// writeInfo.events.reset();
 					writeInfo.isCommitted = false;
 				}
 			});
 		},
 
 		reset: function () {
-			var count = writeInfo.collectDataCount(".projectInfo");
-			for (var i = 1; i <= count; i++) {
+			let i;
+			const count = writeInfo.collectDataCount(".projectInfo");
+			for (i = 1; i <= count; i++) {
 				writeInfo.events.removeProject(i);
 				$("#projectCode" + i).val("");
 				$("#projectName" + i).val("");
 				$("#reporter" + i).val("");
 				$("#proportion" + i).val("");
 			}
-			var count2 = writeInfo.collectDataCount(".projectInfo");
+			const count2 = writeInfo.collectDataCount(".projectInfo");
 			if (count2 != 0) {
-				for (var i = 1; i <= count2; i++) {
+				for (i = 1; i <= count2; i++) {
 					writeInfo.events.removeProject(i);
 					$("#projectCode" + i).val("");
 					$("#projectName" + i).val("");
@@ -556,15 +505,14 @@ var writeInfo = {
 				}
 			}
 			writeInfo.addProject(1);
-			var weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+			const weekArray = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
 			$("#logTime").attr("placeholder", writeInfo.currentDate.replace("-", "年").replace("-", "月") + "日" + " " + weekArray[new Date(writeInfo.currentDate).getDay()]);
 			$("#workNature").val("");
 			$("#context").val("");
-			// writeInfo.initTreelist();
 			writeInfo.initNaturelist();
 		},
 
-		fillLogInfo: function(employeeCode, i) {
+		fillLogInfo: function (employeeCode, i) {
 			if (i == 1) {
 				$.ajax({
 					url: writeInfo.action.queryLatestLogInfo,
@@ -576,20 +524,21 @@ var writeInfo = {
 					cache: false,
 					dataType: 'json',
 					success: function (datas) {
+						let element;
 						if (datas.length == 0) {
-							var row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
-							var element = $(row);
+							let row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
+							element = $(row);
 							$("#addProject").append(element);
 						} else {
-							for (var j = 0; j < datas.length; j++) {
-								var data = datas[j];
-								var row;
+							for (let j = 0; j < datas.length; j++) {
+								const data = datas[j];
+								let row;
 								if (j < datas.length - 1) {
 									row = String.format(writeInfo.config.projectTemplate2, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
 								} else {
 									row = String.format(writeInfo.config.projectTemplate, i + j, i + j + 1, data.projectCode, data.projectName, data.reporter, data.proportion);
 								}
-								var element = $(row);
+								element = $(row);
 								$("#addProject").append(element);
 								$("#naturelist_dummy").val(data.workNature);
 								$("#workNature").val(data.workNature);
@@ -599,8 +548,8 @@ var writeInfo = {
 					}
 				});
 			} else {
-				var row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
-				var element = $(row);
+				const row = String.format(writeInfo.config.projectTemplate, i, i + 1, "", "", "", "");
+				const element = $(row);
 				$("#addProject").append(element);
 			}
 		}
@@ -608,7 +557,7 @@ var writeInfo = {
 
 // 验证输入信息是否正确
 	validMessage: function (employeeCode, logTime, workNature, context, logInfoList) {
-		var message = "";
+		let message = "";
 		$.ajax({
 			url: this.action.validLogInfo,
 			type: "post",
@@ -631,22 +580,22 @@ var writeInfo = {
 
 // 获取多个项目信息
 	collectData: function (expression) {
-		var logTime = $("#logTime").attr("placeholder");
+		let logTime = $("#logTime").attr("placeholder");
 		logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
-		var workNature = $("#workNature").val();
-		var context = $("#context").val();
-		var datalist = [];
+		const workNature = $("#workNature").val();
+		const context = $("#context").val();
+		const datalist = [];
 
 		$(expression).each(function () {
-			var row = $(this);
-			var data = row.attributeObject();
-			var obj = {};
-			for (var prop in data) {
+			const row = $(this);
+			const data = row.attributeObject();
+			const obj = {};
+			for (const prop in data) {
 				if (prop.startWith("x-")) {
-					var name = prop.replace("x-", "");
-					var ns = name.split("-");
+					let name = prop.replace("x-", "");
+					const ns = name.split("-");
 					name = ns[0];
-					for (var i = 1; i < ns.length; i++) {
+					for (let i = 1; i < ns.length; i++) {
 						name += capitalize(ns[i]);
 					}
 					obj[name] = data[prop];
@@ -666,7 +615,7 @@ var writeInfo = {
 
 // 获取项目信息的个数
 	collectDataCount: function (expression) {
-		var i = 0;
+		let i = 0;
 		$(expression).each(function () {
 			i++;
 		});
@@ -675,14 +624,14 @@ var writeInfo = {
 };
 
 String.format = function (format) {
-	var args = Array.prototype.slice.call(arguments, 1);
+	const args = Array.prototype.slice.call(arguments, 1);
 	return format.replace(/\{(\d+)\}/g, function (m, i) {
 		return args[i];
 	});
 };
 
 Date.prototype.Format = function (fmt) { //author: meizz
-	var o = {
+	const o = {
 		"M+": this.getMonth() + 1,                 //月份
 		"d+": this.getDate(),                    //日
 		"h+": this.getHours(),                   //小时
@@ -693,7 +642,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 	};
 	if (/(y+)/.test(fmt))
 		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-	for (var k in o)
+	for (const k in o)
 		if (new RegExp("(" + k + ")").test(fmt))
 			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
@@ -701,12 +650,12 @@ Date.prototype.Format = function (fmt) { //author: meizz
 
 // 用于获取多个项目信息（辅助）
 $.fn.attributeObject = function () {
-	var dom = this.get(0);
-	var attr = {};
+	const dom = this.get(0);
+	const attr = {};
 	if (dom) {
-		var length = dom.attributes.length;
-		for (var i = 0; i < length; i++) {
-			var attribute = dom.attributes[i];
+		const length = dom.attributes.length;
+		for (let i = 0; i < length; i++) {
+			const attribute = dom.attributes[i];
 			attr[attribute.nodeName] = attribute.nodeValue;
 		}
 	}
@@ -732,7 +681,7 @@ capitalize = function (source) {
 
 // 对多个项目信息进行编码
 encode = function (o) {
-	var useHasOwn = !!{}.hasOwnProperty;
+	const useHasOwn = !!{}.hasOwnProperty;
 	if (typeof o == "undefined" || o === null) {
 		return "null";
 	} else if ($.isArray(o)) {
@@ -746,7 +695,7 @@ encode = function (o) {
 	} else if (typeof o == "boolean") {
 		return String(o);
 	} else {
-		var a = ["{"], b, i, v;
+		let a = ["{"], b, i, v;
 		for (i in o) {
 			if (!useHasOwn || o.hasOwnProperty(i)) {
 				v = o[i];
@@ -775,7 +724,7 @@ isDate = function (v) {
 }
 // 对多个项目信息进行编码（辅助）
 encodeArray = function (o) {
-	var a = ["["], b, i, l = o.length, v;
+	let a = ["["], b, i, l = o.length, v;
 	for (i = 0; i < l; i += 1) {
 		v = o[i];
 		switch (typeof v) {
@@ -811,7 +760,7 @@ encodeDate = function (o) {
 }
 // 对多个项目信息进行编码（辅助）
 encodeString = function (s) {
-	var m = {
+	const m = {
 		"\b": '\\b',
 		"\t": '\\t',
 		"\n": '\\n',
@@ -823,7 +772,7 @@ encodeString = function (s) {
 
 	if (/["\\\x00-\x1f]/.test(s)) {
 		return '"' + s.replace(/([\x00-\x1f\\"])/g, function (a, b) {
-			var c = m[b];
+			let c = m[b];
 			if (c) {
 				return c;
 			}
@@ -837,9 +786,9 @@ encodeString = function (s) {
 
 //数组去重
 function unique(arr) {
-	var new_arr = [];
-	var items;
-	for (var i = 0; i < arr.length; i++) {
+	const new_arr = [];
+	let items;
+	for (let i = 0; i < arr.length; i++) {
 		items = arr[i];
 		if ($.inArray(items, new_arr) == -1) {
 			new_arr.push(items);
@@ -853,6 +802,6 @@ getMonthWeek = function (a, b, c) {
 	//a = d = 当前日期
 	//b = 6 - w = 当前周的还有几天过完(不算今天)
 	//a + b 的和在除以7 就是当天是当前月份的第几周
-	var date = new Date(a, parseInt(b) - 1, c), w = date.getDay(), d = date.getDate();
+	const date = new Date(a, parseInt(b) - 1, c), w = date.getDay(), d = date.getDate();
 	return Math.ceil((d + 6 - w) / 7);
 }
