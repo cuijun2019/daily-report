@@ -35,8 +35,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
+                /log_list.html = user
+                /log_info.html = user
+                /project_info.html = user
+                /statistics_info.html = user
+                /finalstatistics_info.html = user
+                /modules/projectbg/** = user
                 /main = user
-                /project = anon
                 /sso = sso
                 /Captcha.jpg = anon
                 /login = authc

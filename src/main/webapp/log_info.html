@@ -404,7 +404,7 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         $('#tb_logInfo').bootstrapTable({
-            url: "/modules/project/queryLogInfo",
+            url: "/modules/projectbg/queryLogInfo",
             method: 'post', //请求方式（*）
             contentType : "application/x-www-form-urlencoded",
             toolbar: '#toolbar', //工具按钮用哪个容器
@@ -519,14 +519,14 @@ var ButtonInit = function () {
                 }
                 ids = ids.substring(1);
             }
-            $('#down_temp_iframe').attr('src','/modules/project/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
+            $('#down_temp_iframe').attr('src','/modules/projectbg/exportData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
         });
         $("#btn_export_sort_employee").click(function() {
             var projectName = $("#projectName").val();
             var employee = $("#employee").val();
             var timeStart = $("#start_date").val();
             var timeEnd = $("#end_date").val();
-            $('#down_temp_iframe').attr('src','/modules/project/exportWorkDayStatData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd);
+            $('#down_temp_iframe').attr('src','/modules/projectbg/exportWorkDayStatData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd);
         });
         $("#btn_remove").click(function() {
             var rows = $("#tb_logInfo").bootstrapTable('getSelections');

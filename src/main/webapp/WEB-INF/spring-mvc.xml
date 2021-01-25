@@ -99,7 +99,7 @@
     <mvc:default-servlet-handler/>
 
     <!-- 定义无需Controller的url<->view直接映射 -->
-    <mvc:view-controller path="/main" view-name="redirect:/wyx/education.html"/>
+    <mvc:view-controller path="/main" view-name="redirect:/log_list.html"/>
     <mvc:view-controller path="/" view-name="redirect:/login"/>
 
     <!-- 全局异常配置 start -->

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>在线教育平台</title>
+    <title>研究院日报后台</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
     <%@include file="/WEB-INF/layouts/taglibs.jsp" %>
     <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" />
@@ -28,13 +28,13 @@
                     <span class="add-on">
                         <i class="icon-user"></i>
                     </span>
-                <input  type="text" id="username" name="username" value="admin" placeholder="学　号" onchange="changeUserName(this.value)" class="input"/>
+                <input  type="text" id="username" name="username" placeholder="账　号" onchange="changeUserName(this.value)" class="input"/>
             </div>
             <div class="input-prepend" style="padding-left:1px;">
                     <span class="add-on">
                         <i class="icon-key"></i>
                     </span>
-                <input  type="password" id="password" name="password" value="123456" placeholder="密　码" class="input"/>
+                <input  type="password" id="password" name="password" placeholder="密　码" class="input"/>
             </div>
             <div style="display: inline">
                 <button type="button" class="valudatabtn-login" onclick="submitForm()">登录</button>
@@ -45,7 +45,7 @@
 <script>
     function submitForm () {
         if(!validate()){
-            $("#reason").html("学号或密码为空！");
+            $("#reason").html("账号或密码为空！");
             return;
         }else{
             $('#loginForm').submit();
