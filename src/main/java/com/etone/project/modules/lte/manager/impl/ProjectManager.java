@@ -276,6 +276,8 @@ public class ProjectManager implements IProjectManager {
                 nowManHour = Double.parseDouble(String.valueOf(map.get("nowManHour")));
                 tempHour = Double.parseDouble(String.valueOf(map.get("tempHour")));
                 shareWork = Double.parseDouble(formatDouble(nowManHour / tempHour * 22));
+                nowManHour = Double.parseDouble(String.format("%.2f", nowManHour));
+                map.put("nowManHour", nowManHour);
             }
 
             map.put("id", i++);
