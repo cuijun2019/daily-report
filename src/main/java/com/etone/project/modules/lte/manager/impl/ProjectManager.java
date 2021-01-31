@@ -248,6 +248,16 @@ public class ProjectManager implements IProjectManager {
         return page;
     }
 
+    @Override
+    public PageResult queryReporterEmployeeInfo(QueryCriteria criteria) {
+        List<Map> actual = projectMapper.queryReporterEmployeeInfo(criteria);
+        int total = projectMapper.countReporterEmployee(criteria);
+        PageResult page = new PageResult(criteria.getPageNo(), criteria.getPageSize());
+        page.setResult(actual);
+        page.setTotalItems(total);
+        return page;
+    }
+
     /**
      * 分摊工时：比如一个月某人在一个项目的工时除以一个月某人的总工时再乘以22
      * 真实工时：一个月某人在一个项目的工时之和
@@ -806,6 +816,15 @@ public class ProjectManager implements IProjectManager {
     }
 
     @Override
+    public void exportReporterEmployeeData(OutputStream os, QueryCriteria param) {
+        try {
+            this.exportReporterEmployee(os, param);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
     public void exportStatisticsData(OutputStream os, QueryCriteria param) {
         try {
             this.exportStatistics(os, param);
@@ -840,6 +859,13 @@ public class ProjectManager implements IProjectManager {
     }
 
     @Override
+    public void deleteReporterEmployeeInfo(List<Long> ids) {
+        for (Long id : ids) {
+            projectMapper.deleteReporterEmployeeInfo(id);
+        }
+    }
+
+    @Override
     public String deleteLogInfo(QueryCriteria criteria) {
         List<Map> list = projectMapper.validProportion(criteria);
         for (Map map : list) {
@@ -857,6 +883,15 @@ public class ProjectManager implements IProjectManager {
             projectMapper.updateProjectInfo(criteria);
         } else {
             projectMapper.saveProjectInfo(criteria);
+        }
+    }
+
+    @Override
+    public void saveOrUpdateReporterEmployee(QueryCriteria criteria) {
+        if (Common.judgeString(String.valueOf(criteria.get("id")))) {
+            projectMapper.updateReporterEmployeeInfo(criteria);
+        } else {
+            projectMapper.saveReporterEmployeeInfo(criteria);
         }
     }
 
@@ -1058,6 +1093,48 @@ public class ProjectManager implements IProjectManager {
             row.createCell(5).setCellValue(Common.judgeString(marketLeader) ? contractTime : "");
             row.createCell(6).setCellValue(Common.judgeString(startTime) ? startTime : "");
             row.createCell(7).setCellValue(Common.judgeString(endTime) ? endTime : "");
+        }
+        wb.write(os);
+    }
+
+    private void exportReporterEmployee(OutputStream os, QueryCriteria criteria) throws Exception {
+        // 第一步，创建一个webbook，对应一个Excel文件
+        HSSFWorkbook wb = new HSSFWorkbook();
+        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+        HSSFSheet sheet = wb.createSheet("项目经理员工关系信息表");
+        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
+        HSSFRow row = sheet.createRow((int) 0);
+        // 第四步，创建单元格，并设置值表头 设置表头居中
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+
+        sheet.setColumnWidth(0, 10 * 256);
+        sheet.setColumnWidth(1, 10 * 256);
+        sheet.setColumnWidth(2, 20 * 256);
+        sheet.setColumnWidth(3, 50 * 256);
+
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("项目经理");
+        cell.setCellStyle(style);
+        cell = row.createCell(1);
+        cell.setCellValue("员工姓名");
+        cell.setCellStyle(style);
+        cell = row.createCell(2);
+        cell.setCellValue("项目编码");
+        cell.setCellStyle(style);
+        cell = row.createCell(3);
+        cell.setCellValue("项目名称");
+        cell.setCellStyle(style);
+
+        List<Map> mapList = projectMapper.exportReporterEmployeeList(criteria);
+        for (int i = 0; i < mapList.size(); i++) {
+            row = sheet.createRow((int) i + 1);
+            // 第四步，创建单元格，并设置值
+            Map map = mapList.get(i);
+            row.createCell(0).setCellValue(String.valueOf(map.get("项目经理")));
+            row.createCell(1).setCellValue(String.valueOf(map.get("员工姓名")));
+            row.createCell(2).setCellValue(String.valueOf(map.get("项目编码")));
+            row.createCell(3).setCellValue(String.valueOf(map.get("项目名称")));
         }
         wb.write(os);
     }

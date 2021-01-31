@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须指向Dao接口 -->
 <mapper namespace="com.etone.project.modules.lte.dao.ProjectMapper">
 
-    <select id="queryContractReview" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
-        select * from contract_review cr where
-        (exists (select 1 from reporter_employee_rel rer where rer.reporter = cr.reporter and rer.employee='${condition.employee}' and rer.projectCode=cr.projectCode)
-        or cr.reporter='${condition.employee}')
+    <select id="queryContractReview" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
+        select * from contract_review cr where 1=1
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null'">
+            and (exists (select 1 from reporter_employee_rel rer where rer.reporter = cr.reporter and
+            rer.employee='${condition.employee}' and rer.projectCode=cr.projectCode)
+            or cr.reporter='${condition.employee}')
+        </if>
         <if test="condition.sort != null">
             ${condition.sort}
         </if>
-        <if test="condition.rowStart != null and condition.pageSize != null" >
+        <if test="condition.rowStart != null and condition.pageSize != null">
             <![CDATA[   LIMIT ${condition.rowStart}, ${condition.pageSize} ]]>
         </if>
     </select>
 
-    <select id="queryContractReviewInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
-        select id,projectCode,projectName,reporter,contractAmount,date_format(contractTime,'%Y-%m-%d') contractTime,marketLeader,
-        date_format(startTime,'%Y-%m-%d') startTime, date_format(endTime,'%Y-%m-%d') endTime from contract_review where 1=1
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+    <select id="queryContractReviewInfo" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
+        select id,projectCode,projectName,reporter,contractAmount,date_format(contractTime,'%Y-%m-%d')
+        contractTime,marketLeader,
+        date_format(startTime,'%Y-%m-%d') startTime, date_format(endTime,'%Y-%m-%d') endTime from contract_review where
+        1=1
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'" >
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
             <![CDATA[ and reporter like '%${condition.reporter}%' ]]>
         </if>
         order by id desc
-        <if test="rowStart != null and pageSize != null" >
+        <if test="rowStart != null and pageSize != null">
             <![CDATA[   LIMIT ${rowStart}, ${pageSize} ]]>
         </if>
     </select>
 
     <select id="countContractReview" resultType="java.lang.Integer">
         select count(1) from contract_review where 1=1
-        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'" >
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'">
             <![CDATA[ and projectCode like '%${condition.projectCode}%' ]]>
         </if>
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'" >
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
             <![CDATA[ and reporter like '%${condition.reporter}%' ]]>
         </if>
     </select>
@@ -92,7 +99,7 @@
 
     <select id="updateLogInfo">
         update log_info set
-        <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null'" >
+        <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null'">
             logTime='${condition.logTime}',
         </if>
         projectCode= '${condition.projectCode}',
@@ -102,10 +109,10 @@
         employeeCode='${condition.employeeCode}',
         employee='${condition.employee}',
         workNature='${condition.workNature}',
-        <if test="condition.context != null and condition.context != '' and condition.context != 'null' and condition.context != 'undefined'" >
+        <if test="condition.context != null and condition.context != '' and condition.context != 'null' and condition.context != 'undefined'">
             context='${condition.context}'
         </if>
-        <if test="condition.context == null or condition.context == '' or condition.context == 'null' or condition.context == 'undefined'" >
+        <if test="condition.context == null or condition.context == '' or condition.context == 'null' or condition.context == 'undefined'">
             context=''
         </if>
         where id='${condition.id}'
@@ -113,11 +120,11 @@
 
     <select id="deleteData" parameterType="com.etone.project.core.model.QueryCriteria">
         delete from contract_review where 1=1
-        <if test="condition.repeatCodes != null and condition.repeatCodes != '' and condition.repeatCodes != 'null' and condition.repeatCodes != 'undefined'" >
+        <if test="condition.repeatCodes != null and condition.repeatCodes != '' and condition.repeatCodes != 'null' and condition.repeatCodes != 'undefined'">
             and projectCode in
-            (<foreach collection="condition.repeatCodes" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
+            (<foreach collection="condition.repeatCodes" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
         </if>
     </select>
 
@@ -139,23 +146,23 @@
             #{item.projectName},
             #{item.reporter},
             #{item.contractAmount},
-            <if test="item.contractTime != null and item.contractTime != '' and item.contractTime != 'null' and item.contractTime != 'undefined'" >
+            <if test="item.contractTime != null and item.contractTime != '' and item.contractTime != 'null' and item.contractTime != 'undefined'">
                 #{item.contractTime},
             </if>
-            <if test="item.contractTime == null or item.contractTime == '' or item.contractTime == 'null' or item.contractTime == 'undefined'" >
+            <if test="item.contractTime == null or item.contractTime == '' or item.contractTime == 'null' or item.contractTime == 'undefined'">
                 null,
             </if>
             #{item.marketLeader},
-            <if test="item.startTime != null and item.startTime != '' and item.startTime != 'null' and item.startTime != 'undefined'" >
+            <if test="item.startTime != null and item.startTime != '' and item.startTime != 'null' and item.startTime != 'undefined'">
                 #{item.startTime},
             </if>
-            <if test="item.startTime == null or item.startTime == '' or item.startTime == 'null' or item.startTime == 'undefined'" >
+            <if test="item.startTime == null or item.startTime == '' or item.startTime == 'null' or item.startTime == 'undefined'">
                 null,
             </if>
-            <if test="item.endTime != null and item.endTime != '' and item.endTime != 'null' and item.endTime != 'undefined'" >
+            <if test="item.endTime != null and item.endTime != '' and item.endTime != 'null' and item.endTime != 'undefined'">
                 #{item.endTime}
             </if>
-            <if test="item.endTime == null or item.endTime == '' or item.endTime == 'null' or item.endTime == 'undefined'" >
+            <if test="item.endTime == null or item.endTime == '' or item.endTime == 'null' or item.endTime == 'undefined'">
                 null
             </if>
             )
@@ -180,10 +187,10 @@
             (null,
             #{item.projectCode},
             #{item.projectName},
-            <if test="item.logTime != null and item.logTime != '' and item.logTime != 'null' and item.logTime != 'undefined'" >
+            <if test="item.logTime != null and item.logTime != '' and item.logTime != 'null' and item.logTime != 'undefined'">
                 #{item.logTime},
             </if>
-            <if test="item.logTime == null or item.logTime == '' or item.logTime == 'null' or item.logTime == 'undefined'" >
+            <if test="item.logTime == null or item.logTime == '' or item.logTime == 'null' or item.logTime == 'undefined'">
                 null,
             </if>
             #{item.reporter},
@@ -199,107 +206,72 @@
 
     <select id="queryLogInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
         SELECT
-            i.id,
-            i.projectCode,
-            i.projectName,
-            date_format(i.logTime,'%Y-%m-%d') logTime,
-            i.proportion,
-            i.reporter,
-            i.employeeCode,
-            i.employee,
-            i.workNature,
-            context
+        i.id,
+        i.projectCode,
+        i.projectName,
+        date_format(i.logTime,'%Y-%m-%d') logTime,
+        i.proportion,
+        i.reporter,
+        i.employeeCode,
+        i.employee,
+        i.workNature,
+        context
         FROM
-          log_info i where 1=1
-        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'" >
+        log_info i where 1=1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
             <![CDATA[ and i.projectCode='${condition.projectCode}' ]]>
         </if>
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'" >
+        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'">
             <![CDATA[ and i.employeeCode='${condition.employeeCode}' ]]>
         </if>
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
             <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
         </if>
-        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
             <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
         </if>
-        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
         </if>
-        <if test="rowStart == null and pageSize == null and condition.employeeCode == ''" >
+        <if test="rowStart == null and pageSize == null and condition.employeeCode == ''">
             <![CDATA[ and 1<>1 ]]>
         </if>
         order by i.logTime desc,i.id desc
-        <if test="rowStart != null and pageSize != null" >
+        <if test="rowStart != null and pageSize != null">
             <![CDATA[   LIMIT ${rowStart}, ${pageSize} ]]>
         </if>
     </select>
 
     <select id="countLogInfo" resultType="java.lang.Integer">
         select count(1) from log_info i where 1=1
-        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'" >
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
             <![CDATA[ and i.projectCode like '%${condition.projectCode}%' ]]>
         </if>
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
             <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
         </if>
-        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'" >
+        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'">
             <![CDATA[ and i.employeeCode = '${condition.employeeCode}' ]]>
         </if>
-        <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null' and condition.logTime != 'undefined'" >
+        <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null' and condition.logTime != 'undefined'">
             <![CDATA[ and i.logTime = '${condition.logTime}' ]]>
         </if>
-        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
             <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
         </if>
-        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
         </if>
     </select>
 
-    <select id="exportLogList" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
-        SELECT
-            i.projectCode 项目编码,
-            i.projectName 项目名称,
-            date_format(i.logTime,'%Y-%m-%d') 日志时间,
-            i.proportion 项目占比,
-            i.reporter 项目经理,
-            i.employeeCode 员工工号,
-            i.employee 员工姓名,
-            i.workNature 工作性质,
-            i.context 日志内容
-        FROM
-          log_info i
-        WHERE
-        1 = 1
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
-            <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
-        </if>
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
-            <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
-        </if>
-        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
-            <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
-        </if>
-        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
-            <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
-        </if>
-        <if test="condition.id != null and condition.id != '' and condition.id != 'null' and condition.id != 'undefined'" >
-            and i.id in
-            (<foreach collection="condition.id" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
-        </if>
-        order by i.logTime desc,i.id desc
-    </select>
-
-    <select id="exportLogListSortByEmployee" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
+    <select id="exportLogList" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.LinkedHashMap">
         SELECT
         i.projectCode 项目编码,
         i.projectName 项目名称,
@@ -314,22 +286,60 @@
         log_info i
         WHERE
         1 = 1
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
             <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
         </if>
-        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
             <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
         </if>
-        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
+            <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
+        </if>
+        <if test="condition.id != null and condition.id != '' and condition.id != 'null' and condition.id != 'undefined'">
+            and i.id in
+            (<foreach collection="condition.id" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
+        </if>
+        order by i.logTime desc,i.id desc
+    </select>
+
+    <select id="exportLogListSortByEmployee" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.LinkedHashMap">
+        SELECT
+        i.projectCode 项目编码,
+        i.projectName 项目名称,
+        date_format(i.logTime,'%Y-%m-%d') 日志时间,
+        i.proportion 项目占比,
+        i.reporter 项目经理,
+        i.employeeCode 员工工号,
+        i.employee 员工姓名,
+        i.workNature 工作性质,
+        i.context 日志内容
+        FROM
+        log_info i
+        WHERE
+        1 = 1
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
+            <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
+        </if>
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
         </if>
         order by i.employeeCode,i.logTime
     </select>
 
-    <select id="exportContractReviewList" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.LinkedHashMap">
+    <select id="exportContractReviewList" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.LinkedHashMap">
         SELECT
         r.projectCode 项目编码,
         r.projectName 项目名称,
@@ -343,65 +353,101 @@
         contract_review r
         WHERE
         1 = 1
-        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
             <![CDATA[ and r.projectName like '%${condition.projectName}%' ]]>
         </if>
-        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'" >
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
             <![CDATA[ and r.reporter like '%${condition.reporter}%' ]]>
         </if>
-        <if test="condition.id != null and condition.id != '' and condition.id != 'null' and condition.id != 'undefined'" >
+        <if test="condition.id != null and condition.id != '' and condition.id != 'null' and condition.id != 'undefined'">
             and r.id in
-            (<foreach collection="condition.id" item="item" index="index" separator="," >
+            (<foreach collection="condition.id" item="item" index="index" separator=",">
             '${item}'
         </foreach>)
         </if>
         order by id desc
     </select>
 
-    <select id="queryEmptyWorkLog" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
-        select u.employeeCode, u.employee, '${condition.remark}' remark, '${condition.notLogCount}' notLogCount, '${condition.workDate}' workDate from employee_info u
+    <select id="exportReporterEmployeeList" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.LinkedHashMap">
+        SELECT
+        r.reporter 项目经理,
+        r.employee 员工姓名,
+        r.projectCode 项目编码,
+        r.projectName 项目名称
+        FROM
+        reporter_employee_rel r
+        WHERE
+        1 = 1
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and r.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
+            <![CDATA[ and r.reporter like '%${condition.reporter}%' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and r.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.id != null and condition.id != '' and condition.id != 'null' and condition.id != 'undefined'">
+            and r.id in
+            (<foreach collection="condition.id" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
+        </if>
+        order by id desc
+    </select>
+
+    <select id="queryEmptyWorkLog" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
+        select u.employeeCode, u.employee, '${condition.remark}' remark, '${condition.notLogCount}' notLogCount,
+        '${condition.workDate}' workDate from employee_info u
         where not exists (SELECT 1 from log_info i where i.employeeCode=u.employeeCode
-            <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
-            <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
+        <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
+        <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
         )
         and not exists (select 1 from high_employee_info h where h.employeeCode=u.employeeCode)
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
             <![CDATA[ and u.employee like '%${condition.employee}%' ]]>
         </if>
-        <if test="condition.employeeCodeList != null and condition.employeeCodeList != '' and condition.employeeCodeList != 'null' and condition.employeeCodeList != 'undefined'" >
+        <if test="condition.employeeCodeList != null and condition.employeeCodeList != '' and condition.employeeCodeList != 'null' and condition.employeeCodeList != 'undefined'">
             and u.employeeCode in
-            (<foreach collection="condition.employeeCodeList" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
+            (<foreach collection="condition.employeeCodeList" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
         </if>
-        <if test="condition.isStaff != null and condition.isStaff != '' and condition.isStaff != 'null' and condition.isStaff != 'undefined'" >
-            and exists (select 1 from manager_employee_rel r where r.employeeCode=u.employeeCode and r.managerCode='${condition.employeeCode}')
+        <if test="condition.isStaff != null and condition.isStaff != '' and condition.isStaff != 'null' and condition.isStaff != 'undefined'">
+            and exists (select 1 from manager_employee_rel r where r.employeeCode=u.employeeCode and
+            r.managerCode='${condition.employeeCode}')
         </if>
         ORDER BY u.employee
     </select>
 
-    <select id="queryNotAllWorkLog" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+    <select id="queryNotAllWorkLog" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
         select i.employeeCode,
-                i.employee,
-                group_concat(distinct cast(date_format(i.logTime,'%Y-%m-%d') as char) order by cast(date_format(i.logTime,'%Y-%m-%d') as char)) logTimes,
-                group_concat(distinct cast(date_format(i.createTime,'%Y-%m-%d') as char) order by cast(date_format(i.createTime,'%Y-%m-%d') as char)) createTimes,
-                count(1) count from
-        (select distinct n.employeeCode,n.employee,n.logTime,n.createTime from log_info n  where 1=1
+        i.employee,
+        group_concat(distinct cast(date_format(i.logTime,'%Y-%m-%d') as char) order by
+        cast(date_format(i.logTime,'%Y-%m-%d') as char)) logTimes,
+        group_concat(distinct cast(date_format(i.createTime,'%Y-%m-%d') as char) order by
+        cast(date_format(i.createTime,'%Y-%m-%d') as char)) createTimes,
+        count(1) count from
+        (select distinct n.employeeCode,n.employee,n.logTime,n.createTime from log_info n where 1=1
         <![CDATA[ and n.logTime >= '${condition.startDate}' ]]>
         <![CDATA[ and n.logTime <= '${condition.endDate}' ]]>
         ) i where
-            not exists (select 1 from high_employee_info h where h.employeeCode=i.employeeCode)
-        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
+        not exists (select 1 from high_employee_info h where h.employeeCode=i.employeeCode)
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
             <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
         </if>
-        <if test="condition.employeeCodeList != null and condition.employeeCodeList != '' and condition.employeeCodeList != 'null' and condition.employeeCodeList != 'undefined'" >
+        <if test="condition.employeeCodeList != null and condition.employeeCodeList != '' and condition.employeeCodeList != 'null' and condition.employeeCodeList != 'undefined'">
             and i.employeeCode in
-            (<foreach collection="condition.employeeCodeList" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
+            (<foreach collection="condition.employeeCodeList" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
         </if>
-        <if test="condition.isStaff != null and condition.isStaff != '' and condition.isStaff != 'null' and condition.isStaff != 'undefined'" >
-            and exists (select 1 from manager_employee_rel r where r.employeeCode=i.employeeCode and r.managerCode='${condition.employeeCode}')
+        <if test="condition.isStaff != null and condition.isStaff != '' and condition.isStaff != 'null' and condition.isStaff != 'undefined'">
+            and exists (select 1 from manager_employee_rel r where r.employeeCode=i.employeeCode and
+            r.managerCode='${condition.employeeCode}')
         </if>
         group by i.employeeCode,i.employee
         order by employee
@@ -419,36 +465,42 @@
         delete from contract_review where id=#{id}
     </select>
 
+    <select id="deleteReporterEmployeeInfo" parameterType="java.lang.Long">
+        delete from reporter_employee_rel where id=#{id}
+    </select>
+
     <select id="deleteLogInfo" parameterType="java.lang.Long">
         delete from log_info where 1=1
-        <if test="condition.ids != null and condition.ids != '' and condition.ids != 'null' and condition.ids != 'undefined'" >
+        <if test="condition.ids != null and condition.ids != '' and condition.ids != 'null' and condition.ids != 'undefined'">
             and id in
-            (<foreach collection="condition.ids" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
+            (<foreach collection="condition.ids" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
         </if>
     </select>
 
     <insert id="saveProjectInfo" parameterType="com.etone.project.core.model.QueryCriteria">
-        insert into contract_review(id, projectCode, projectName, reporter, contractAmount, contractTime, marketLeader, startTime, endTime)
-        values (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.contractAmount}',
-        <if test="condition.contractTime != null and condition.contractTime != '' and condition.contractTime != 'null' and condition.contractTime != 'undefined'" >
+        insert into contract_review(id, projectCode, projectName, reporter, contractAmount, contractTime, marketLeader,
+        startTime, endTime)
+        values
+        (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.contractAmount}',
+        <if test="condition.contractTime != null and condition.contractTime != '' and condition.contractTime != 'null' and condition.contractTime != 'undefined'">
             '${condition.contractTime}',
         </if>
-        <if test="condition.contractTime == null or condition.contractTime == '' or condition.contractTime == 'null' or condition.contractTime == 'undefined'" >
+        <if test="condition.contractTime == null or condition.contractTime == '' or condition.contractTime == 'null' or condition.contractTime == 'undefined'">
             null,
         </if>
         '${condition.marketLeader}',
-        <if test="condition.startTime != null and condition.startTime != '' and condition.startTime != 'null' and condition.startTime != 'undefined'" >
+        <if test="condition.startTime != null and condition.startTime != '' and condition.startTime != 'null' and condition.startTime != 'undefined'">
             '${condition.startTime}',
         </if>
-        <if test="condition.startTime == null or condition.startTime == '' or condition.startTime == 'null' or condition.startTime == 'undefined'" >
+        <if test="condition.startTime == null or condition.startTime == '' or condition.startTime == 'null' or condition.startTime == 'undefined'">
             null,
         </if>
-        <if test="condition.endTime != null and condition.endTime != '' and condition.endTime != 'null' and condition.endTime != 'undefined'" >
+        <if test="condition.endTime != null and condition.endTime != '' and condition.endTime != 'null' and condition.endTime != 'undefined'">
             '${condition.endTime}'
         </if>
-        <if test="condition.endTime == null or condition.endTime == '' or condition.endTime == 'null' or condition.endTime == 'undefined'" >
+        <if test="condition.endTime == null or condition.endTime == '' or condition.endTime == 'null' or condition.endTime == 'undefined'">
             null
         </if>
         )
@@ -457,14 +509,14 @@
     <select id="updateProjectInfo">
         update contract_review set
         contractAmount='${condition.contractAmount}',
-        <if test="condition.contractTime != null and condition.contractTime != '' and condition.contractTime != 'null'" >
+        <if test="condition.contractTime != null and condition.contractTime != '' and condition.contractTime != 'null'">
             contractTime='${condition.contractTime}',
         </if>
         marketLeader='${condition.marketLeader}',
-        <if test="condition.startTime != null and condition.startTime != '' and condition.startTime != 'null'" >
+        <if test="condition.startTime != null and condition.startTime != '' and condition.startTime != 'null'">
             startTime='${condition.startTime}',
         </if>
-        <if test="condition.endTime != null and condition.endTime != '' and condition.endTime != 'null'" >
+        <if test="condition.endTime != null and condition.endTime != '' and condition.endTime != 'null'">
             endTime='${condition.endTime}',
         </if>
         projectCode= '${condition.projectCode}',
@@ -473,169 +525,187 @@
         where id='${condition.id}'
     </select>
 
-    <select id="queryEmployeeProject" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+    <insert id="saveReporterEmployeeInfo" parameterType="com.etone.project.core.model.QueryCriteria">
+        insert into reporter_employee_rel(id, reporter, employee, projectCode, projectName)
+        values (null,'${condition.reporter}','${condition.employee}','${condition.projectCode}','${condition.projectName}')
+    </insert>
+
+    <select id="updateReporterEmployeeInfo">
+        update reporter_employee_rel set
+        reporter= '${condition.reporter}'
+        employee= '${condition.employee}'
+        projectCode= '${condition.projectCode}',
+        projectName= '${condition.projectName}'
+        where id='${condition.id}'
+    </select>
+
+    <select id="queryEmployeeProject" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.Map">
         SELECT
-            i.employeeCode,
-            i.employee,
-            i.projectCode,
-            i.projectName,
-            count(1) logCount
+        i.employeeCode,
+        i.employee,
+        i.projectCode,
+        i.projectName,
+        count(1) logCount
         FROM
-            log_info i
+        log_info i
         WHERE
-            EXISTS (
-                SELECT
-                    1
-                FROM
-                    contract_review r
-                WHERE
-                    r.projectCode = i.projectCode
-                AND r.reporter = (
-                    SELECT
-                        e.employee
-                    FROM
-                        employee_info e
-                    WHERE
-                        e.employeeCode = '${condition.employeeCode}'
-                    LIMIT 1
-                )
-            )
-        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null'" >
+        EXISTS (
+        SELECT
+        1
+        FROM
+        contract_review r
+        WHERE
+        r.projectCode = i.projectCode
+        AND r.reporter = (
+        SELECT
+        e.employee
+        FROM
+        employee_info e
+        WHERE
+        e.employeeCode = '${condition.employeeCode}'
+        LIMIT 1
+        )
+        )
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null'">
             <![CDATA[ and date_format(i.logTime, '%Y-%m-%d')>='${condition.startDate}' ]]>
         </if>
-        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null'" >
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null'">
             <![CDATA[ and date_format(i.logTime, '%Y-%m-%d')<='${condition.endDate}' ]]>
         </if>
         GROUP BY
-            i.employeeCode,
-            i.employee,
-            i.projectCode,
-            i.projectName
+        i.employeeCode,
+        i.employee,
+        i.projectCode,
+        i.projectName
     </select>
 
-    <select id="queryFinalStatisticsInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.HashMap">
+    <select id="queryFinalStatisticsInfo" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
         SELECT
-          a.*, (
-            SELECT
-              sum(
-                substring_index(l.proportion, '%', 1)
-              ) * 0.01
-            FROM
-              log_info l
-            WHERE
-              1 = 1
-            <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'" >
-                <![CDATA[ and l.projectCode='${condition.projectCode}' ]]>
-            </if>
-            <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
-                <![CDATA[ and l.projectName like '%${condition.projectName}%' ]]>
-            </if>
-            <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'" >
-                <![CDATA[ and l.employeeCode='${condition.employeeCode}' ]]>
-            </if>
-            <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
-                <![CDATA[ and l.employee like '%${condition.employee}%' ]]>
-            </if>
-            <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
-                <![CDATA[ and l.logTime >= '${condition.startDate}' ]]>
-            </if>
-            <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
-                <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
-            </if>
-            AND l.employeeCode = a.employeeCode
-          ) tempHour,
-          (
-            SELECT
-              count(DISTINCT l.projectCode)
-            FROM
-              log_info l
-            WHERE
-              1 = 1
-            <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'" >
-                <![CDATA[ and l.projectCode='${condition.projectCode}' ]]>
-            </if>
-            <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
-                <![CDATA[ and l.projectName like '%${condition.projectName}%' ]]>
-            </if>
-            <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'" >
-                <![CDATA[ and l.employeeCode='${condition.employeeCode}' ]]>
-            </if>
-            <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
-                <![CDATA[ and l.employee like '%${condition.employee}%' ]]>
-            </if>
-            <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
-                <![CDATA[ and l.logTime >= '${condition.startDate}' ]]>
-            </if>
-            <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
-                <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
-            </if>
-            AND l.employeeCode = a.employeeCode
-          ) projectCount
+        a.*, (
+        SELECT
+        sum(
+        substring_index(l.proportion, '%', 1)
+        ) * 0.01
         FROM
-          (
-            SELECT
-              i.employeeCode,
-              i.employee,
-              i.reporter,
-              i.projectCode,
-              i.projectName,
-              '' score,
-              count(1) manHour,
-              sum(
-                substring_index(i.proportion, '%', 1)
-              ) * 0.01 nowManHour,
-              '' actualHour,
-              '22' fixedWork
-            FROM
-              log_info i
-            WHERE
-              1 = 1
-            <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'" >
-                <![CDATA[ and i.projectCode='${condition.projectCode}' ]]>
-            </if>
-            <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'" >
-                <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
-            </if>
-            <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'" >
-                <![CDATA[ and i.employeeCode='${condition.employeeCode}' ]]>
-            </if>
-            <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'" >
-                <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
-            </if>
-            <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'" >
-                <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
-            </if>
-            <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'" >
-                <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
-            </if>
-            GROUP BY
-              i.employeeCode,
-              i.employee,
-              i.reporter,
-              i.projectCode,
-              i.projectName
-            ORDER BY
-              i.employeeCode ASC,
-              count(1) DESC
-          ) a
+        log_info l
+        WHERE
+        1 = 1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
+            <![CDATA[ and l.projectCode='${condition.projectCode}' ]]>
+        </if>
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and l.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'">
+            <![CDATA[ and l.employeeCode='${condition.employeeCode}' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and l.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
+            <![CDATA[ and l.logTime >= '${condition.startDate}' ]]>
+        </if>
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
+            <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
+        </if>
+        AND l.employeeCode = a.employeeCode
+        ) tempHour,
+        (
+        SELECT
+        count(DISTINCT l.projectCode)
+        FROM
+        log_info l
+        WHERE
+        1 = 1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
+            <![CDATA[ and l.projectCode='${condition.projectCode}' ]]>
+        </if>
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and l.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'">
+            <![CDATA[ and l.employeeCode='${condition.employeeCode}' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and l.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
+            <![CDATA[ and l.logTime >= '${condition.startDate}' ]]>
+        </if>
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
+            <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
+        </if>
+        AND l.employeeCode = a.employeeCode
+        ) projectCount
+        FROM
+        (
+        SELECT
+        i.employeeCode,
+        i.employee,
+        i.reporter,
+        i.projectCode,
+        i.projectName,
+        '' score,
+        count(1) manHour,
+        sum(
+        substring_index(i.proportion, '%', 1)
+        ) * 0.01 nowManHour,
+        '' actualHour,
+        '22' fixedWork
+        FROM
+        log_info i
+        WHERE
+        1 = 1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
+            <![CDATA[ and i.projectCode='${condition.projectCode}' ]]>
+        </if>
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and i.projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.employeeCode != null and condition.employeeCode != '' and condition.employeeCode != 'null' and condition.employeeCode != 'undefined'">
+            <![CDATA[ and i.employeeCode='${condition.employeeCode}' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and i.employee like '%${condition.employee}%' ]]>
+        </if>
+        <if test="condition.startDate != null and condition.startDate != '' and condition.startDate != 'null' and condition.startDate != 'undefined'">
+            <![CDATA[ and i.logTime >= '${condition.startDate}' ]]>
+        </if>
+        <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
+            <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
+        </if>
+        GROUP BY
+        i.employeeCode,
+        i.employee,
+        i.reporter,
+        i.projectCode,
+        i.projectName
+        ORDER BY
+        i.employeeCode ASC,
+        count(1) DESC
+        ) a
     </select>
 
-    <select id="countRepeatLogInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.Integer">
+    <select id="countRepeatLogInfo" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.lang.Integer">
         select count(1) from log_info where
-          employeeCode = '${condition.employeeCode}'
-          <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'" >
-              and projectCode = '${condition.projectCode}'
-          </if>
-          <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null' and condition.logTime != 'undefined'" >
+        employeeCode = '${condition.employeeCode}'
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'">
+            and projectCode = '${condition.projectCode}'
+        </if>
+        <if test="condition.logTime != null and condition.logTime != '' and condition.logTime != 'null' and condition.logTime != 'undefined'">
             <![CDATA[ and logTime = '${condition.logTime}' ]]>
-          </if>
+        </if>
     </select>
 
     <select id="queryProjectCode" resultType="java.lang.String">
         select projectCode from contract_review
     </select>
 
-    <select id="querySumProportion" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.Double">
+    <select id="querySumProportion" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.lang.Double">
         SELECT
             case when
             sum(
@@ -653,16 +723,16 @@
 
     <select id='validProportion' parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
         SELECT
-            logTime, employeeCode, employee,
-            sum(substring_index(proportion, '%', 1)) count
+        logTime, employeeCode, employee,
+        sum(substring_index(proportion, '%', 1)) count
         FROM
-            log_info i
+        log_info i
         where 1=1
-        <if test="condition.ids != null and condition.ids != '' and condition.ids != 'null' and condition.ids != 'undefined'" >
+        <if test="condition.ids != null and condition.ids != '' and condition.ids != 'null' and condition.ids != 'undefined'">
             and id in
-            (<foreach collection="condition.ids" item="item" index="index" separator="," >
-                '${item}'
-            </foreach>)
+            (<foreach collection="condition.ids" item="item" index="index" separator=",">
+            '${item}'
+        </foreach>)
         </if>
         group by logTime, employeeCode, employee
     </select>
@@ -671,9 +741,10 @@
         select lineName,count(1) count from project_line group by lineName order by count(1) desc
     </select>
 
-    <select id="queryProjectByLine" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
+    <select id="queryProjectByLine" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.Map">
         select * from project_line where lineName = '${condition.lineName}'
-        <if test="condition.searchData != null and condition.searchData != '' and condition.searchData != 'null' and condition.searchData != 'undefined'" >
+        <if test="condition.searchData != null and condition.searchData != '' and condition.searchData != 'null' and condition.searchData != 'undefined'">
             and (projectCode like '%${condition.searchData}%' or projectName like '%${condition.searchData}%')
         </if>
         order by projectManager, projectCode
@@ -685,16 +756,16 @@
 
     <select id="queryEmployeeLog" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.util.Map">
         select
-            id,
-            projectCode,
-            projectName,
-            date_format(logTime,'%Y-%m-%d') logTime,
-            proportion,
-            reporter,
-            employeeCode,
-            employee,
-            workNature,
-            context
+        id,
+        projectCode,
+        projectName,
+        date_format(logTime,'%Y-%m-%d') logTime,
+        proportion,
+        reporter,
+        employeeCode,
+        employee,
+        workNature,
+        context
         from log_info where
         employeeCode = '${condition.employeeCode}'
         <![CDATA[ and logTime >= '${condition.startDate}' ]]>
@@ -710,9 +781,47 @@
         </if>
     </select>
 
-    <select id="countRepeatEmployeeInfo" parameterType="com.etone.project.core.model.QueryCriteria" resultType="java.lang.Integer">
+    <select id="countRepeatEmployeeInfo" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.lang.Integer">
         select count(1) from employee_info
         where employeeCode = '${condition.employeeCode}'
         and employee = '${condition.employee}'
+    </select>
+
+    <select id="queryReporterEmployeeInfo" parameterType="com.etone.project.core.model.QueryCriteria"
+            resultType="java.util.HashMap">
+        select * from reporter_employee_rel where 1=1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'">
+            <![CDATA[ and projectCode like '%${condition.projectCode}%' ]]>
+        </if>
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
+            <![CDATA[ and reporter like '%${condition.reporter}%' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and employee like '%${condition.employee}%' ]]>
+        </if>
+        order by id desc
+        <if test="rowStart != null and pageSize != null">
+            <![CDATA[   LIMIT ${rowStart}, ${pageSize} ]]>
+        </if>
+    </select>
+
+    <select id="countReporterEmployee" resultType="java.lang.Integer">
+        select count(1) from reporter_employee_rel where 1=1
+        <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null' and condition.projectCode != 'undefined'">
+            <![CDATA[ and projectCode like '%${condition.projectCode}%' ]]>
+        </if>
+        <if test="condition.projectName != null and condition.projectName != '' and condition.projectName != 'null'">
+            <![CDATA[ and projectName like '%${condition.projectName}%' ]]>
+        </if>
+        <if test="condition.reporter != null and condition.reporter != '' and condition.reporter != 'null' and condition.reporter != 'undefined'">
+            <![CDATA[ and reporter like '%${condition.reporter}%' ]]>
+        </if>
+        <if test="condition.employee != null and condition.employee != '' and condition.employee != 'null' and condition.employee != 'undefined'">
+            <![CDATA[ and employee like '%${condition.employee}%' ]]>
+        </if>
     </select>
 </mapper>

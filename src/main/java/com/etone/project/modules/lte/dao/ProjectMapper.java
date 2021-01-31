@@ -58,6 +58,8 @@ public interface ProjectMapper {
 
     List<Map> exportContractReviewList(QueryCriteria criteria);
 
+    List<Map> exportReporterEmployeeList(QueryCriteria criteria);
+
     List<Map> queryEmptyWorkLog(QueryCriteria criteria);
 
     List<Map> queryNotAllWorkLog(QueryCriteria criteria);
@@ -68,11 +70,17 @@ public interface ProjectMapper {
 
     void deleteProjectInfo(Long id);
 
+    void deleteReporterEmployeeInfo(Long id);
+
     void deleteLogInfo(QueryCriteria criteria);
 
     void saveProjectInfo(QueryCriteria criteria);
 
     void updateProjectInfo(QueryCriteria criteria);
+
+    void saveReporterEmployeeInfo(QueryCriteria criteria);
+
+    void updateReporterEmployeeInfo(QueryCriteria criteria);
 
     List<Map> queryCodeAndReporter(String projectName);
 
@@ -97,4 +105,8 @@ public interface ProjectMapper {
     List<Map> queryEmployeeLog(QueryCriteria criteria);
 
     int countRepeatEmployeeInfo(QueryCriteria criteria);
+
+    List<Map> queryReporterEmployeeInfo(QueryCriteria criteria);
+
+    int countReporterEmployee(QueryCriteria criteria);
 }

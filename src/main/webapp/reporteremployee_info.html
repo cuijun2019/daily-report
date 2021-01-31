@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>项目经理员工关系信息</title>
+    <!--1、Jquery组件引用-->
+    <script src="modules/geogis/js/jquery-1.12.4.min.js"></script>
+    <!--2、bootstrap组件引用-->
+    <script src="modules/geogis/bootstrap/js/bootstrap.js"></script>
+    <link href="modules/geogis/bootstrap-table-develop/docs/assets/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <script type="text/javascript" src="modules/geogis/Bootstrap-3-Typeahead-master/bootstrap3-typeahead.js"></script>
+    <!--3、bootstrap table组件以及中文包的引用-->
+    <script src="modules/geogis/bootstrap-table-develop/src/bootstrap-table.js"></script>
+    <link href="modules/geogis/bootstrap-table-develop/src/bootstrap-table.css" rel="stylesheet"/>
+    <script src="modules/geogis/bootstrap-table-develop/src/locale/bootstrap-table-zh-CN.js"></script>
+    <!---4、页面Js文件的引用
+    <script src="~/Scripts/Home/Index.js"></script>     -->
+    <script src="modules/geogis/bootstrap-table-develop/src/extensions/export/bootstrap-table-export.js"></script>
+    <script src="modules/geogis/tableExport.jquery.plugin-master/tableExport.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="modules/geogis/bootstrap-fileinput-master/css/fileinput.css"/>
+    <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/fileinput.js"></script>
+    <script type="text/javascript" src="modules/geogis/bootstrap-fileinput-master/js/locales/zh.js"></script>
+
+    <link rel="stylesheet" href="modules/geogis/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"/>
+    <script type="text/javascript"
+            src="modules/geogis/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript"
+            src="modules/geogis/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <script src="modules/geogis/layer/layer.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            //1.初始化Table
+            var oTable = new TableInit();
+            oTable.Init();
+
+            //2.初始化Button的点击事件
+            var oButtonInit = new ButtonInit();
+            oButtonInit.Init();
+
+            $('#tb_reporteremployeeInfo').bootstrapTable('hideColumn', 'id');
+
+            $('#projectCode').typeahead({
+                source: function (query, process) {
+                    //query是输入的值
+                    $.post("/modules/project/queryContractReview?random=" + Math.random(), {name: query}, function (datas) {
+                        var array = [];
+                        for (var i = 0; i < datas.length; i++) {
+                            var data = datas[i];
+                            array.push(data.projectCode);
+                        }
+                        array = unique(array);
+                        process(array);
+                    });
+                },
+                items: "all",
+                updater: function (item) {
+                    return item;
+                },
+                afterSelect: function (item) {
+                },
+                delay: 500
+            });
+
+            $('#projectName').typeahead({
+                source: function (query, process) {
+                    //query是输入的值
+                    $.post("/modules/project/queryContractReview?random=" + Math.random(), {name: query}, function (datas) {
+                        var array = [];
+                        for (var i = 0; i < datas.length; i++) {
+                            var data = datas[i];
+                            array.push(data.projectName);
+                        }
+                        array = unique(array);
+                        process(array);
+                    });
+                },
+                items: "all",
+                updater: function (item) {
+                    return item;
+                },
+                afterSelect: function (item) {
+                },
+                delay: 500
+            });
+
+            $('#reporter').typeahead({
+                source: function (query, process) {
+                    //query是输入的值
+                    $.post("/modules/project/queryEmployeeInfo?random=" + Math.random(), {name: query}, function (datas) {
+                        var array = [];
+                        for (var i = 0; i < datas.length; i++) {
+                            var data = datas[i];
+                            array.push(data.employee);
+                        }
+                        array = unique(array);
+                        process(array);
+                    });
+                },
+                items: "all",
+                updater: function (item) {
+                    return item;
+                },
+                afterSelect: function (item) {
+                },
+                delay: 500
+            });
+
+            $('#employee').typeahead({
+                source: function (query, process) {
+                    //query是输入的值
+                    $.post("/modules/project/queryEmployeeInfo?random=" + Math.random(), {name: query}, function (datas) {
+                        var array = [];
+                        for (var i = 0; i < datas.length; i++) {
+                            var data = datas[i];
+                            array.push(data.employee);
+                        }
+                        array = unique(array);
+                        process(array);
+                    });
+                },
+                items: "all",
+                updater: function (item) {
+                    return item;
+                },
+                afterSelect: function (item) {
+                },
+                delay: 500
+            });
+
+            $("#saveReportEmployeeInfo").click(function() {
+                var id = $('#id').val();
+                var reporter = $('#addReporter').val();
+                var employee = $('#addEmployee').val();
+                var projectCode = $('#addProjectCode').val();
+                var projectName = $('#addProjectName').val();
+                if (reporter=="") {
+                    layer.msg("项目经理不能为空");
+                    return;
+                }
+                if (employee=="") {
+                    layer.msg("员工姓名不能为空");
+                    return;
+                }
+                if (projectCode=="") {
+                    layer.msg("项目编码不能为空");
+                    return;
+                }
+                if (projectName=="") {
+                    layer.msg("项目名称不能为空");
+                    return;
+                }
+                $.ajax({
+                    url : "/modules/projectbg/saveOrUpdateReporterEmployee?random=" + Math.random(),
+                    type : "post",
+                    data : {
+                        id : id,
+                        reporter : reporter,
+                        employee : employee,
+                        projectCode : projectCode,
+                        projectName : projectName
+                    },
+                    async : true,
+                    cache : false,
+                    dataType : 'json',
+                    success : function(data) {
+                        layer.msg(data.msg);
+                        $('#addReporter').val("");
+                        $('#addEmployee').val("");
+                        $('#addProjectCode').val("");
+                        $('#addProjectName').val("");
+                        $('#addModal').modal('hide');
+                        $('#tb_reporteremployeeInfo').bootstrapTable('refresh');
+                    }
+                });
+            });
+
+            $("#btn_export").click(function() {
+                var projectName = $("#projectName").val();
+                var reporter = $("#reporter").val();
+                var employee = $("#employee").val();
+                var rows = $("#tb_reporteremployeeInfo").bootstrapTable('getSelections');
+                var ids = "";
+                if (rows.length > 0) {
+                    for(var i=0;i<rows.length;i++){
+                        ids += "," + rows[i].id;
+                    }
+                    ids = ids.substring(1);
+                }
+                $('#down_temp_iframe').attr('src','/modules/projectbg/exportReporterEmployeeData?type=xls&projectName='+projectName+'&reporter='+reporter+'&employee='+employee+'&ids=' + ids);
+            });
+
+            $("#btn_remove").click(function() {
+                var rows = $("#tb_reporteremployeeInfo").bootstrapTable('getSelections');
+                if (rows != null && rows != "") {
+                    layer.confirm('您确实要删除选定的记录吗？', {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        var ids = "";
+                        if (rows.length > 0) {
+                            for(var i=0;i<rows.length;i++){
+                                ids += "," + rows[i].id;
+                            }
+                            ids = ids.substring(1);
+                        }
+                        $.ajax({
+                            url : "/modules/projectbg/deleteReporterEmployeeInfo?random=" + Math.random(),
+                            type : "post",
+                            data : {
+                                ids : ids
+                            },
+                            async : true,
+                            cache : false,
+                            dataType : 'json',
+                            success : function(data) {
+                                layer.msg(data.msg);
+                                $('#tb_reporteremployeeInfo').bootstrapTable('refresh');
+                            }
+                        });
+                    }, function(){
+
+                    });
+                } else {
+                    layer.msg("请选取要删除的数据！");
+                    return;
+                }
+            });
+        });
+
+        //数组去重
+        function unique(arr) {
+            var new_arr = [];
+            for (var i = 0; i < arr.length; i++) {
+                var items = arr[i];
+                if ($.inArray(items, new_arr) == -1) {
+                    new_arr.push(items);
+                }
+            }
+            return new_arr;
+        }
+
+        var TableInit = function () {
+            var oTableInit = new Object();
+            //初始化Table
+            oTableInit.Init = function () {
+                $('#tb_reporteremployeeInfo').bootstrapTable({
+                    url: "/modules/projectbg/queryReporterEmployeeInfo",
+                    method: 'post', //请求方式（*）
+                    contentType: "application/x-www-form-urlencoded",
+                    toolbar: '#toolbar', //工具按钮用哪个容器
+                    striped: true, //是否显示行间隔色
+                    cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    pagination: true, //是否显示分页（*）
+                    sortable: false, //是否启用排序
+                    sortOrder: "asc", //排序方式
+                    queryParams: oTableInit.queryParams,//传递参数（*）
+                    sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1, //初始化加载第一页，默认第一页
+                    pageSize: 10, //每页的记录行数（*）
+                    pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
+//            search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                    strictSearch: true,
+                    showColumns: true, //是否显示所有的列
+                    showRefresh: true, //是否显示刷新按钮
+                    minimumCountColumns: 2, //最少允许的列数
+                    clickToSelect: true, //是否启用点击选中行
+                    showExport: true, //是否显示导出
+                    exportDataType: "basic", //basic', 'all', 'selected'.
+                    // height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                    uniqueId: "ID", //每一行的唯一标识，一般为主键列
+                    showToggle: true, //是否显示详细视图和列表视图的切换按钮
+                    cardView: false, //是否显示详细视图
+                    detailView: false, //是否显示父子表
+                    paginationLoop: false,//第一页不能点击上一页，最后一页不能点击下一页
+                    columns: [{
+                        checkbox: true
+                    }, {
+                        field: 'id',
+                        title: '主键'
+                    }, {
+                        field: 'reporter',
+                        title: '<span style="width:80px;display:inline-block;">项目经理</span>'
+                    }, {
+                        field: 'employee',
+                        title: '<span style="width:90px;display:inline-block;">员工姓名</span>'
+                    }, {
+                        field: 'projectCode',
+                        title: '<span style="width:115px;display:inline-block;">项目编码</span>'
+                    }, {
+                        field: 'projectName',
+                        title: '<span style="width:450px;display:inline-block;">项目名称</span>'
+                    }]
+                });
+            };
+
+            //得到查询的参数
+            oTableInit.queryParams = function (params) {
+                var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                    limit: params.limit, //页面大小
+                    offset: params.offset, //页码
+                    projectCode: $("#projectCode").val(),
+                    projectName: $("#projectName").val(),
+                    reporter: $("#reporter").val(),
+                    employee: $("#employee").val()
+                };
+                return temp;
+            };
+            return oTableInit;
+        };
+
+
+        var ButtonInit = function () {
+            var oInit = new Object();
+
+            oInit.Init = function () {
+                //初始化页面上面的按钮事件
+                $("#btn_query").click(function () {
+                    $('#tb_reporteremployeeInfo').bootstrapTable('refresh', {query: {offset: 0}});
+                });
+                $("#btn_reset").click(function () {
+                    $("#projectCode").val("");
+                    $("#projectName").val("");
+                    $("#reporter").val("");
+                    $("#employee").val("");
+                });
+            };
+            return oInit;
+        };
+    </script>
+</head>
+<body>
+<iframe id="down_temp_iframe" style="display: none;"></iframe>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form id="formSearch" class="form-horizontal">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="reporter" data-provide="typeahead" data-source=""
+                           placeholder="请输入项目经理" autocomplete="off" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入项目经理'"/>
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="employee" data-provide="typeahead" data-source=""
+                           placeholder="请输入员工姓名" autocomplete="off" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入员工姓名'"/>
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="projectCode" data-provide="typeahead" data-source=""
+                           placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入项目编码'"/>
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="projectName" data-provide="typeahead" data-source=""
+                           placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入项目名称'"/>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" id="btn_query" class="btn btn-primary btn-sm">查询</button>
+                    <button type="button" class="btn btn-sm" id="btn_reset">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">项目经理员工关系信息</div>
+        <div id="toolbar" class="btn-group">
+            <button id="btn_export" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>导出
+            </button>
+            <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#addModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+            </button>
+            <button id="btn_remove" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除
+            </button>
+        </div>
+        <table id="tb_reporteremployeeInfo"></table>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addModalLabel">添加</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="id"/>
+                    <input type="text" class="form-control" id="addReporter" placeholder="请输入项目经理" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目经理'" />
+                    <br />
+                    <input type="text" class="form-control" id="addEmployee" placeholder="请输入员工姓名" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入员工姓名'" />
+                    <br />
+                    <input type="text" class="form-control" id="addProjectCode" placeholder="请输入项目编码" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目编码'" />
+                    <br />
+                    <input type="text" class="form-control" id="addProjectName" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="glyphicon glyphicon-remove btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                <button type="button" id="saveReportEmployeeInfo" class="glyphicon glyphicon-floppy-disk btn btn-primary btn-sm">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

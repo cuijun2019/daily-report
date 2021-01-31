@@ -34,10 +34,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/modules/project")
@@ -90,7 +92,10 @@ public final class ProjectController extends GenericController {
     @RequestMapping(value = "/queryContractReview", method = {RequestMethod.GET, RequestMethod.POST})
     public void queryContractReview(HttpServletRequest request, HttpServletResponse response) throws IOException {
         QueryCriteria criteria = new QueryCriteria();
-        criteria.put("employee", URLDecoder.decode(request.getParameter("employee"), "UTF-8"));
+        String employee = request.getParameter("employee");
+        if (Common.judgeString(employee)) {
+            criteria.put("employee", URLDecoder.decode(employee, "UTF-8"));
+        }
         List<Map> list = projectManager.queryContractReview(criteria);
         ResponseUtils.printArrayList(response, list);
     }

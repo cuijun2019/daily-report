@@ -13,6 +13,7 @@
                 $("#statistics").hide();
                 $("#log").show();
                 $("#finalStatistics").hide();
+                $("#reporterEmployee").hide();
                 document.getElementById('logFrame').contentWindow.location.reload(true);
             });
             $("#statisticsId").click(function(){
@@ -20,6 +21,7 @@
                 $("#log").hide();
                 $("#statistics").show();
                 $("#finalStatistics").hide();
+                $("#reporterEmployee").hide();
                 document.getElementById('statisticsFrame').contentWindow.location.reload(true);
             });
             $("#projectId").click(function(){
@@ -27,6 +29,7 @@
                 $("#log").hide();
                 $("#statistics").hide();
                 $("#finalStatistics").hide();
+                $("#reporterEmployee").hide();
                 document.getElementById('projectFrame').contentWindow.location.reload(true);
             });
             $("#finalStatisticsId").click(function(){
@@ -34,7 +37,16 @@
                 $("#log").hide();
                 $("#statistics").hide();
                 $("#finalStatistics").show();
+                $("#reporterEmployee").hide();
                 document.getElementById('finalStatisticsFrame').contentWindow.location.reload(true);
+            });
+            $("#reporterEmployeeId").click(function(){
+                $("#project").hide();
+                $("#log").hide();
+                $("#statistics").hide();
+                $("#finalStatistics").hide();
+                $("#reporterEmployee").show();
+                document.getElementById('reporterEmployeeFrame').contentWindow.location.reload(true);
             });
         });
     </script>
@@ -62,6 +74,11 @@
             工时统计信息
         </a>
     </li>
+    <li>
+        <a id="reporterEmployeeId" href="#reporterEmployee" data-toggle="tab">
+            项目经理员工关系信息
+        </a>
+    </li>
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade in active" id="project">
@@ -75,6 +92,9 @@
     </div>
     <div class="tab-pane fade" id="finalStatistics">
         <iframe id="finalStatisticsFrame" src="finalstatistics_info.html" width="100%" height="740px;" scroll="auto" frameborder="0"></iframe>
+    </div>
+    <div class="tab-pane fade" id="reporterEmployee">
+        <iframe id="reporterEmployeeFrame" src="reporteremployee_info.html" width="100%" height="740px;" scroll="auto" frameborder="0"></iframe>
     </div>
 </div>
 

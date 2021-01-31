@@ -51,6 +51,8 @@ public interface IProjectManager {
 
     PageResult queryStatisticsInfo(QueryCriteria criteria);
 
+    PageResult queryReporterEmployeeInfo(QueryCriteria criteria);
+
     InputStream validExcelFile(Map<String, MultipartFile> fileMap) throws IOException;
 
     String validExcelTitle(org.apache.poi.ss.usermodel.Sheet sheet, String[] titleArr);
@@ -71,6 +73,8 @@ public interface IProjectManager {
 
     void exportContractReviewData(OutputStream os, QueryCriteria param);
 
+    void exportReporterEmployeeData(OutputStream os, QueryCriteria param);
+
     void exportStatisticsData(OutputStream os, QueryCriteria param);
 
     void exportFinalStatisticsData(OutputStream os, QueryCriteria param);
@@ -79,9 +83,13 @@ public interface IProjectManager {
 
     void deleteProjectInfo(List<Long> ids);
 
+    void deleteReporterEmployeeInfo(List<Long> ids);
+
     String deleteLogInfo(QueryCriteria criteria);
 
     void saveOrUpdateProjectInfo(QueryCriteria criteria);
+
+    void saveOrUpdateReporterEmployee(QueryCriteria criteria);
 
     void saveOrUpdateLogInfo(QueryCriteria criteria);
 
