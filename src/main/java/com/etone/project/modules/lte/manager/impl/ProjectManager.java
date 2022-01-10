@@ -5,6 +5,7 @@ import com.etone.project.core.model.QueryCriteria;
 import com.etone.project.modules.lte.dao.ProjectMapper;
 import com.etone.project.modules.lte.manager.IProjectManager;
 import com.etone.project.utils.Common;
+import com.google.common.base.Strings;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.poi.hssf.usermodel.*;
@@ -584,7 +585,8 @@ public class ProjectManager implements IProjectManager {
 
     private boolean isHoliday(int dayOfWeek, String dateStr, String holidays, String makeUpClassDays) {
 //        if (type.equals("export")){
-        if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) && !makeUpClassDays.contains(dateStr)) {
+
+        if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) && (!Strings.isNullOrEmpty(makeUpClassDays) && !makeUpClassDays.contains(dateStr))) {
             return true;
         }
 //        }
