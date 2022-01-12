@@ -586,7 +586,7 @@ public class ProjectManager implements IProjectManager {
     private boolean isHoliday(int dayOfWeek, String dateStr, String holidays, String makeUpClassDays) {
 //        if (type.equals("export")){
 
-        if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) && (!Strings.isNullOrEmpty(makeUpClassDays) && !makeUpClassDays.contains(dateStr))) {
+        if ((Calendar.SATURDAY == dayOfWeek || Calendar.SUNDAY == dayOfWeek) || (!Strings.isNullOrEmpty(makeUpClassDays) && !makeUpClassDays.contains(dateStr))) {
             return true;
         }
 //        }
@@ -970,6 +970,7 @@ public class ProjectManager implements IProjectManager {
         sheet.setColumnWidth(6, 10 * 256);
         sheet.setColumnWidth(7, 10 * 256);
         sheet.setColumnWidth(8, 50 * 256);
+        sheet.setColumnWidth(9, 20 * 256);
 
         HSSFCell cell = row.createCell(0);
         cell.setCellValue("项目编码");
@@ -998,6 +999,9 @@ public class ProjectManager implements IProjectManager {
         cell = row.createCell(8);
         cell.setCellValue("日志内容");
         cell.setCellStyle(style);
+        cell = row.createCell(9);
+        cell.setCellValue("备注");
+        cell.setCellStyle(style);
 
         List<Map> mapList = projectMapper.exportLogList(criteria);
         String proportion = "";
@@ -1023,6 +1027,7 @@ public class ProjectManager implements IProjectManager {
             row.createCell(6).setCellValue(Common.judgeString(employee) ? employee : "");
             row.createCell(7).setCellValue(Common.judgeString(workNature) ? workNature : "");
             row.createCell(8).setCellValue(map.get("日志内容").toString());
+            row.createCell(9).setCellValue(map.get("备注") != null ? map.get("备注").toString() : "");
         }
         wb.write(os);
     }

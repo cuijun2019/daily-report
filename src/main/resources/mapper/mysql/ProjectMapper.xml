@@ -93,8 +93,8 @@
     </select>
 
     <insert id="saveLogInfo" parameterType="com.etone.project.core.model.QueryCriteria">
-        insert into log_info(id, projectCode, projectName, reporter, employeeCode, proportion, logTime, workNature, context, createTime, employee)
-        values (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.employeeCode}','${condition.proportion}','${condition.logTime}','${condition.workNature}','${condition.context}',NOW(),'${condition.employee}')
+        insert into log_info(id, projectCode, projectName, reporter, employeeCode, proportion, logTime, workNature, context, createTime, employee, niche)
+        values (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.employeeCode}','${condition.proportion}','${condition.logTime}','${condition.workNature}','${condition.context}',NOW(),'${condition.employee}','${condition.niche}')
     </insert>
 
     <select id="updateLogInfo">
@@ -215,7 +215,8 @@
         i.employeeCode,
         i.employee,
         i.workNature,
-        context
+        context,
+        niche
         FROM
         log_info i where 1=1
         <if test="condition.projectCode != null and condition.projectCode != '' and condition.projectCode != 'null'">
@@ -281,7 +282,8 @@
         i.employeeCode 员工工号,
         i.employee 员工姓名,
         i.workNature 工作性质,
-        i.context 日志内容
+        i.context 日志内容,
+        i.niche 备注
         FROM
         log_info i
         WHERE

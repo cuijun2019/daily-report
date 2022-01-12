@@ -628,6 +628,7 @@ const writeInfo = {
 		logTime = logTime.substring(0, logTime.indexOf("日")).replace("年", "-").replace("月", "-");
 		const workNature = $("#workNature").val();
 		const context = $("#context").val();
+		const niche = $("#niche").val();
 		const datalist = [];
 
 		$(expression).each(function () {
@@ -650,6 +651,7 @@ const writeInfo = {
 			obj.logTime = logTime;
 			obj.workNature = workNature;
 			obj.context = context.replace("'", "''");
+			obj.niche = niche;
 			obj.createTime = new Date().Format("yyyy-MM-dd");
 
 			datalist.push(obj);
