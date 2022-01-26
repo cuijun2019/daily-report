@@ -60,6 +60,10 @@
         select * from employee_info
     </select>
 
+    <select id="queryEmployeeInfoByCode" parameterType="java.lang.String" resultType="java.lang.String">
+        select orgCode from employee_info where employeeCode=#{employeeCode}
+    </select>
+
     <select id="validProjectCode" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from contract_review where projectCode=#{projectCode}
     </select>
@@ -93,8 +97,8 @@
     </select>
 
     <insert id="saveLogInfo" parameterType="com.etone.project.core.model.QueryCriteria">
-        insert into log_info(id, projectCode, projectName, reporter, employeeCode, proportion, logTime, workNature, context, createTime, employee, niche)
-        values (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.employeeCode}','${condition.proportion}','${condition.logTime}','${condition.workNature}','${condition.context}',NOW(),'${condition.employee}','${condition.niche}')
+        insert into log_info(id, projectCode, projectName, reporter, employeeCode, proportion, logTime, workNature, context, createTime, employee, niche, orgCode)
+        values (null,'${condition.projectCode}','${condition.projectName}','${condition.reporter}','${condition.employeeCode}','${condition.proportion}','${condition.logTime}','${condition.workNature}','${condition.context}',NOW(),'${condition.employee}','${condition.niche}','${condition.orgCode}')
     </insert>
 
     <select id="updateLogInfo">

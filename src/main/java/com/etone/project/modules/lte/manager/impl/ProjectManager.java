@@ -208,9 +208,11 @@ public class ProjectManager implements IProjectManager {
         List<Map<String, Object>> list;
         JSONArray jsonArray = JSONArray.fromObject(logInfoListJson);//把String转换为json
         list = JSONArray.toList(jsonArray, Map.class);//这里的t是Class<T>
+        System.out.println("list: " + list);
         for (Map map : list) {
             criteria = new QueryCriteria();
             criteria.setCondition(map);
+            map.put("orgCode", projectMapper.queryEmployeeInfoByCode(String.valueOf(map.get("employeeCode"))));
             projectMapper.saveLogInfo(criteria);
         }
     }
@@ -1286,16 +1288,39 @@ public class ProjectManager implements IProjectManager {
             Map map = list.get(i);
             row.createCell(0).setCellValue(String.valueOf(map.get("employeeCode")));
             row.createCell(1).setCellValue(String.valueOf(map.get("employee")));
-            row.createCell(2).setCellValue(String.valueOf(map.get("reporter")));
-            row.createCell(3).setCellValue(String.valueOf(map.get("score")));
-            row.createCell(4).setCellValue(String.valueOf(map.get("projectCode")));
-            row.createCell(5).setCellValue(String.valueOf(map.get("projectName")));
-            row.createCell(6).setCellValue(String.valueOf(map.get("nowManHour")));
-            row.createCell(7).setCellValue(workDate);
-            row.createCell(8).setCellValue("22");
-            row.createCell(9).setCellValue(String.valueOf(map.get("shareWork")));
+            row.createCell(2).setCellValue(getOrgName(String.valueOf(map.get("orgCode"))));
+            row.createCell(3).setCellValue(String.valueOf(map.get("reporter")));
+            row.createCell(4).setCellValue(String.valueOf(map.get("score")));
+            row.createCell(5).setCellValue(String.valueOf(map.get("projectCode")));
+            row.createCell(6).setCellValue(String.valueOf(map.get("projectName")));
+            row.createCell(7).setCellValue(String.valueOf(map.get("nowManHour")));
+            row.createCell(8).setCellValue(workDate);
+            row.createCell(9).setCellValue("22");
+            row.createCell(10).setCellValue(String.valueOf(map.get("shareWork")));
         }
         wb.write(os);
+    }
+
+    private String getOrgName(String orgCode) {
+        if ("1".equals(orgCode)) {
+            return "平台和软件产品部";
+        }
+        if ("2".equals(orgCode)) {
+            return "智能硬件产品部";
+        }
+        if ("3".equals(orgCode)) {
+            return "网络技术研究中心";
+        }
+        if ("4".equals(orgCode)) {
+            return "应用和解决方案部";
+        }
+        if ("5".equals(orgCode)) {
+            return "综合管理部";
+        }
+        if ("6".equals(orgCode)) {
+            return "市场部";
+        }
+        return "";
     }
 
     private void exportWorkDayStat(OutputStream os, QueryCriteria criteria) throws Exception {

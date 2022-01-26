@@ -42,6 +42,8 @@ public interface ProjectMapper {
 
     void saveLogInfo(QueryCriteria criteria);
 
+    String queryEmployeeInfoByCode(String employeeCode);
+
     void updateLogInfo(QueryCriteria criteria);
 
     List<Map> queryContractReviewInfo(QueryCriteria criteria);

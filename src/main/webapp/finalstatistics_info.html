@@ -273,7 +273,16 @@ var ButtonInit = function () {
         <div class="panel-body">
             <form id="formSearch" class="form-horizontal">
                 <div class="col-xs-2">
-                    <input type="text" class="form-control" id="orgCode" data-provide="typeahead" data-source="" placeholder="请选择部门" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请选择部门'" />
+                    <select id="orgCode" class="form-control">
+                        <option selected value="">请选择部门</option>
+                        <option value="1">平台和软件产品部</option>
+                        <option value="2">智能硬件产品部</option>
+                        <option value="3">网络技术研究中心</option>
+                        <option value="4">应用和解决方案部</option>
+                        <option value="5">综合管理部</option>
+                        <option value="6">市场部</option>
+                    </select>
+<!--                    <input type="text" class="form-control" id="orgCode" data-provide="typeahead" data-source="" placeholder="请选择部门" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请选择部门'" />-->
                 </div>
                 <div class="col-xs-2">
                     <input type="text" class="form-control" id="projectName" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
