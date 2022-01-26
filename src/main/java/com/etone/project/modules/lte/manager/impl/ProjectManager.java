@@ -106,6 +106,8 @@ public class ProjectManager implements IProjectManager {
 
     @Override
     public String validLogInfo(HttpServletRequest request) {
+        System.out.println("employeeCode: " + request.getParameter("employeeCode"));
+        System.out.println("logInfoListJson: " + request.getParameter("logInfoList"));
         String id = request.getParameter("id");
         String employeeCode = request.getParameter("employeeCode");
         String logTime = request.getParameter("logTime");
@@ -285,6 +287,9 @@ public class ProjectManager implements IProjectManager {
                 shareWork = 22;
             } else {
                 nowManHour = Double.parseDouble(String.valueOf(map.get("nowManHour")));
+                if (map.get("tempHour") == null) {
+                    continue;
+                }
                 tempHour = Double.parseDouble(String.valueOf(map.get("tempHour")));
                 shareWork = Double.parseDouble(formatDouble(nowManHour / tempHour * 22));
                 nowManHour = Double.parseDouble(String.format("%.2f", nowManHour));
@@ -1197,13 +1202,14 @@ public class ProjectManager implements IProjectManager {
         sheet.setColumnWidth(0, 10 * 256);
         sheet.setColumnWidth(1, 10 * 256);
         sheet.setColumnWidth(2, 10 * 256);
-        sheet.setColumnWidth(3, 8 * 256);
-        sheet.setColumnWidth(4, 20 * 256);
-        sheet.setColumnWidth(5, 50 * 256);
-        sheet.setColumnWidth(6, 10 * 256);
-        sheet.setColumnWidth(7, 13 * 256);
+        sheet.setColumnWidth(3, 10 * 256);
+        sheet.setColumnWidth(4, 8 * 256);
+        sheet.setColumnWidth(5, 20 * 256);
+        sheet.setColumnWidth(6, 50 * 256);
+        sheet.setColumnWidth(7, 10 * 256);
         sheet.setColumnWidth(8, 13 * 256);
         sheet.setColumnWidth(9, 13 * 256);
+        sheet.setColumnWidth(10, 13 * 256);
 
         HSSFCell cell = row.createCell(0);
         cell.setCellValue("员工工号");
@@ -1212,27 +1218,30 @@ public class ProjectManager implements IProjectManager {
         cell.setCellValue("员工姓名");
         cell.setCellStyle(style);
         cell = row.createCell(2);
-        cell.setCellValue("项目经理");
+        cell.setCellValue("所属部门");
         cell.setCellStyle(style);
         cell = row.createCell(3);
-        cell.setCellValue("评分");
+        cell.setCellValue("项目经理");
         cell.setCellStyle(style);
         cell = row.createCell(4);
-        cell.setCellValue("项目编码");
+        cell.setCellValue("评分");
         cell.setCellStyle(style);
         cell = row.createCell(5);
-        cell.setCellValue("项目名称");
+        cell.setCellValue("项目编码");
         cell.setCellStyle(style);
         cell = row.createCell(6);
-        cell.setCellValue("工时（天）");
+        cell.setCellValue("项目名称");
         cell.setCellStyle(style);
         cell = row.createCell(7);
-        cell.setCellValue("真实工时（天）");
+        cell.setCellValue("工时（天）");
         cell.setCellStyle(style);
         cell = row.createCell(8);
-        cell.setCellValue("固定工时（天）");
+        cell.setCellValue("真实工时（天）");
         cell.setCellStyle(style);
         cell = row.createCell(9);
+        cell.setCellValue("固定工时（天）");
+        cell.setCellStyle(style);
+        cell = row.createCell(10);
         cell.setCellValue("分摊工时（天）");
         cell.setCellStyle(style);
 

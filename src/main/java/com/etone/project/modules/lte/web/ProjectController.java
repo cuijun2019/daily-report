@@ -280,7 +280,7 @@ public final class ProjectController extends GenericController {
         PrintWriter writer;
         Result result = new Result(Result.SUCCESS, "保存成功！", "保存成功！");
         String logInfoListJson = request.getParameter("logInfoList");
-
+        logger.info("logInfoListJson: {}", logInfoListJson);
         try {
             projectManager.saveLogInfo(logInfoListJson);
         } catch (Exception e) {

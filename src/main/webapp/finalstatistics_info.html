@@ -155,6 +155,10 @@ var TableInit = function () {
                 field: 'employee',
                 title: '员工姓名'
             }, {
+                field: 'orgCode',
+                title: '所属部门',
+                formatter: formatOrgCode
+            }, {
                 field: 'reporter',
                 title: '项目经理'
             }, {
@@ -184,6 +188,28 @@ var TableInit = function () {
                 title: '分摊工时（天）'
             }]
         });
+
+        function formatOrgCode(value, row, index) {
+            if (value == 1) {
+                return "平台和软件产品部";
+            }
+            if (value == 2) {
+                return "智能硬件产品部";
+            }
+            if (value == 3) {
+                return "网络技术研究中心";
+            }
+            if (value == 4) {
+                return "应用和解决方案部";
+            }
+            if (value == 5) {
+                return "综合管理部";
+            }
+            if (value == 6) {
+                return "市场部";
+            }
+            return "";
+        }
     };
 
     //得到查询的参数
@@ -194,7 +220,8 @@ var TableInit = function () {
             projectName: $("#projectName").val(),
             employee: $("#employee").val(),
             startDate: $("#startDate").val(),
-            endDate: $("#endDate").val()
+            endDate: $("#endDate").val(),
+            orgCode: $("#orgCode").val()
         };
         return temp;
     };
@@ -215,12 +242,14 @@ var ButtonInit = function () {
             $("#employee").val("");
             $("#startDate").val("");
             $("#endDate").val("");
+            $("#orgCode").val("");
         });
         $("#btn_export").click(function() {
             var projectName = $("#projectName").val();
             var employee = $("#employee").val();
             var timeStart = $("#startDate").val();
             var timeEnd = $("#endDate").val();
+            var orgCode = $("#orgCode").val();
             var rows = $("#tb_statisticsInfo").bootstrapTable('getSelections');
             var ids = "";
             if (rows.length > 0) {
@@ -229,7 +258,7 @@ var ButtonInit = function () {
                 }
                 ids = ids.substring(1);
             }
-            $('#down_temp_iframe').attr('src','/modules/projectbg/exportFinalStatisticsData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + '&ids=' + ids);
+            $('#down_temp_iframe').attr('src','/modules/projectbg/exportFinalStatisticsData?type=xls&projectName='+projectName+'&employee='+employee+'&timeStart='+timeStart+'&timeEnd='+timeEnd + +'&orgCode='+orgCode + '&ids=' + ids);
         });
     };
     return oInit;
@@ -243,6 +272,9 @@ var ButtonInit = function () {
         <div class="panel-heading">查询条件</div>
         <div class="panel-body">
             <form id="formSearch" class="form-horizontal">
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" id="orgCode" data-provide="typeahead" data-source="" placeholder="请选择部门" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请选择部门'" />
+                </div>
                 <div class="col-xs-2">
                     <input type="text" class="form-control" id="projectName" data-provide="typeahead" data-source="" placeholder="请输入项目名称" autocomplete="off" onfocus="this.placeholder=''" onblur="this.placeholder='请输入项目名称'" />
                 </div>

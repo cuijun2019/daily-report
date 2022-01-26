@@ -612,6 +612,9 @@
         <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
         </if>
+        <if test="condition.orgCode != null and condition.orgCode != '' and condition.orgCode != 'null' and condition.orgCode != 'undefined'">
+            and l.orgCode ='${condition.orgCode}'
+        </if>
         AND l.employeeCode = a.employeeCode
         ) tempHour,
         (
@@ -639,6 +642,9 @@
         <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and l.logTime <= '${condition.endDate}' ]]>
         </if>
+        <if test="condition.orgCode != null and condition.orgCode != '' and condition.orgCode != 'null' and condition.orgCode != 'undefined'">
+            and l.orgCode ='${condition.orgCode}'
+        </if>
         AND l.employeeCode = a.employeeCode
         ) projectCount
         FROM
@@ -646,6 +652,7 @@
         SELECT
         i.employeeCode,
         i.employee,
+        i.orgCode,
         i.reporter,
         i.projectCode,
         i.projectName,
@@ -678,9 +685,13 @@
         <if test="condition.endDate != null and condition.endDate != '' and condition.endDate != 'null' and condition.endDate != 'undefined'">
             <![CDATA[ and i.logTime <= '${condition.endDate}' ]]>
         </if>
+        <if test="condition.orgCode != null and condition.orgCode != '' and condition.orgCode != 'null' and condition.orgCode != 'undefined'">
+            and i.orgCode ='${condition.orgCode}'
+        </if>
         GROUP BY
         i.employeeCode,
         i.employee,
+        i.orgCode,
         i.reporter,
         i.projectCode,
         i.projectName

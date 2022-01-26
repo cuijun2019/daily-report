@@ -102,6 +102,7 @@ public final class ProjectBgController extends GenericController {
         Map<String, Object> query = WebUtils.getParametersStartingWith(request, "");
         QueryCriteria criteria = new QueryCriteria();
 //        initParameters(criteria, query);
+        criteria.put("orgCode", String.valueOf(query.get("orgCode")));
         criteria.put("projectName", String.valueOf(query.get("projectName")));
         criteria.put("employee", String.valueOf(query.get("employee")));
         criteria.put("startDate", String.valueOf(query.get("startDate")));
@@ -339,6 +340,7 @@ public final class ProjectBgController extends GenericController {
         criteria.put("employee", employee);
         criteria.put("startDate", String.valueOf(query.get("timeStart")));
         criteria.put("endDate", String.valueOf(query.get("timeEnd")));
+        criteria.put("orgCode", query.get("orgCode"));
         String ids = (String) query.get("ids");
         if (Common.judgeString(ids)) {
             List<String> idList = Arrays.asList(ids.split(","));
